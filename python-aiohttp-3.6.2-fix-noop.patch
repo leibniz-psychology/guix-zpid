@@ -1,0 +1,34 @@
+From 60f01cca36b9f9d8d35dd351384eaae2f8fd0d4b Mon Sep 17 00:00:00 2001
+From: Hynek Schlawack <hs@ox.cx>
+Date: Fri, 18 Oct 2019 15:07:05 +0200
+Subject: [PATCH] Backport fix of noop in least invasive way (#4213)
+
+The coroutine-style definition of noop causes a warning on Python 3.8.
+
+On master, it has been fixed and noop2 removed. This is the least invasive
+way to get rid of the warning in 3.6.
+---
+ aiohttp/helpers.py | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/aiohttp/helpers.py b/aiohttp/helpers.py
+index 2945a313e..8405d3a7e 100644
+--- a/aiohttp/helpers.py
++++ b/aiohttp/helpers.py
+@@ -103,14 +103,10 @@ def all_tasks(
+ coroutines._DEBUG = False  # type: ignore
+ 
+ 
+-@asyncio.coroutine
+-def noop(*args, **kwargs):  # type: ignore
+-    return  # type: ignore
+-
+-
+-async def noop2(*args: Any, **kwargs: Any) -> None:
++async def noop(*args: Any, **kwargs: Any) -> None:
+     return
+ 
++noop2 = noop
+ 
+ coroutines._DEBUG = old_debug  # type: ignore
+ 
