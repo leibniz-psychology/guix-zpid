@@ -432,8 +432,7 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
        ;; Pypi package lacks tests
        (uri (git-reference
              (url "https://github.com/encode/httpx")
-             ;; the version is not tagged, fall back to the actual commit hash
-             (commit "f55db15a01ce311b9d4229d9707aa58043a8eaed")))
+             (commit version)))
        (file-name (git-file-name name version))
        (sha256
         (base32
