@@ -58,14 +58,14 @@ from Rsync's wildmatch.  Git uses wildmatch for its gitignore files.")
     (build-system python-build-system)
     (propagated-inputs
      `(("python-cryptography" ,python-cryptography)
-       ("python-idna" ,python-idna)
-       ("python-ipaddress" ,python-ipaddress)))
+       ("python-idna" ,python-idna)))
     (home-page
      "https://github.com/python-trio/trustme")
     (synopsis
      "#1 quality TLS certs while you wait, for the discerning tester")
     (description
-     "#1 quality TLS certs while you wait, for the discerning tester")
+     "trustme is a tiny Python package that gives you a fake certificate
+authority (CA) to generate fake TLS certs to use in tests.")
     (license '(license:expat license:asl2.0))))
 
 (define-public python-py-cpuinfo
@@ -82,9 +82,10 @@ from Rsync's wildmatch.  Git uses wildmatch for its gitignore files.")
     (build-system python-build-system)
     (home-page
      "https://github.com/workhorsy/py-cpuinfo")
-    (synopsis "Get CPU info with pure Python 2 & 3")
+    (synopsis "Get CPU info with pure Python")
     (description
-     "Get CPU info with pure Python 2 & 3")
+     "Py-cpuinfo gets CPU info with pure Python.  Py-cpuinfo should work without
+any extra programs or libraries, beyond what your OS provides.")
     (license license:expat)))
 
 (define-public python-pytest-benchmark
@@ -105,11 +106,12 @@ from Rsync's wildmatch.  Git uses wildmatch for its gitignore files.")
        ("python-pytest" ,python-pytest)
        ))
     (home-page
-     "https://github.com/ionelmc/pytest-benchmark")
+     "https://pytest-benchmark.readthedocs.io/en/latest/")
     (synopsis
-     "A ``pytest`` fixture for benchmarking code. It will group the tests into rounds that are calibrated to the chosen timer. See calibration_ and FAQ_.")
+     "A pytest fixture for benchmarking code")
     (description
-     "A ``pytest`` fixture for benchmarking code. It will group the tests into rounds that are calibrated to the chosen timer. See calibration_ and FAQ_.")
+     "This pytest plugin provides a benchmark fixture.  This fixture is a
+callable object that will benchmark any function passed to it.")
     (license license:bsd-2)))
 
 (define-public python-pytest-sanic
@@ -262,27 +264,11 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
     (home-page
      "https://github.com/MagicStack/immutables")
     (synopsis "Immutable Collections")
-    (description "Immutable Collections")
-    (license license:asl2.0)))
-
-(define-public python-contextvars
-  (package
-    (name "python-contextvars")
-    (version "2.4")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "contextvars" version))
-       (sha256
-        (base32
-         "17n3w8c20kgkgc6khaafdhhlcdj4bzman4paxqsl7harma59137k"))))
-    (build-system python-build-system)
-    (propagated-inputs
-     `(("python-immutables" ,python-immutables)))
-    (home-page
-     "http://github.com/MagicStack/contextvars")
-    (synopsis "PEP 567 Backport")
-    (description "PEP 567 Backport")
+    (description "An immutable mapping type for Python.  The underlying
+datastructure is a Hash Array Mapped Trie (HAMT) used in Clojure, Scala,
+Haskell, and other functional languages.  Immutable mappings based on HAMT have
+O(log N) performance for both set() and get() operations, which is essentially
+O(1) for relatively small mappings.")
     (license license:asl2.0)))
 
 (define-public python-sniffio
@@ -297,17 +283,16 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
         (base32
          "08bsp2pp2dxzn9yzcafwzw8jlm0jf50as0ix8vfhxzk91w810f4f"))))
     (build-system python-build-system)
-    (propagated-inputs
-     `(("python-contextvars" ,python-contextvars)))
     (native-inputs
      `(("python-curio" ,python-curio)
        ("python-pytest" ,python-pytest)))
     (home-page
-     "https://github.com/python-trio/sniffio")
+     "https://sniffio.readthedocs.io/en/latest/")
     (synopsis
      "Sniff out which async library your code is running under")
     (description
-     "Sniff out which async library your code is running under")
+     "This is a tiny package whose only purpose is to let you detect which
+async library your code is running under.")
     (license '(license:expat license:asl2.0))))
 
 (define-public python-hpack
@@ -322,10 +307,14 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
         (base32
          "1lp9ja4dk6jg0pm2d18kvh95k9p6yxhh4l1h7y541qzs9cgrrv4f"))))
     (build-system python-build-system)
-    (home-page "http://hyper.rtfd.org")
+    (home-page "https://python-hyper.org/projects/hpack/en/latest/")
     (synopsis "Pure-Python HPACK header compression")
     (description
-     "Pure-Python HPACK header compression")
+     "hpack provides a simple Python interface to the HPACK compression
+algorithm, used to compress HTTP headers in HTTP/2.  Used by some of the most
+popular HTTP/2 implementations in Python, HPACK offers a great Python interface
+as well as optional upgrade to optimised C-based compression routines from
+nghttp2.")
     (license license:expat)))
 
 (define-public python-hyperframe
@@ -343,7 +332,9 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
     (home-page
      "https://python-hyper.org/hyperframe/en/latest/")
     (synopsis "HTTP/2 framing layer for Python")
-    (description "HTTP/2 framing layer for Python")
+    (description "hyperframe is a pure-Python tool for working with HTTP/2
+frames.  This library allows you to create, serialize, and parse HTTP/2
+frames.")
     (license license:expat)))
 
 (define-public python-h2
@@ -361,11 +352,17 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
     (propagated-inputs
      `(("python-hpack" ,python-hpack)
        ("python-hyperframe" ,python-hyperframe)))
-    (home-page "http://hyper.rtfd.org")
+    (home-page "https://python-hyper.org/projects/h2/en/stable/")
     (synopsis
      "HTTP/2 State-Machine based protocol implementation")
     (description
-     "HTTP/2 State-Machine based protocol implementation")
+     "Hyper-h2 is a HTTP/2 protocol stack, written entirely in Python.  The
+goal of Hyper-h2 is to be a common HTTP/2 stack for the Python ecosystem,
+usable in all programs regardless of concurrency model or environment.  To
+achieve this, Hyper-h2 is entirely self-contained: it does no I/O of any kind,
+leaving that up to a wrapper library to control.  This ensures that it can
+seamlessly work in all kinds of environments, from single-threaded code to
+Twisted.")
     (license license:expat)))
 
 (define-public python-h11
@@ -386,7 +383,9 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
     (synopsis
      "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1")
     (description
-     "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1")
+     "h11 implements the HTTP/1.1 protocol, but contains no IO code whatsoever.
+This means you can hook h11 up to your favorite network API, and that could be
+anything you want: synchronous, threaded or asynchronous.")
     (license license:expat)))
 
 (define-public python-h11-0.8
@@ -417,9 +416,11 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
     (home-page
      "https://github.com/sethmlarson/hstspreload")
     (synopsis
-     "Chromium HSTS Preload list as a Python package and updated daily")
+     "Chromium HSTS Preload list as a Python package")
     (description
-     "Chromium HSTS Preload list as a Python package and updated daily")
+     "Chrome's HTTP Strict Transport Security (HSTS) preload list is a list of
+sites that are hardcoded into Chrome as being HTTPS only.  This packages
+provides a Python interface for the list.")
     (license license:bsd-3)))
 
 (define-public python-httpx-0.9
@@ -455,7 +456,7 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
        ("python-trustme" ,python-trustme)
        ("python-pytest-cov" ,python-pytest-cov)
        ("python-brotli" ,python-brotli)
-       ("python-uvicorn" ,python-uvicorn)))
+       ("uvicorn" ,uvicorn)))
     (arguments
      `(#:phases
        (modify-phases %standard-phases
@@ -503,11 +504,14 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
          "03s3ml6sbki24aajllf8aily0xzrn929zxi84p50zkkbikdd4raw"))))
     (build-system python-build-system)
     (home-page
-     "https://github.com/aaugustin/websockets")
+     "https://websockets.readthedocs.io/en/stable/")
     (synopsis
      "An implementation of the WebSocket Protocol (RFC 6455 & 7692)")
     (description
-     "An implementation of the WebSocket Protocol (RFC 6455 & 7692)")
+     "websockets is a library for building WebSocket servers and clients in
+Python with a focus on correctness and simplicity.  Built on top of asyncio,
+Python’s standard asynchronous I/O framework, it provides an elegant
+coroutine-based API.")
     (license license:bsd-3)))
 
 (define-public python-aiofiles
@@ -523,8 +527,12 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
          "1vmvq9qja3wahv8m1adkyk00zm7j0x64pk3f2ry051ja66xa07h2"))))
     (build-system python-build-system)
     (home-page "https://github.com/Tinche/aiofiles")
-    (synopsis "File support for asyncio.")
-    (description "File support for asyncio.")
+    (synopsis "File support for asyncio")
+    (description "Ordinary local file IO is blocking, and cannot easily and
+portably made asynchronous.  This means doing file IO may interfere with
+asyncio applications, which shouldn't block the executing thread.  aiofiles
+helps with this by introducing asynchronous versions of files that support
+delegating operations to a separate thread pool.")
     (license license:asl2.0)))
 
 (define-public python-httptools
@@ -542,9 +550,10 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
     (home-page
      "https://github.com/MagicStack/httptools")
     (synopsis
-     "A collection of framework independent HTTP protocol utils.")
+     "Python binding for the nodejs HTTP parser")
     (description
-     "A collection of framework independent HTTP protocol utils.")
+     "This package contains Python bindings for the HTTP parser library used by
+NodeJS.")
     (license license:expat)))
 
 (define-public python-sanic
@@ -591,7 +600,7 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
        ("python-tox" ,python-tox)
        ("python-ujson" ,python-ujson)
        ("python-uvloop" ,python-uvloop)
-       ("python-uvicorn" ,python-uvicorn)))
+       ("uvicorn" ,uvicorn)))
     (home-page
      "http://github.com/huge-success/sanic")
     (synopsis
@@ -603,21 +612,23 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
 (define-public python-curio
   (package
     (name "python-curio")
-    (version "0.9")
+    (version "1.1")
     (source
      (origin
        (method url-fetch)
        (uri (pypi-uri "curio" version))
        (sha256
         (base32
-         "1vxm0yim6xawiy0izz6wrwyfjqi9a8nwg1f7d94d33agkfsaglai"))))
+         "07477rzjm8j0vjr5b6hnx4kwfvqm402ykpasqkd8lsh6d63h101a"))))
     (build-system python-build-system)
     (native-inputs
      `(("python-pytest" ,python-pytest)
        ("python-sphinx" ,python-sphinx)))
-    (home-page "https://github.com/dabeaz/curio")
-    (synopsis "Curio - Concurrent I/O")
-    (description "Curio - Concurrent I/O")
+    (home-page "https://curio.readthedocs.io/en/latest/")
+    (synopsis "Concurrent I/O")
+    (description "Curio is a coroutine-based library for concurrent Python
+systems programming. It provides standard programming abstractions such as as
+tasks, sockets, files, locks, and queues.")
     (license license:bsd-3)))
 
 (define-public python-aiohttp-cors
@@ -642,10 +653,10 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
     (description "CORS support for aiohttp")
     (license license:asl2.0)))
 
-(define-public python-uvicorn
+(define-public uvicorn
   (package
-    (name "python-uvicorn")
-    (version "0.11.1")
+    (name "uvicorn")
+    (version "0.11.3")
     (source
      (origin
        (method git-fetch)
@@ -656,7 +667,7 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
        (file-name (git-file-name name version))
        (sha256
         (base32
-         "0n22s8qi360xzslb4sxgq3fyd29rbv4m8vqjfjg0sj7i1xl959jx"))))
+         "0c06klxnk5f8r3wgk9cgf224ajk8x87mmb4nbigi2qfnh8j5x6i9"))))
     (build-system python-build-system)
     (propagated-inputs
      `(("python-click" ,python-click)
@@ -675,8 +686,9 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
            (lambda _
              (invoke "pytest"))))))
     (home-page "https://github.com/encode/uvicorn")
-    (synopsis "The lightning-fast ASGI server.")
-    (description "The lightning-fast ASGI server.")
+    (synopsis "The lightning-fast ASGI server")
+    (description "Uvicorn is a lightning-fast ASGI server implementation, using
+uvloop and httptools.  It currently supports HTTP/1.1 and WebSockets.")
     (license license:bsd-3)))
 
 (define-public python-wsproto
@@ -696,11 +708,15 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
     (native-inputs
      `(("python-pytest" ,python-pytest)))
     (home-page
-     "https://github.com/python-hyper/wsproto/")
+     "https://wsproto.readthedocs.io/en/latest/")
     (synopsis
      "WebSockets state-machine based protocol implementation")
     (description
-     "WebSockets state-machine based protocol implementation")
+     "wsproto is a WebSocket protocol stack written to be as flexible as
+possible.  To that end it is written in pure Python and performs no I/O of its
+own.  Instead it relies on the user to provide a bridge between it and
+whichever I/O mechanism is in use, allowing it to be used in single-threaded,
+multi-threaded or event-driven code.")
     (license license:expat)))
 
 (define-public python-outcome
@@ -730,11 +746,12 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
              (add-installed-pythonpath inputs outputs)
              (invoke "pytest" "tests"))))))
     (home-page
-     "https://github.com/python-trio/outcome")
+     "https://outcome.readthedocs.io/en/latest/")
     (synopsis
      "Capture the outcome of Python function calls.")
     (description
-     "Capture the outcome of Python function calls.")
+     "Outcome provides a function for capturing the outcome of a Python
+function call, so that it can be passed around.")
     (license '(license:expat license:asl2.0))))
 
 (define-public python-trio
@@ -789,7 +806,8 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
         (base32
          "19x5dqxckb62n37mpnczp21rfxqvgpm0ki5ds8ac65zx8hbxqf05"))))
     (build-system python-build-system)
-    ;; build system does not linking to system libbrotli, it’s always built from source
+    ;; build system does not support linking to system libbrotli, it’s always
+    ;; built from source
     (native-inputs
      ;; sources only available as zip
      `(("unzip" ,unzip)))
@@ -797,8 +815,10 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
     (synopsis
      "Python bindings for the Brotli compression library")
     (description
-     "Python bindings for the Brotli compression library")
-    (license license:asl2.0)))
+     "Brotli is a general-purpose lossless compression algorithm.
+It is similar in speed to deflate but offers denser compression.  This package
+provides Python bindings for libbrotlienc and libbrotlidec.")
+    (license license:expat)))
 
 (define-public python-pytest-5.2
   (package
@@ -894,18 +914,16 @@ loop.  uvloop is implemented in Cython and uses libuv under the hood.")
          "1bysy4nii13bm7h345wxf8fxcjhab7l374pqdv7vwv3izl053b4z"))))
     (build-system python-build-system)
     (propagated-inputs
-     `(("python-async-generator"
-        ,python-async-generator)
-       ("python-pytest" ,python-pytest)))
+     `(("python-pytest" ,python-pytest)))
     (native-inputs
-     `(("python-async-generator"
-        ,python-async-generator)
-       ("python-coverage" ,python-coverage)
+     `(("python-coverage" ,python-coverage)
        ("python-hypothesis" ,python-hypothesis)))
     (home-page
      "https://github.com/pytest-dev/pytest-asyncio")
-    (synopsis "Pytest support for asyncio.")
-    (description "Pytest support for asyncio.")
+    (synopsis "Pytest support for asyncio")
+    (description "asyncio code is usually written in the form of coroutines,
+which makes it slightly more difficult to test using normal testing tools.
+pytest-asyncio provides useful fixtures and markers to make testing easier.")
     (license license:asl2.0)))
 
 ;; new version not yet in guix
@@ -1006,9 +1024,10 @@ where key might be occurred more than once in the container.")
     (home-page
      "https://github.com/pytest-dev/pytest-forked")
     (synopsis
-     "run tests in isolated forked subprocesses")
+     "Run tests in isolated forked subprocesses")
     (description
-     "run tests in isolated forked subprocesses")
+     "Pytest plugin which will run each test in a subprocess and will report if
+a test crashed the process.")
     (license license:expat)))
 
 (define-public python-attrs-19.3
