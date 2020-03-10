@@ -926,6 +926,34 @@ which makes it slightly more difficult to test using normal testing tools.
 pytest-asyncio provides useful fixtures and markers to make testing easier.")
     (license license:asl2.0)))
 
+;; guix lacks version 4.7
+(define-public python-multidict-4.7
+  (package
+    (name "python-multidict")
+    (version "4.7.5")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (pypi-uri "multidict" version))
+       (sha256
+        (base32
+         "07ikq2c72kd263hpldw55y0px2l3g34hjk66ml9lryh1jv287qmf"))))
+    (build-system python-build-system)
+    (native-inputs
+     `(("python-pytest" ,python-pytest)
+       ("python-pytest-runner" ,python-pytest-runner)
+       ("python-pytest-cov" ,python-pytest-cov)))
+    (home-page "https://github.com/aio-libs/multidict/")
+    (synopsis "Multidict implementation")
+    (description "Multidict is dict-like collection of key-value pairs
+where key might be occurred more than once in the container.")
+    (license license:asl2.0)))
+
+;; python-yarl built with python-multidict-4.7, so both packages propagate the
+;; same version
+(define-public python-yarl-multidict-4.7
+  ((package-input-rewriting `((,python-multidict . ,python-multidict-4.7))) python-yarl))
+
 ;; new version not yet in guix
 (define-public python-aiohttp-3.6
   (package
@@ -958,7 +986,7 @@ pytest-asyncio provides useful fixtures and markers to make testing easier.")
        ("python-attrs" ,python-attrs-19.3)
        ("python-chardet" ,python-chardet)
        ("python-multidict" ,python-multidict-4.7)
-       ("python-yarl" ,python-yarl)))
+       ("python-yarl" ,python-yarl-multidict-4.7)))
     (native-inputs
      `(("python-pytest-runner" ,python-pytest-runner)
        ("python-pytest-xdit" ,python-pytest-xdist)
@@ -980,29 +1008,6 @@ Its main features are:
 Callback Hell.
 @item Web-server has middlewares and pluggable routing.
 @end itemize")
-    (license license:asl2.0)))
-
-;; guix lacks version 4.7
-(define-public python-multidict-4.7
-  (package
-    (name "python-multidict")
-    (version "4.7.5")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "multidict" version))
-       (sha256
-        (base32
-         "07ikq2c72kd263hpldw55y0px2l3g34hjk66ml9lryh1jv287qmf"))))
-    (build-system python-build-system)
-    (native-inputs
-     `(("python-pytest" ,python-pytest)
-       ("python-pytest-runner" ,python-pytest-runner)
-       ("python-pytest-cov" ,python-pytest-cov)))
-    (home-page "https://github.com/aio-libs/multidict/")
-    (synopsis "Multidict implementation")
-    (description "Multidict is dict-like collection of key-value pairs
-where key might be occurred more than once in the container.")
     (license license:asl2.0)))
 
 (define-public python-pytest-forked
