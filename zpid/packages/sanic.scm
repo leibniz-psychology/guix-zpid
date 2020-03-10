@@ -442,7 +442,7 @@ provides a Python interface for the list.")
     (propagated-inputs
      `(("python-certifi" ,python-certifi)
        ("python-chardet" ,python-chardet)
-       ("python-h11" ,python-h11)
+       ("python-h11" ,python-h11-0.8)
        ("python-h2" ,python-h2)
        ("python-hstspreload" ,python-hstspreload)
        ("python-idna" ,python-idna)
