@@ -12,35 +12,7 @@
   #:use-module (gnu packages python-crypto)
   #:use-module (gnu packages python-xyz))
 
-(define-public python-cryptography-vectors2.8
-  (package
-    (inherit python-cryptography-vectors)
-    (name "python-cryptography-vectors")
-    (version "2.8")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "cryptography_vectors" version))
-       (sha256
-        (base32
-         "05pi3shqz0fgvy0d5yazza67bbnam8fkrx2ayrrclgkaqms23lvc"))))))
-
-(define-public python-cryptography2.8
-  (package
-    (inherit python-cryptography)
-    (name "python-cryptography")
-    (version "2.8")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "cryptography" version))
-       (sha256
-        (base32
-         "0l8nhw14npknncxdnp7n4hpmjyscly6g7fbivyxkjwvlv071zniw"))))
-    (native-inputs
-     `(("python-cryptography-vectors" ,python-cryptography-vectors2.8)
-       ,@(alist-delete "python-cryptography-vectors" (package-native-inputs python-cryptography))))))
-
+;; asyncio with support for old python-cryptography 2.7
 (define-public python-asyncssh
   (package
     (name "python-asyncssh")
@@ -51,10 +23,13 @@
         (uri (pypi-uri "asyncssh" version))
         (sha256
           (base32
-            "1vhq3ikz6ya3113krzi74119j2dcqpsg39ipsa037l4rdfrx492s"))))
+            "1vhq3ikz6ya3113krzi74119j2dcqpsg39ipsa037l4rdfrx492s"))
+        ;; revert changes that require python-cryptography 2.8, no functional
+        ;; differences
+        (patches (search-patches "python-asyncio-2.2.0-no-crypto2.8.patch"))))
     (build-system python-build-system)
     (propagated-inputs
-     `(("python-cryptography" ,python-cryptography2.8)
+     `(("python-cryptography" ,python-cryptography)
        ("python-pyopenssl" ,python-pyopenssl)
        ("python-gssapi" ,python-gssapi)
        ("python-bcrypt" ,python-bcrypt)))
