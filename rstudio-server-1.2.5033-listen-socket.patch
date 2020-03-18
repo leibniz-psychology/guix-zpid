@@ -1,0 +1,118 @@
+Monkey-patch RStudio Server to add UNIX domain socket support.
+
+diff --git a/src/cpp/session/SessionHttpMethods.cpp b/src/cpp/session/SessionHttpMethods.cpp
+index 9745506f35..898f4ed2f0 100644
+--- a/src/cpp/session/SessionHttpMethods.cpp
++++ b/src/cpp/session/SessionHttpMethods.cpp
+@@ -181,7 +181,7 @@ Error startHttpConnectionListener()
+ 
+       // set the standalone port so rpostback and others know how to
+       // connect back into the session process
+-      core::system::setenv(kRSessionStandalonePortNumber, safe_convert::numberToString(endpoint.port()));
++      //core::system::setenv(kRSessionStandalonePortNumber, safe_convert::numberToString(endpoint.port()));
+    }
+ 
+    return Success();
+diff --git a/src/cpp/session/SessionMain.cpp b/src/cpp/session/SessionMain.cpp
+index a49dd2cc4d..a4007f94d2 100644
+--- a/src/cpp/session/SessionMain.cpp
++++ b/src/cpp/session/SessionMain.cpp
+@@ -1734,7 +1734,14 @@ int main (int argc, char * const argv[])
+       // set the standalone port if we are running in standalone mode
+       if (options.standalone())
+       {
+-         core::system::setenv(kRSessionStandalonePortNumber, options.wwwPort());
++         if (options.wwwSocket() != "")
++         {
++           core::system::setenv(kRStudioSessionStream, options.wwwSocket());
++         }
++         else
++         {
++           core::system::setenv(kRSessionStandalonePortNumber, options.wwwPort());
++         }
+       }
+            
+       // ensure we aren't being started as a low (priviliged) account
+diff --git a/src/cpp/session/SessionOptions.cpp b/src/cpp/session/SessionOptions.cpp
+index a7faf1a3dc..916d763a58 100644
+--- a/src/cpp/session/SessionOptions.cpp
++++ b/src/cpp/session/SessionOptions.cpp
+@@ -176,6 +176,9 @@ core::ProgramStatus Options::read(int argc, char * const argv[], std::ostream& o
+       (kWwwAddressSessionOption,
+          value<std::string>(&wwwAddress_)->default_value("127.0.0.1"),
+          "address to listen on")
++      ("www-socket",
++         value<std::string>(&wwwSocket_)->default_value(""),
++         "socket to listen on")
+       (kStandaloneSessionOption,
+          value<bool>(&standalone_)->default_value(false),
+          "run standalone")
+diff --git a/src/cpp/session/http/SessionPosixHttpConnectionListener.cpp b/src/cpp/session/http/SessionPosixHttpConnectionListener.cpp
+index 7d85a163a2..d6542e545b 100644
+--- a/src/cpp/session/http/SessionPosixHttpConnectionListener.cpp
++++ b/src/cpp/session/http/SessionPosixHttpConnectionListener.cpp
+@@ -70,6 +70,16 @@ void initializeHttpConnectionListener()
+    {
+       if (session::options().standalone())
+       {
++         if (session::options().wwwSocket() != "") {
++           FilePath streamPath(session::options().wwwSocket());
++           s_pHttpConnectionListener = new LocalStreamHttpConnectionListener(
++                                          streamPath,
++                                          core::system::UserReadWriteMode,
++                                          "", // no shared secret
++                                          options.limitRpcClientUid());
++         }
++         else
++         {
+          std::string wwwAddress = options.wwwAddress();
+ 
+          // if we are supposed to bind to the all address but there are no IPv4 addresses,
+@@ -113,6 +123,7 @@ void initializeHttpConnectionListener()
+          }
+ 
+          s_pHttpConnectionListener = new TcpIpHttpConnectionListener(wwwAddress, options.wwwPort(), "");
++         }
+       }
+       else
+       {
+diff --git a/src/cpp/session/include/session/SessionOptions.hpp b/src/cpp/session/include/session/SessionOptions.hpp
+index 2caa38daf4..caa317cae2 100644
+--- a/src/cpp/session/include/session/SessionOptions.hpp
++++ b/src/cpp/session/include/session/SessionOptions.hpp
+@@ -136,6 +136,11 @@ public:
+       return std::string(wwwAddress_.c_str());
+    }
+ 
++   std::string wwwSocket () const
++   {
++      return std::string(wwwSocket_.c_str());
++   }
++
+    std::string sharedSecret() const
+    {
+       return std::string(secret_.c_str());
+@@ -647,6 +652,7 @@ private:
+    std::string wwwSymbolMapsPath_;
+    std::string wwwPort_;
+    std::string wwwAddress_;
++   std::string wwwSocket_;
+ 
+    // session
+    std::string secret_;
+diff --git a/src/cpp/session/include/session/http/SessionRequest.hpp b/src/cpp/session/include/session/http/SessionRequest.hpp
+index 841a940e59..18c2ef5d08 100644
+--- a/src/cpp/session/include/session/http/SessionRequest.hpp
++++ b/src/cpp/session/include/session/http/SessionRequest.hpp
+@@ -104,9 +104,9 @@ inline core::Error sendSessionRequest(const std::string& uri,
+    }
+    else
+    {
+-      streamPath = local_streams::streamPath(stream);
++      //streamPath = local_streams::streamPath(stream);
+    }
+-   return core::http::sendRequest(streamPath, request, pResponse);
++   return core::http::sendRequest(core::FilePath (stream), request, pResponse);
+ #endif
+ 
+    return core::Success();

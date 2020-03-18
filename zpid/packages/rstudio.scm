@@ -146,6 +146,16 @@ be run as a server, enabling multiple users to access the RStudio IDE using a
 web browser.")
     (license license:agpl3)))
 
+;; special version with monkey-patched unix domain socket support
+(define-public rstudio-server-zpid
+  (package
+    (inherit rstudio-server)
+    (name "rstudio-server-zpid")
+    (source (origin
+              (inherit (package-source rstudio-server))
+              (patches (append (origin-patches (package-source rstudio-server))
+                               (search-patches "rstudio-server-1.2.5033-listen-socket.patch")))))))
+
 (define-public mathjax
   (package
     (name "mathjax")
