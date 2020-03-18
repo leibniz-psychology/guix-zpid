@@ -43,7 +43,12 @@
                                "rstudio-server-1.2.5033-boost-1.70.0_p2.patch"
                                "rstudio-server-1.2.5033-unbundle.patch"
                                ))
-              ))
+              (modules '((guix build utils)))
+              (snippet
+               '(begin
+                  ;; de-blob: windows tools
+                  delete-file-recursively "dependencies/windows/tools"
+                  #t))))
     (build-system cmake-build-system)
     (arguments
      `(#:configure-flags '("-DRSTUDIO_TARGET=Server" "-DCMAKE_BUILD_TYPE=Release")
