@@ -99,7 +99,7 @@
 (define-public python-json5
   (package
     (name "python-json5")
-    (version "0.8.5")
+    (version "0.9.4")
     (source
      (origin
        ;; sample.json5 is missing from PyPi source tarball
@@ -109,7 +109,7 @@
              (commit (string-append "v" version))))
        (file-name (git-file-name name version))
        (sha256
-        (base32 "0nyngj18jlkgvm1177lc3cj47wm4yh3dqigygvcvw7xkyryafsqn"))))
+        (base32 "14878npsn7f344pwkxcnw40lc0waqgpi8j25akd7qxlwd7nchy40"))))
     (build-system python-build-system)
     (home-page "https://github.com/dpranke/pyjson5")
     (synopsis
@@ -123,14 +123,14 @@ dumping of JSON5 data structures.")
 (define-public python-jupyterlab-server
   (package
     (name "python-jupyterlab-server")
-    (version "1.0.6")
+    (version "1.0.7")
     (source
      (origin
        (method url-fetch)
        (uri (pypi-uri "jupyterlab_server" version))
        (sha256
         (base32
-         "1bax8iqwcc5p02h5ysdc48zvx7ll5jfzfsybhb3lfvyfpwkpb5yh"))))
+         "1qnqxy6812py7xklg7xfrkadm0v4z8x6n1035i26h2z7y891ff0j"))))
     (build-system python-build-system)
     (propagated-inputs
      `(("python-jinja2" ,python-jinja2)
@@ -157,14 +157,14 @@ applications")
 (define-public python-jupyterlab
   (package
     (name "python-jupyterlab")
-    (version "1.2.6")
+    (version "2.0.1")
     (source
       (origin
         (method url-fetch)
         (uri (pypi-uri "jupyterlab" version))
         (sha256
           (base32
-            "0mc3nrj7fc5q2ajr09m261j386jsp8qjljg8anghlh8czc9ln4s2"))
+            "0ha1y6fn5kpb6dfwh9lccvng8zx92v5if68rd06xkrj9kqx866jx"))
         (patches (search-patches "python-jupyterlab-copy-nometa.patch"))))
     (build-system python-build-system)
     (propagated-inputs
