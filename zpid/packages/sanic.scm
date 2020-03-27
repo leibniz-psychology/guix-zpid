@@ -22,28 +22,6 @@
   #:use-module (gnu packages sphinx)
   #:use-module (gnu packages xml))
 
-(define-public python-pathspec
-  (package
-    (name "python-pathspec")
-    (version "0.7.0")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "pathspec" version))
-       (sha256
-        (base32
-         "15lvs4awlg8xzl0l4gk9y53xx4yqmqvsv44pglv39m70y85afajn"))))
-    (build-system python-build-system)
-    (home-page
-     "https://github.com/cpburnz/python-path-specification")
-    (synopsis
-     "Utility library for gitignore style pattern matching of file paths.")
-    (description
-     "pathspec is a utility library for pattern matching of file paths.  So far
-this only includes Git's wildmatch pattern matching which itself is derived
-from Rsync's wildmatch.  Git uses wildmatch for its gitignore files.")
-    (license license:mpl2.0)))
-
 (define-public python-trustme
   (package
     (name "python-trustme")
@@ -127,7 +105,7 @@ callable object that will benchmark any function passed to it.")
          "0xndjbq27b27rdmyzqx4hmnm3b0cgjvp5ivq1cpnnc4w0gxrns67"))))
     (build-system python-build-system)
     (propagated-inputs
-     `(("python-aiohttp" ,python-aiohttp-3.6)
+     `(("python-aiohttp" ,python-aiohttp)
        ("python-async-generator"
         ,python-async-generator)
        ("python-pytest" ,python-pytest)))
@@ -226,7 +204,7 @@ fragments\" which contain information useful to end users.")
        ("python-pyopenssl" ,python-pyopenssl)
        ("python-flake8" ,python-flake8)
        ("python-psutil" ,python-psutil)
-       ("python-aiohttp" ,python-aiohttp-3.6)))
+       ("python-aiohttp" ,python-aiohttp)))
     (arguments
      ;; TODO: Lots of test failures that need investigation
      '(#:tests? #f
@@ -576,13 +554,13 @@ NodeJS.")
      `(("python-aiofiles" ,python-aiofiles)
        ("python-httptools" ,python-httptools)
        ("python-httpx" ,python-httpx-0.9)
-       ("python-multidict" ,python-multidict-4.7)
+       ("python-multidict" ,python-multidict)
        ("python-ujson" ,python-ujson)
        ("python-uvloop" ,python-uvloop)
        ("python-websockets" ,python-websockets)))
     (native-inputs
      `(("python-aiofiles" ,python-aiofiles)
-       ("python-aiohttp" ,python-aiohttp-3.6)
+       ("python-aiohttp" ,python-aiohttp)
        ("python-bandit" ,python-bandit)
        ("python-beautifulsoup4" ,python-beautifulsoup4)
        ("python-black" ,python-black)
@@ -644,7 +622,7 @@ tasks, sockets, files, locks, and queues.")
          "0pczn54bqd32v8zhfbjfybiza6xh1szwxy6as577dn8g23bwcfad"))))
     (build-system python-build-system)
     (propagated-inputs
-     `(("python-aiohttp" ,python-aiohttp-3.6)))
+     `(("python-aiohttp" ,python-aiohttp)))
     ;; tests require selenium
     (arguments `(#:tests? #f))
     (home-page
@@ -926,124 +904,4 @@ which makes it slightly more difficult to test using normal testing tools.
 pytest-asyncio provides useful fixtures and markers to make testing easier.")
     (license license:asl2.0)))
 
-;; guix lacks version 4.7
-(define-public python-multidict-4.7
-  (package
-    (name "python-multidict")
-    (version "4.7.5")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "multidict" version))
-       (sha256
-        (base32
-         "07ikq2c72kd263hpldw55y0px2l3g34hjk66ml9lryh1jv287qmf"))))
-    (build-system python-build-system)
-    (native-inputs
-     `(("python-pytest" ,python-pytest)
-       ("python-pytest-runner" ,python-pytest-runner)
-       ("python-pytest-cov" ,python-pytest-cov)))
-    (home-page "https://github.com/aio-libs/multidict/")
-    (synopsis "Multidict implementation")
-    (description "Multidict is dict-like collection of key-value pairs
-where key might be occurred more than once in the container.")
-    (license license:asl2.0)))
-
-;; python-yarl built with python-multidict-4.7, so both packages propagate the
-;; same version
-(define-public python-yarl-multidict-4.7
-  ((package-input-rewriting `((,python-multidict . ,python-multidict-4.7))) python-yarl))
-
-;; new version not yet in guix
-(define-public python-aiohttp-3.6
-  (package
-    (name "python-aiohttp")
-    (version "3.6.2")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "aiohttp" version))
-       (sha256
-        (base32
-         "09pkw6f1790prnrq0k8cqgnf1qy57ll8lpmc6kld09q7zw4vi6i5"))
-       (patches (search-patches "aiohttp-3.6.2-no-warning-fail.patch"))))
-    (build-system python-build-system)
-    (arguments
-     '(#:phases
-       (modify-phases %standard-phases
-         (add-after 'unpack 'fix-tests
-           (lambda _
-             ;; disable brotli tests, because we’re not providing that optional library
-             (substitute* "tests/test_http_parser.py"
-               (("    async def test_feed_eof_no_err_brotli")
-                "    @pytest.mark.xfail\n    async def test_feed_eof_no_err_brotli"))
-             ;; make sure the timestamp of this file is > 1990, because a few
-             ;; tests like test_static_file_if_modified_since_past_date depend on it
-             (invoke "touch" "tests/data.unknown_mime_type")
-             #t)))))
-    (propagated-inputs
-     `(("python-async-timeout" ,python-async-timeout)
-       ("python-attrs" ,python-attrs-19.3)
-       ("python-chardet" ,python-chardet)
-       ("python-multidict" ,python-multidict-4.7)
-       ("python-yarl" ,python-yarl-multidict-4.7)))
-    (native-inputs
-     `(("python-pytest-runner" ,python-pytest-runner)
-       ("python-pytest-xdit" ,python-pytest-xdist)
-       ("python-pytest-timeout" ,python-pytest-timeout)
-       ("python-pytest-forked" ,python-pytest-forked)
-       ("python-pytest-mock" ,python-pytest-mock)
-       ("gunicorn" ,gunicorn-fixed)
-       ("python-freezegun" ,python-freezegun)
-       ("python-async-generator" ,python-async-generator)))
-    (home-page "https://github.com/aio-libs/aiohttp")
-    (synopsis "Async HTTP client/server framework (asyncio)")
-    (description "@code{aiohttp} is an asynchronous HTTP client/server
-framework.
-
-Its main features are:
-@itemize
-@item Supports both client and server side of HTTP protocol.
-@item Supports both client and server Web-Sockets out-of-the-box without the
-Callback Hell.
-@item Web-server has middlewares and pluggable routing.
-@end itemize")
-    (license license:asl2.0)))
-
-(define-public python-pytest-forked
-  (package
-    (name "python-pytest-forked")
-    (version "1.1.3")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "pytest-forked" version))
-       (sha256
-        (base32
-         "000i4q7my2fq4l49n8idx2c812dql97qv6qpm2vhrrn9v6g6j18q"))))
-    (build-system python-build-system)
-    (propagated-inputs
-     `(("python-pytest" ,python-pytest)))
-    (native-inputs
-     `(("python-setuptools-scm" ,python-setuptools-scm)))
-    (home-page
-     "https://github.com/pytest-dev/pytest-forked")
-    (synopsis
-     "Run tests in isolated forked subprocesses")
-    (description
-     "Pytest plugin which will run each test in a subprocess and will report if
-a test crashed the process.")
-    (license license:expat)))
-
-(define-public python-attrs-19.3
-  (package
-    (inherit python-attrs)
-    (name "python-attrs")
-    (version "19.3.0")
-    (source (origin
-              (method url-fetch)
-              (uri (pypi-uri "attrs" version))
-              (sha256
-               (base32
-                "0wky4h28n7xnr6xv69p9z6kv8bzn50d10c3drmd9ds8gawbcxdzp"))))))
 
