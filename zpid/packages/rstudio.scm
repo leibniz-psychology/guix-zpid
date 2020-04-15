@@ -75,6 +75,8 @@
                (("runCommand\\(\"which") (string-append "runCommand(\"" (assoc-ref inputs "which") "/bin/which")))
              (substitute* '("src/cpp/session/SessionConsoleProcess.cpp" "src/cpp/session/modules/SessionTerminalShell.cpp")
                (("/usr/bin/env") (string-append (assoc-ref inputs "coreutils") "/bin/env")))
+             (substitute* '("src/cpp/session/modules/SessionFiles.R")
+               (("\"zip\"") (string-append "\"" (assoc-ref inputs "zip") "/bin/zip\"")))
              #t))
          ;; XXX: figure out how to get away without copying. Set classpath?
          (add-after 'unpack 'copy-jars
@@ -120,6 +122,8 @@
        ("mathjax" ,mathjax)
        ;; for `env`
        ("coreutils" ,coreutils)
+       ;; File panel -> More -> Export
+       ("zip" ,zip)
        ("dict-source-tarball"
         ,(origin
            (method url-fetch)
