@@ -68,36 +68,9 @@
     (inherit jupyter-zpid-rewritten)
     (name "jupyter-zpid")))
 
-(define-public python-pytest-check-links
+(define-public python-json5-0.9.4
   (package
-    (name "python-pytest-check-links")
-    (version "0.3.0")
-    (source
-     (origin
-       (method url-fetch)
-       ;; URI uses underscores
-       (uri (pypi-uri "pytest_check_links" version))
-       (sha256
-        (base32
-         "12x3wmrdzm6wgk0vz02hb769h68nr49q47w5q1pj95pc89hsa34v"))))
-    (build-system python-build-system)
-    (propagated-inputs
-     `(("python-docutils" ,python-docutils)
-       ("python-html5lib" ,python-html5lib)
-       ("python-nbconvert" ,python-nbconvert)
-       ("python-nbformat" ,python-nbformat)
-       ("python-pytest" ,python-pytest)
-       ("python-six" ,python-six)))
-    (native-inputs
-     `(("python-pbr-minimal" ,python-pbr-minimal)))
-    (home-page
-     "https://github.com/minrk/pytest-check-links")
-    (synopsis "Check links in files")
-    (description "Plugin for pytest that checks URLs for HTML-containing files")
-    (license license:bsd-3)))
-
-(define-public python-json5
-  (package
+    (inherit python-json5)
     (name "python-json5")
     (version "0.9.4")
     (source
@@ -109,16 +82,7 @@
              (commit (string-append "v" version))))
        (file-name (git-file-name name version))
        (sha256
-        (base32 "14878npsn7f344pwkxcnw40lc0waqgpi8j25akd7qxlwd7nchy40"))))
-    (build-system python-build-system)
-    (home-page "https://github.com/dpranke/pyjson5")
-    (synopsis
-     "Python implementation of the JSON5 data format")
-    (description
-     "JSON5 extends the JSON data interchange format to make it slightly more
-usable as a configuration language.  This Python package implements parsing and
-dumping of JSON5 data structures.")
-    (license license:asl2.0)))
+        (base32 "14878npsn7f344pwkxcnw40lc0waqgpi8j25akd7qxlwd7nchy40"))))))
 
 (define-public python-jupyterlab-server
   (package
@@ -134,7 +98,7 @@ dumping of JSON5 data structures.")
     (build-system python-build-system)
     (propagated-inputs
      `(("python-jinja2" ,python-jinja2)
-       ("python-json5" ,python-json5)
+       ("python-json5" ,python-json5-0.9.4)
        ("python-jsonschema" ,python-jsonschema)
        ("python-notebook-zpid" ,python-notebook-zpid)))
     (native-inputs
