@@ -565,7 +565,7 @@ NodeJS.")
        ("python-beautifulsoup4" ,python-beautifulsoup4)
        ("python-black" ,python-black)
        ("python-flake8" ,python-flake8)
-       ("gunicorn" ,gunicorn-fixed)
+       ("gunicorn" ,gunicorn)
        ("python-httpcore" ,python-httpcore-0.3)
        ("python-pytest" ,python-pytest-5.2)
        ("python-pytest-asyncio" ,python-pytest-asyncio)
@@ -863,21 +863,6 @@ provides Python bindings for libbrotlienc and libbrotlidec.")
     (description
      "plugin and hook calling mechanisms for python")
     (license license:expat)))
-
-;; use a newer version which contains fixes for
-;; https://github.com/benoitc/gunicorn/issues/2160
-(define-public gunicorn-fixed
-  (package
-    (inherit gunicorn)
-    (name "gunicorn")
-    (version "20.0.4")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "gunicorn" version))
-       (sha256
-        (base32
-         "09n6fc019bgrvph1s5h1lwhn2avcsprw6ncd203qhra3i8mvn10r"))))))
 
 (define-public python-pytest-asyncio
   (package
