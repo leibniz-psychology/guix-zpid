@@ -16,17 +16,17 @@
 (define-public python-asyncssh
   (package
     (name "python-asyncssh")
-    (version "2.2.0")
+    (version "2.2.1")
     (source
       (origin
         (method url-fetch)
         (uri (pypi-uri "asyncssh" version))
         (sha256
           (base32
-            "1vhq3ikz6ya3113krzi74119j2dcqpsg39ipsa037l4rdfrx492s"))
+            "13ik6gc8qh8v2dkhfcv2rrip19bcg4kykfi37464l43s76mg3yds"))
         ;; revert changes that require python-cryptography 2.8, no functional
         ;; differences
-        (patches (search-patches "python-asyncio-2.2.0-no-crypto2.8.patch"))))
+        (patches (search-patches "python-asyncssh-2.2.1-no-crypto2.8.patch"))))
     (build-system python-build-system)
     (propagated-inputs
      `(("python-cryptography" ,python-cryptography)
