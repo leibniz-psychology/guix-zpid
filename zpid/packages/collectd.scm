@@ -7,7 +7,8 @@
   #:use-module (gnu packages autotools)
   #:use-module (gnu packages curl)
   #:use-module (gnu packages pkg-config)
-  #:use-module (gnu packages rrdtool))
+  #:use-module (gnu packages rrdtool)
+  #:use-module (gnu packages web))
 
 (define-public collectd
   (package
@@ -33,7 +34,8 @@
                              (lambda _ (invoke "autoreconf" "-vfi") #t)))))
     (inputs
      `(("rrdtool" ,rrdtool)
-       ("curl" ,curl)))
+       ("curl" ,curl)
+       ("libyajl" ,libyajl)))
     (native-inputs
      `(("autoconf" ,autoconf)
        ("automake" ,automake)
