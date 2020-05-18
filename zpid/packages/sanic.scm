@@ -864,29 +864,3 @@ provides Python bindings for libbrotlienc and libbrotlidec.")
      "plugin and hook calling mechanisms for python")
     (license license:expat)))
 
-(define-public python-pytest-asyncio
-  (package
-    (name "python-pytest-asyncio")
-    (version "0.10.0")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "pytest-asyncio" version))
-       (sha256
-        (base32
-         "1bysy4nii13bm7h345wxf8fxcjhab7l374pqdv7vwv3izl053b4z"))))
-    (build-system python-build-system)
-    (propagated-inputs
-     `(("python-pytest" ,python-pytest)))
-    (native-inputs
-     `(("python-coverage" ,python-coverage)
-       ("python-hypothesis" ,python-hypothesis)))
-    (home-page
-     "https://github.com/pytest-dev/pytest-asyncio")
-    (synopsis "Pytest support for asyncio")
-    (description "asyncio code is usually written in the form of coroutines,
-which makes it slightly more difficult to test using normal testing tools.
-pytest-asyncio provides useful fixtures and markers to make testing easier.")
-    (license license:asl2.0)))
-
-
