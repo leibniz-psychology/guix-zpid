@@ -28,7 +28,7 @@
 (define-public rstudio-server
   (package
     (name "rstudio-server")
-    (version "1.2.5033")
+    (version "1.2.5042")
     (source (origin
               (method git-fetch)
               (uri (git-reference
@@ -37,11 +37,15 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "0f3p2anz9xay2859bxj3bvyj582igsp628qxsccpkgn0jifvi4np"))
+                "1n67fa357v51j3z1ma8v2ydfsx3y8n10k2svmfcf4mdzsi8w0kc5"))
               (patches
                (search-patches "rstudio-server-1.2.5033-boost-1.70.0_p1.patch"
                                "rstudio-server-1.2.5033-boost-1.70.0_p2.patch"
                                "rstudio-server-1.2.5033-unbundle.patch"
+                               ;; fix for boost >= 1.72
+                               "rstudio-server-1.2.5033-no-signals.patch"
+                               ;; fix for r >= 4
+                               "rstudio-server-1.2.5042-fix-rslave.patch"
                                ))
               (modules '((guix build utils)))
               (snippet
@@ -51,7 +55,11 @@
                   #t))))
     (build-system cmake-build-system)
     (arguments
-     `(#:configure-flags '("-DRSTUDIO_TARGET=Server" "-DCMAKE_BUILD_TYPE=Release")
+     `(#:configure-flags
+       '("-DRSTUDIO_TARGET=Server"
+         "-DCMAKE_BUILD_TYPE=Release"
+         ;; auto-detection seems to be broken with boost 1.72
+         "-DRSTUDIO_BOOST_SIGNALS_VERSION=2")
        #:tests? #f ; no tests exist
        #:modules ((guix build cmake-build-system)
                   (guix build utils)
@@ -114,7 +122,7 @@
        ("r-minimal" ,r-minimal)
        ("openssl" ,openssl)
        ;; for libuuid
-       ("util-linux" ,util-linux)
+       ("util-linux" ,util-linux "lib")
        ("pandoc" ,ghc-pandoc)
        ("which" ,which)
        ("java-gwt" ,java-gwt)
