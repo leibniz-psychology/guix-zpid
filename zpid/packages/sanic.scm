@@ -561,12 +561,12 @@ NodeJS.")
     (native-inputs
      `(("python-aiofiles" ,python-aiofiles)
        ("python-aiohttp" ,python-aiohttp)
-       ("python-bandit" ,python-bandit)
        ("python-beautifulsoup4" ,python-beautifulsoup4)
        ("python-black" ,python-black)
        ("python-flake8" ,python-flake8)
        ("gunicorn" ,gunicorn)
        ("python-httpcore" ,python-httpcore-0.3)
+       ;; package asks for this precise version
        ("python-pytest" ,python-pytest-5.2)
        ("python-pytest-asyncio" ,python-pytest-asyncio)
        ("python-pytest-benchmark"
@@ -823,8 +823,7 @@ provides Python bindings for libbrotlienc and libbrotlidec.")
        ("python-py" ,python-py)
        ("python-wcwidth" ,python-wcwidth)))
     (native-inputs
-     `(("python-argcomplete" ,python-argcomplete)
-       ("python-hypothesis" ,python-hypothesis)
+     `(("python-hypothesis" ,python-hypothesis)
        ("python-mock" ,python-mock)
        ("python-nose" ,python-nose)
        ("python-requests" ,python-requests)
