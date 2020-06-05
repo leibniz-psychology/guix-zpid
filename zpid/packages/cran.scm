@@ -100,3 +100,26 @@ be conducted.")
       "Facilitates easy analysis of factorial experiments, including purely within-Ss designs (a.k.a. \"repeated measures\"), purely between-Ss designs, and mixed within-and-between-Ss designs.  The functions in this package aim to provide simple, intuitive and consistent specification of data analysis and visualization.  Visualization functions also include design visualization for pre-analysis data auditing, and correlation matrix visualization.  Finally, this package includes functions for non-parametric analysis, including permutation tests and bootstrap resampling.  The bootstrap function obtains predictions either by cell means or by more advanced/powerful mixed effects models, yielding predictions and confidence intervals that may be easily visualized at any level of the experiment's design.")
     (license license:gpl2+)))
 
+(define-public r-quantpsyc
+  (package
+    (name "r-quantpsyc")
+    (version "1.5")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "QuantPsyc" version))
+        (sha256
+          (base32
+            "1i9bh88r8zxndzjqsj14qw64gnvm5a9kvhjhzk3qsrvl3qzjgh93"))))
+    (properties `((upstream-name . "QuantPsyc")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-boot" ,r-boot) ("r-mass" ,r-mass)))
+    (home-page
+      "https://cran.r-project.org/web/packages/QuantPsyc")
+    (synopsis "Quantitative Psychology Tools")
+    (description
+      "Contains functions useful for data screening, testing moderation, mediation and estimating power.")
+    (license license:gpl2+)))
+
+
