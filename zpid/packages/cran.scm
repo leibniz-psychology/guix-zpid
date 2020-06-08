@@ -7,6 +7,7 @@
   #:use-module (guix build-system r)
   #:use-module (gnu packages)
   #:use-module (gnu packages statistics)
+  #:use-module (gnu packages graph)
   #:use-module (gnu packages cran))
 
 (define-public r-prereg
@@ -122,4 +123,97 @@ be conducted.")
       "Contains functions useful for data screening, testing moderation, mediation and estimating power.")
     (license license:gpl2+)))
 
+(define-public r-visnetwork
+  (package
+    (name "r-visnetwork")
+    (version "2.0.9")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "visNetwork" version))
+        (sha256
+          (base32
+            "0854r9znpjd9iy6j5bgrn20vj13dhp606gs3b6iy0rhym71ks2sy"))))
+    (properties `((upstream-name . "visNetwork")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-htmltools" ,r-htmltools)
+        ("r-htmlwidgets" ,r-htmlwidgets)
+        ("r-jsonlite" ,r-jsonlite)
+        ("r-magrittr" ,r-magrittr)))
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page
+      "http://datastorm-open.github.io/visNetwork/")
+    (synopsis
+      "Network Visualization using 'vis.js' Library")
+    (description
+      "This package provides an R interface to the 'vis.js' JavaScript charting library.  It allows an interactive visualization of networks.")
+    (license license:expat)))
+
+(define-public r-diagrammer
+  (package
+    (name "r-diagrammer")
+    (version "1.0.6.1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "DiagrammeR" version))
+        (sha256
+          (base32
+            "0gb7ccdrh7jlyqafdk8zs465ygczxxd25s05whn914in1994qkmy"))))
+    (properties `((upstream-name . "DiagrammeR")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-downloader" ,r-downloader)
+        ("r-dplyr" ,r-dplyr)
+        ("r-glue" ,r-glue)
+        ("r-htmltools" ,r-htmltools)
+        ("r-htmlwidgets" ,r-htmlwidgets)
+        ("r-igraph" ,r-igraph)
+        ("r-influencer" ,r-influencer)
+        ("r-magrittr" ,r-magrittr)
+        ("r-purrr" ,r-purrr)
+        ("r-rcolorbrewer" ,r-rcolorbrewer)
+        ("r-readr" ,r-readr)
+        ("r-rlang" ,r-rlang)
+        ("r-rstudioapi" ,r-rstudioapi)
+        ("r-scales" ,r-scales)
+        ("r-stringr" ,r-stringr)
+        ("r-tibble" ,r-tibble)
+        ("r-tidyr" ,r-tidyr)
+        ("r-viridis" ,r-viridis)
+        ("r-visnetwork" ,r-visnetwork)))
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page
+      "https://github.com/rich-iannone/DiagrammeR")
+    (synopsis "Graph/Network Visualization")
+    (description
+      " Build graph/network structures using functions for stepwise addition and deletion of nodes and edges.  Work with data available in tables for bulk addition of nodes, edges, and associated metadata.  Use graph selections and traversals to apply changes to specific nodes or edges.  A wide selection of graph algorithms allow for the analysis of graphs.  Visualize the graphs and take advantage of any aesthetic properties assigned to nodes and edges.")
+    (license license:expat)))
+
+(define-public r-lavaanplot
+  (package
+    (name "r-lavaanplot")
+    (version "0.5.1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "lavaanPlot" version))
+        (sha256
+          (base32
+            "01bx1snd3zhc8dmq0f407qhw2d00f6d38qpr791qc1mq5kr3d8qj"))))
+    (properties `((upstream-name . "lavaanPlot")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-diagrammer" ,r-diagrammer)
+        ("r-lavaan" ,r-lavaan)
+        ("r-stringr" ,r-stringr)))
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page
+      "https://github.com/alishinski/lavaanPlot")
+    (synopsis
+      "Path Diagrams for Lavaan Models via DiagrammeR")
+    (description
+      "Plots path diagrams from models in lavaan using the plotting functionality from the DiagrammeR package.  DiagrammeR provides nice path diagrams via Graphviz, and these functions make it easy to generate these diagrams from a lavaan path model without having to write the DOT language graph specification.")
+    (license license:gpl2+)))
 
