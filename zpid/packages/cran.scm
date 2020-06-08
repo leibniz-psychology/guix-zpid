@@ -29,7 +29,7 @@
     (synopsis
       "R Markdown Templates to Preregister Scientific Studies")
     (description
-	  "This package provides a collection of templates to author
+     "This package provides a collection of templates to author
 preregistration documents for scientific studies in PDF format.")
     (license license:gpl3)))
 
@@ -52,7 +52,7 @@ preregistration documents for scientific studies in PDF format.")
       "https://cran.r-project.org/web/packages/metafor")
     (synopsis "Meta-Analysis Package for R")
     (description
-	  "This package provides a comprehensive collection of functions for
+     "This package provides a comprehensive collection of functions for
 conducting meta-analyses in R.  The package includes functions to calculate
 various effect sizes or outcome measures, fit fixed-, random-, and
 mixed-effects models to such data, carry out moderator and meta-regression
@@ -94,11 +94,20 @@ be conducted.")
         ("r-reshape2" ,r-reshape2)
         ("r-scales" ,r-scales)
         ("r-stringr" ,r-stringr)))
-    (home-page "http://github.com/mike-lawrence/ez")
-    (synopsis
-      "Easy Analysis and Visualization of Factorial Experiments")
+    (home-page "https://github.com/mike-lawrence/ez")
+    (synopsis "Easy Analysis and Visualization of Factorial Experiments")
     (description
-      "Facilitates easy analysis of factorial experiments, including purely within-Ss designs (a.k.a. \"repeated measures\"), purely between-Ss designs, and mixed within-and-between-Ss designs.  The functions in this package aim to provide simple, intuitive and consistent specification of data analysis and visualization.  Visualization functions also include design visualization for pre-analysis data auditing, and correlation matrix visualization.  Finally, this package includes functions for non-parametric analysis, including permutation tests and bootstrap resampling.  The bootstrap function obtains predictions either by cell means or by more advanced/powerful mixed effects models, yielding predictions and confidence intervals that may be easily visualized at any level of the experiment's design.")
+     "Facilitates easy analysis of factorial experiments, including purely
+within-Ss designs (a.k.a. \"repeated measures\"), purely between-Ss designs,
+and mixed within-and-between-Ss designs.  The functions in this package aim to
+provide simple, intuitive and consistent specification of data analysis and
+visualization.  Visualization functions also include design visualization for
+pre-analysis data auditing, and correlation matrix visualization.  Finally,
+this package includes functions for non-parametric analysis, including
+permutation tests and bootstrap resampling.  The bootstrap function obtains
+predictions either by cell means or by more advanced/powerful mixed effects
+models, yielding predictions and confidence intervals that may be easily
+visualized at any level of the experiment's design.")
     (license license:gpl2+)))
 
 (define-public r-quantpsyc
@@ -116,11 +125,11 @@ be conducted.")
     (build-system r-build-system)
     (propagated-inputs
       `(("r-boot" ,r-boot) ("r-mass" ,r-mass)))
-    (home-page
-      "https://cran.r-project.org/web/packages/QuantPsyc")
+    (home-page "https://cran.r-project.org/web/packages/QuantPsyc/")
     (synopsis "Quantitative Psychology Tools")
     (description
-      "Contains functions useful for data screening, testing moderation, mediation and estimating power.")
+      "Contains functions useful for data screening, testing moderation,
+mediation and estimating power.")
     (license license:gpl2+)))
 
 (define-public r-visnetwork
@@ -142,12 +151,11 @@ be conducted.")
         ("r-jsonlite" ,r-jsonlite)
         ("r-magrittr" ,r-magrittr)))
     (native-inputs `(("r-knitr" ,r-knitr)))
-    (home-page
-      "http://datastorm-open.github.io/visNetwork/")
-    (synopsis
-      "Network Visualization using 'vis.js' Library")
+    (home-page "http://datastorm-open.github.io/visNetwork/")
+    (synopsis "Network Visualization using vis.js Library")
     (description
-      "This package provides an R interface to the 'vis.js' JavaScript charting library.  It allows an interactive visualization of networks.")
+      "This package provides an R interface to the vis.js JavaScript charting
+library.  It allows an interactive visualization of networks.")
     (license license:expat)))
 
 (define-public r-diagrammer
@@ -184,11 +192,15 @@ be conducted.")
         ("r-viridis" ,r-viridis)
         ("r-visnetwork" ,r-visnetwork)))
     (native-inputs `(("r-knitr" ,r-knitr)))
-    (home-page
-      "https://github.com/rich-iannone/DiagrammeR")
+    (home-page "https://github.com/rich-iannone/DiagrammeR")
     (synopsis "Graph/Network Visualization")
     (description
-      " Build graph/network structures using functions for stepwise addition and deletion of nodes and edges.  Work with data available in tables for bulk addition of nodes, edges, and associated metadata.  Use graph selections and traversals to apply changes to specific nodes or edges.  A wide selection of graph algorithms allow for the analysis of graphs.  Visualize the graphs and take advantage of any aesthetic properties assigned to nodes and edges.")
+      "Build graph/network structures using functions for stepwise addition
+and deletion of nodes and edges.  Work with data available in tables for bulk
+addition of nodes, edges, and associated metadata.  Use graph selections and
+traversals to apply changes to specific nodes or edges.  A wide selection of
+graph algorithms allow for the analysis of graphs.  Visualize the graphs and
+take advantage of any aesthetic properties assigned to nodes and edges.")
     (license license:expat)))
 
 (define-public r-lavaanplot
@@ -209,11 +221,13 @@ be conducted.")
         ("r-lavaan" ,r-lavaan)
         ("r-stringr" ,r-stringr)))
     (native-inputs `(("r-knitr" ,r-knitr)))
-    (home-page
-      "https://github.com/alishinski/lavaanPlot")
-    (synopsis
-      "Path Diagrams for Lavaan Models via DiagrammeR")
+    (home-page "https://github.com/alishinski/lavaanPlot")
+    (synopsis "Path Diagrams for Lavaan Models via DiagrammeR")
     (description
-      "Plots path diagrams from models in lavaan using the plotting functionality from the DiagrammeR package.  DiagrammeR provides nice path diagrams via Graphviz, and these functions make it easy to generate these diagrams from a lavaan path model without having to write the DOT language graph specification.")
+      "Plots path diagrams from models in lavaan using the plotting
+functionality from the DiagrammeR package.  DiagrammeR provides nice path
+diagrams via Graphviz, and these functions make it easy to generate these
+diagrams from a lavaan path model without having to write the DOT language
+graph specification.")
     (license license:gpl2+)))
 
