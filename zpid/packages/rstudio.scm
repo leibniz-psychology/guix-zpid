@@ -28,7 +28,7 @@
 (define-public rstudio-server
   (package
     (name "rstudio-server")
-    (version "1.2.5042")
+    (version "1.3.959")
     (source (origin
               (method git-fetch)
               (uri (git-reference
@@ -37,13 +37,9 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "1n67fa357v51j3z1ma8v2ydfsx3y8n10k2svmfcf4mdzsi8w0kc5"))
+                "0blskjpp5zi56wxicpilcxr3r08328pcr2i5ih5wcywdayvic86w"))
               (patches
-               (search-patches "rstudio-server-1.2.5033-boost-1.70.0_p1.patch"
-                               "rstudio-server-1.2.5033-boost-1.70.0_p2.patch"
-                               "rstudio-server-1.2.5033-unbundle.patch"
-                               ;; fix for boost >= 1.72
-                               "rstudio-server-1.2.5033-no-signals.patch"
+               (search-patches "rstudio-server-1.3.959-unbundle.patch"
                                ;; fix for r >= 4
                                "rstudio-server-1.2.5042-fix-rslave.patch"
                                ))
@@ -76,7 +72,7 @@
          (add-after 'unpack 'patch-paths
            (lambda* (#:key inputs native-inputs #:allow-other-keys)
              (substitute* "src/cpp/session/SessionOptions.cpp"
-               (("resources/mathjax-26") (assoc-ref inputs "mathjax")))
+               (("resources/mathjax-27") (assoc-ref inputs "mathjax")))
              (substitute* "src/cpp/session/SessionOptions.cpp"
                (("bin/pandoc") (string-append (assoc-ref inputs "pandoc") "/bin/pandoc")))
              (substitute* "src/cpp/core/r_util/REnvironmentPosix.cpp"
@@ -85,20 +81,6 @@
                (("/usr/bin/env") (string-append (assoc-ref inputs "coreutils") "/bin/env")))
              (substitute* '("src/cpp/session/modules/SessionFiles.R")
                (("\"zip\"") (string-append "\"" (assoc-ref inputs "zip") "/bin/zip\"")))
-             #t))
-         ;; XXX: figure out how to get away without copying. Set classpath?
-         (add-after 'unpack 'copy-jars
-           (lambda* (#:key inputs native-inputs #:allow-other-keys)
-             (let ((dest-dir "src/gwt/lib/gwt/2.8.1"))
-               (mkdir-p dest-dir)
-               (copy-recursively (assoc-ref inputs "java-gwt") dest-dir)
-               )
-             (let ((dest-dir "src/gwt/lib/gin/2.1.2"))
-               (mkdir-p dest-dir)
-               (copy-recursively (string-append (assoc-ref inputs "java-gin")) dest-dir)
-               )
-             (mkdir-p "src/gwt/lib")
-             (copy-file (assoc-ref inputs "junit-source-tarball") "src/gwt/lib/junit-4.9b3.jar")
              #t))
          (add-after 'unpack 'set-JAVA_HOME
            (lambda* (#:key inputs #:allow-other-keys)
@@ -125,9 +107,8 @@
        ("util-linux" ,util-linux "lib")
        ("pandoc" ,ghc-pandoc)
        ("which" ,which)
-       ("java-gwt" ,java-gwt)
-       ("java-gin" ,java-gin)
-       ("mathjax" ,mathjax)
+	   ("mathjax" ,mathjax) ; XXX: not sure this is the correct version, but
+	   ; any 2.7 patch release should work, right?
        ;; for `env`
        ("coreutils" ,coreutils)
        ;; File panel -> More -> Export
@@ -171,13 +152,13 @@ web browser.")
 (define-public mathjax
   (package
     (name "mathjax")
-    (version "2.6.1")
+    (version "2.7.8")
     ( source (origin
                (method url-fetch)
-               (uri "https://github.com/mathjax/MathJax/archive/2.6.1.tar.gz")
+               (uri (string-append "https://github.com/mathjax/MathJax/archive/" version ".tar.gz"))
                (sha256
                 (base32
-                 "1f7v48s7km9fi9i0bignn8f91z3bk04n4jx407l3xsd4hxfr8in7"))))
+                 "0pfkybf95a3s3v17rfb7cy598hlswkpi2g0lhnpnvlwcbj1z9p11"))))
     (build-system copy-build-system)
     (arguments
      '(#:install-plan
@@ -189,161 +170,4 @@ and AsciiMath notation that works in all modern browsers, with built-in support
 for assistive technology like screen readers.")
     (home-page "https://www.mathjax.org/")
     (license license:asl2.0)))
-
-(define-public java-gwt
-  (package
-    (name "java-gwt")
-    (version "2.8.1")
-    (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://gwt.googlesource.com/gwt")
-                    (commit version)))
-              (file-name (git-file-name name version))
-              (sha256
-               (base32
-                "0amfj27jbq7az85sz02jqbkmiz2fyp7g4nsnvxis4wyr4iygwxv2"))
-              (patches
-               (search-patches "java-gwt-2.8.1-nogit.patch"))
-              ))
-    (build-system ant-build-system)
-    (arguments
-     `(#:tests? #f
-       #:build-target "dist"
-       #:phases
-       (modify-phases %standard-phases
-         ;; build.xml has no install phase. Instead extract the .zip and copy
-         ;; it to the destination
-         (replace 'install
-           (lambda* (#:key outputs #:allow-other-keys)
-             (invoke "unzip" "build/dist/gwt-2.8.1.zip")
-             (copy-recursively "gwt-2.8.1" (assoc-ref outputs "out"))
-             ))
-         (add-after 'unpack 'set-env
-           (lambda* (#:key inputs #:allow-other-keys)
-             ;;             (setenv "GWT_TOOLS" (string-append (getcwd) "/gwttools"))
-             (setenv "GWT_TOOLS" (assoc-ref inputs "gwt-tools"))
-             (setenv "GWT_VERSION" "2.8.1")
-                               ; see -nogit.patch
-             (setenv "GWT_GITREV" "release")
-             #t)))))
-    ;;         (add-after 'unpack 'rebase-guava
-    ;;           (lambda* (#:key inputs #:allow-other-keys)
-    ;;            (let* (
-    ;;(dest-dir "gwttools/lib/guava/guava-19.0")
-    ;;(dest-file (string-append dest-dir "/guava-19.0-rebased.jar")))
-    ;;            (mkdir-p dest-dir)
-    ;;            ; per instructions from
-    ;;            ; https://github.com/gwtproject/tools/tree/master/lib/guava/guava-19.0
-    ;;            (invoke "java" "-jar" (string-append (assoc-ref inputs "java-jarjar") "/share/java/jarjar-1.4.jar") "process" (string-append (assoc-ref inputs "gwt-tools") "/lib/guava/guava-19.0/guava-19.0.jarjar-rules") (string-append (assoc-ref inputs "java-guava") "/share/java/guava.jar") dest-file)
-    ;;            (invoke "zip" dest-file "-d" "META-INF/*")
-    ;;             #t)))
-    ;;         (add-after 'unpack 'copy-jars
-    ;;           (lambda* (#:key inputs #:allow-other-keys)
-    ;;            (mkdir-p "gwttools/lib/eclipse")
-    ;;            (copy-file (string-append (assoc-ref inputs "java-eclipse-jdt-core") "/share/java/eclipse-jdt-core.jar") "gwttools/lib/eclipse/org.eclipse.jdt.core_3.11.2-CUSTOM-GWT-2.8-20160205.jar")
-    ;;            (mkdir-p "gwttools/lib/colt")
-    ;;            (copy-file (string-append (assoc-ref inputs "java-colt") "/colt.jar") "gwttools/lib/colt/colt-1.2.jar")
-    ;;            (mkdir-p "gwttools/lib/objectweb/asm-5.0.3/lib/")
-    ;;            (copy-file (string-append (assoc-ref inputs "java-asm") "/share/java/asm-6.0.jar") "gwttools/lib/objectweb/asm-5.0.3/lib/asm-all-5.0.3.jar")
-    ;;            (mkdir-p "gwttools/lib/apache")
-    ;;            (copy-file (string-append (assoc-ref inputs "ant") "/lib/ant.jar") "gwttools/lib/apache/ant-1.6.5.jar")
-    ;;             #t)))))
-    (inputs `(
-              ;;("java-guava" ,java-guava)
-              ;;("java-eclipse-jdt-core" ,java-eclipse-jdt-core)
-              ;;("java-colt" ,java-colt)
-              ;;("java-asm" ,java-asm)
-              ;;("ant" ,ant)
-              ("gwt-tools"
-               ,(origin
-                  (method git-fetch)
-                  (uri (git-reference
-                        (url "https://github.com/gwtproject/tools.git")
-                        (commit "f42d2729a3a8e6ba9b9aec069957bce5dc0f6f6d")))
-                  (file-name (git-file-name "gwt-tools" version))
-                  (sha256
-                   (base32
-                    "14sipzc7y81l9cia5zv3187i94r0harsrjk4c8p9ixi3b3ypmn2f"))))))
-    (native-inputs
-     ;; for 'install phase
-     `(("unzip" ,unzip)
-       ("java-jarjar" ,java-jarjar)))
-    (home-page "http://www.gwtproject.org/")
-    (synopsis "Google Web Toolkit")
-    (description
-     "GWT is a development toolkit for building and optimizing complex
-browser-based applications. Its goal is to enable productive development of
-high-performance web applications without the developer having to be an expert
-in browser quirks, XMLHttpRequest, and JavaScript.")
-    (license license:asl2.0)))
-
-(define-public java-gin
-  (package
-    (name "java-gin")
-    (version "2.1.2")
-    (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://github.com/gwtplus/google-gin.git")
-                    (commit version)))
-              (file-name (git-file-name name version))
-              (sha256
-               (base32
-                "02q81pgf2ifqq1r7azk2ci5zkp6nb6i1lwjfdb7cwbyymmyd8fra"))
-              ))
-    (build-system ant-build-system)
-    (arguments
-     `(#:tests? #f
-       #:build-target "dist"
-       #:phases
-       (modify-phases %standard-phases
-         (replace 'install
-           (lambda* (#:key outputs #:allow-other-keys)
-             ;; since we’re not tracking dependencies properly, install the
-             ;; pre-packaged guice*.jar as well
-             (invoke "unzip" "-od" "gin-2.1.2" "out/dist/gin-2.1.2.zip")
-             (copy-recursively "gin-2.1.2" (assoc-ref outputs "out"))
-             ))
-         (add-after 'unpack 'set-env
-           (lambda* (#:key inputs #:allow-other-keys)
-             (setenv "GWT_HOME" (assoc-ref inputs "java-gwt"))
-             #t)))))
-    (inputs `(("java-gwt" ,java-gwt)))
-    ;; for 'install phase
-    (native-inputs `(("unzip" ,unzip)))
-    (home-page "https://gwtplus.github.io/google-gin/site/index.html")
-    (synopsis "GWT INjection")
-    (description
-     "Gin (GWT INjection) brings automatic dependency injection to GWT
-client-side code. Gin is built on top of Guice and uses (a subset of) Guice's
-binding language.")
-    (license license:asl2.0)))
-
-(define-public java-colt
-  (package
-    (name "java-colt")
-    (version "1.2.0")
-    (source (origin
-              (method url-fetch)
-              (uri "https://dst.lbl.gov/ACSSoftware/colt/colt-download/releases/colt-1.2.0.tar.gz")
-              (sha256
-               (base32
-                "1fyxppzqw9l83fx9rxllcm5ldnja1fbn1524vjv7max42hir89ns"))
-              (patches (search-patches "java-colt-1.2.0-encoding.patch"))))
-    (build-system ant-build-system)
-    (arguments 
-     '(#:build-target "build"
-       #:tests? #f
-       #:phases
-       (modify-phases %standard-phases
-         (replace 'install
-           (lambda* (#:key outputs #:allow-other-keys)
-             (install-file "lib/colt.jar" (assoc-ref outputs "out"))
-             )))))
-    (home-page "https://dst.lbl.gov/ACSSoftware/colt/index.html")
-    (synopsis "Java libraries for High Performance Scientific and Technical Computing")
-    (description "")
-    ;; custom license + lgpl minus military applications
-    (license #f)))
 
