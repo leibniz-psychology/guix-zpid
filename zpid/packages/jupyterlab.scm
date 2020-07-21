@@ -87,23 +87,23 @@
 (define-public python-jupyterlab-server
   (package
     (name "python-jupyterlab-server")
-    (version "1.0.7")
+    (version "1.2.0")
     (source
      (origin
        (method url-fetch)
        (uri (pypi-uri "jupyterlab_server" version))
        (sha256
         (base32
-         "1qnqxy6812py7xklg7xfrkadm0v4z8x6n1035i26h2z7y891ff0j"))))
+         "132xby7531rbrjg9bqvsx86birr1blynjxy8gi5kcnb6x7fxjcal"))))
     (build-system python-build-system)
     (propagated-inputs
      `(("python-jinja2" ,python-jinja2)
        ("python-json5" ,python-json5-0.9.4)
        ("python-jsonschema" ,python-jsonschema)
-       ("python-notebook-zpid" ,python-notebook-zpid)))
+       ("python-notebook-zpid" ,python-notebook-zpid)
+       ("python-requests" ,python-requests)))
     (native-inputs
      `(("python-pytest" ,python-pytest)
-       ("python-requests" ,python-requests)
        ("python-ipykernel" ,python-ipykernel)))
     (arguments
      `(#:phases
@@ -121,14 +121,14 @@ applications")
 (define-public python-jupyterlab
   (package
     (name "python-jupyterlab")
-    (version "2.0.1")
+    (version "2.2.0")
     (source
       (origin
         (method url-fetch)
         (uri (pypi-uri "jupyterlab" version))
         (sha256
           (base32
-            "0ha1y6fn5kpb6dfwh9lccvng8zx92v5if68rd06xkrj9kqx866jx"))
+            "0zhgwhhdyy78ia2mfh30ph2bw8nxscadl5hnxqs1dcblad3jfvy7"))
         (patches (search-patches "python-jupyterlab-copy-nometa.patch"))))
     (build-system python-build-system)
     (propagated-inputs
@@ -137,7 +137,8 @@ applications")
          ,python-jupyterlab-server)
         ("python-notebook-zpid" ,python-notebook-zpid)
         ("python-tornado" ,python-tornado)
-		("node" ,node)))
+        ;; Required to rebuild assets.
+        ("node" ,node)))
     (native-inputs
       `(("python-pytest" ,python-pytest)
         ("python-pytest-check-links"
@@ -167,7 +168,7 @@ applications")
     (synopsis
       "The JupyterLab notebook server extension")
     (description
-	  "An extensible environment for interactive and reproducible computing,
+     "An extensible environment for interactive and reproducible computing,
 based on the Jupyter Notebook and Architecture.")
     (license license:bsd-3)))
 
