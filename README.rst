@@ -1,16 +1,17 @@
-ZPID guix channel
+ZPID Guix channel
 =================
 
-This is a GUIX_ channel containing packages not in GUIX, but in use at
-leibniz-psychology.org. See `Using a Custom Guix Channel`_ how to add it to
+This is a Guix_ channel containing packages not in Guix, but in use at
+leibniz-psychology.org_. See `Using a Custom Guix Channel`_ how to add it to
 your installation.
 
-While we try to follow upstream, this channel is only guaranteed to work with
-`our own GUIX fork`_. If possible all packages are going to be submitted to
-upstream sooner or later.
+The packages in this repository are currently only tested with older versions
+of Guix, namely the one present at https://github.com/leibniz-psychology/guix.
+We try to sync with upstream occasionally, but if something breaks in the
+meantime, please open an issue.  Whenever possible possible, packages will be
+upstreamed to Guix proper and disappear from this channel once accepted.
 
-.. _GUIX: https://guix.gnu.org/
+.. _Guix: https://guix.gnu.org/
 .. _Using a Custom Guix Channel: https://guix.gnu.org/manual/en/guix.html#Using-a-Custom-Guix-Channel
-.. _our own GUIX fork: https://github.com/leibniz-psychology/guix
-
+.. _leibniz-psychology.org: https://www.leibniz-psychology.org
 
