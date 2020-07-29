@@ -1,0 +1,31 @@
+os: linux
+dist: bionic
+language: shell
+
+addons:
+  apt:
+    packages:
+      - gnupg wget grep sed
+
+# Test these packages. Don’t include dependencies # here, only leaf packages.
+env:
+  - PACKAGE: python-asyncssh
+  - PACKAGE: jupyter-zpid
+  - PACKAGE: python-jupyterlab
+  - PACKAGE: python-sanic
+  - PACKAGE: nfs4-acl-tools
+  - PACKAGE: rstudio-server-zpid
+
+install: |
+  travis_retry wget http://guix.gnu.org/install.sh -O guix-install.sh
+  travis_retry wget "https://sv.gnu.org/people/viewgpg.php?user_id=15145" -qO - | gpg --import -
+  echo -e 'y\ny' | sudo bash guix-install.sh
+  sudo mkdir -p /var/guix/profiles/per-user/travis
+  sudo chown travis:travis /var/guix/profiles/per-user/travis
+  guix pull --fallback --verbosity=0
+
+# Reduced verbosity, so we don’t hit Travis’ build log limits
+script: |
+  export PATH="~/.config/guix/current/bin${PATH:+:}$PATH"
+  guix build --verbosity=1 -L . --no-grafts --fallback $PACKAGE
+
