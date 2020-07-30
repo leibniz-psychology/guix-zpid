@@ -14,7 +14,6 @@ jobs:
   - env: PACKAGE=jupyter-zpid
   - env: PACKAGE=python-jupyterlab
   - env: PACKAGE=python-sanic
-  - env: PACKAGE=nfs4-acl-tools
   # Allow rstudio-server-zpid to fail, because usually it takes too long.
   allow_failures:
   - env: PACKAGE=rstudio-server-zpid
