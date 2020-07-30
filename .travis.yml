@@ -7,14 +7,17 @@ addons:
     packages:
       - gnupg wget grep sed
 
-# Test these packages. Don’t include dependencies # here, only leaf packages.
-env:
-  - PACKAGE: python-asyncssh
-  - PACKAGE: jupyter-zpid
-  - PACKAGE: python-jupyterlab
-  - PACKAGE: python-sanic
-  - PACKAGE: nfs4-acl-tools
-  - PACKAGE: rstudio-server-zpid
+jobs:
+  # Test these packages. Don’t include dependencies here, only leaf packages.
+  include:
+  - env: PACKAGE=python-asyncssh
+  - env: PACKAGE=jupyter-zpid
+  - env: PACKAGE=python-jupyterlab
+  - env: PACKAGE=python-sanic
+  - env: PACKAGE=nfs4-acl-tools
+  # Allow rstudio-server-zpid to fail, because usually it takes too long.
+  allow_failures:
+  - env: PACKAGE=rstudio-server-zpid
 
 install: |
   travis_retry wget http://guix.gnu.org/install.sh -O guix-install.sh
@@ -22,7 +25,7 @@ install: |
   echo -e 'y\ny' | sudo bash guix-install.sh
   sudo mkdir -p /var/guix/profiles/per-user/travis
   sudo chown travis:travis /var/guix/profiles/per-user/travis
-  guix pull --fallback --verbosity=0
+  travis_retry guix pull --fallback --verbosity=0
 
 # Reduced verbosity, so we don’t hit Travis’ build log limits
 script: |
