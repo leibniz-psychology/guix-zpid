@@ -25,5 +25,7 @@ jobs:
             guix-cache-
       - name: Install Guix
         uses: PromyLOPh/guix-install-action@v1
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Build package ${{ matrix.package }}
         run: guix build -L . ${{ matrix.package }}
