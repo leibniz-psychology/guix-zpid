@@ -1,0 +1,29 @@
+name: build
+on: [push, pull_request]
+jobs:
+  build:
+    name: Build package
+    runs-on: ubuntu-latest
+    strategy:
+	  # building independent packages, don’t abort entire build if one fails
+      fail-fast: false
+      matrix:
+        package:
+          - python-asyncssh
+          - jupyter-zpid
+          - python-jupyterlab
+          - python-sanic
+          - rstudio-server-zpid
+    steps:
+      - name: Guix cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/guix
+          # use a key that (almost) never matches
+          key: guix-cache-${{ github.sha }}
+          restore-keys: |
+            guix-cache-
+      - name: Install Guix
+        uses: PromyLOPh/guix-install-action@v1
+      - name: Build package ${{ matrix.package }}
+        run: guix build -L . ${{ matrix.package }}

@@ -1,8 +1,7 @@
 ZPID Guix channel
 =================
 
-.. image:: https://travis-ci.org/leibniz-psychology/guix-zpid.svg?branch=master
-    :target: https://travis-ci.org/leibniz-psychology/guix-zpid
+.. image:: https://github.com/leibniz-psychology/guix-zpid/workflows/build/badge.svg
 
 This is a Guix_ channel containing packages not in Guix, but in use at
 leibniz-psychology.org_. See `Using a Custom Guix Channel`_ how to add it to
