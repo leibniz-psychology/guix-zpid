@@ -5,7 +5,7 @@ jobs:
     name: Build package
     runs-on: ubuntu-latest
     strategy:
-	  # building independent packages, don’t abort entire build if one fails
+      # building independent packages, don’t abort entire build if one fails
       fail-fast: false
       matrix:
         package:
