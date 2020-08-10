@@ -15,82 +15,14 @@
   #:use-module (gnu packages compression)
   #:use-module (gnu packages libevent)
   #:use-module (gnu packages python-xyz)
+  #:use-module (gnu packages python-check)
+  #:use-module (gnu packages python-compression)
   #:use-module (gnu packages python-crypto)
   #:use-module (gnu packages python-web)
   #:use-module (gnu packages openstack)
   #:use-module (gnu packages shells)
   #:use-module (gnu packages sphinx)
   #:use-module (gnu packages xml))
-
-(define-public python-trustme
-  (package
-    (name "python-trustme")
-    (version "0.6.0")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "trustme" version))
-       (sha256
-        (base32
-         "0v3vr5z6apnfmklf07m45kv5kaqvm6hxrkaqywch57bjd2siiywx"))))
-    (build-system python-build-system)
-    (propagated-inputs
-     `(("python-cryptography" ,python-cryptography)
-       ("python-idna" ,python-idna)))
-    (home-page
-     "https://github.com/python-trio/trustme")
-    (synopsis
-     "#1 quality TLS certs while you wait, for the discerning tester")
-    (description
-     "trustme is a tiny Python package that gives you a fake certificate
-authority (CA) to generate fake TLS certs to use in tests.")
-    (license '(license:expat license:asl2.0))))
-
-(define-public python-py-cpuinfo
-  (package
-    (name "python-py-cpuinfo")
-    (version "5.0.0")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "py-cpuinfo" version))
-       (sha256
-        (base32
-         "0045y6832gqjg63jmw0qj2jwyypgjwr7sfdq3lfv49b6fxpl5xic"))))
-    (build-system python-build-system)
-    (home-page
-     "https://github.com/workhorsy/py-cpuinfo")
-    (synopsis "Get CPU info with pure Python")
-    (description
-     "Py-cpuinfo gets CPU info with pure Python.  Py-cpuinfo should work without
-any extra programs or libraries, beyond what your OS provides.")
-    (license license:expat)))
-
-(define-public python-pytest-benchmark
-  (package
-    (name "python-pytest-benchmark")
-    (version "3.2.3")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "pytest-benchmark" version))
-       (sha256
-        (base32
-         "0a4mpb4j73dsyk47hd1prrjpfk4r458s102cn80rf253jg818hxd"))))
-    (build-system python-build-system)
-    (propagated-inputs
-     `(("python-pathlib2" ,python-pathlib2)
-       ("python-py-cpuinfo" ,python-py-cpuinfo)
-       ("python-pytest" ,python-pytest)
-       ))
-    (home-page
-     "https://pytest-benchmark.readthedocs.io/en/latest/")
-    (synopsis
-     "A pytest fixture for benchmarking code")
-    (description
-     "This pytest plugin provides a benchmark fixture.  This fixture is a
-callable object that will benchmark any function passed to it.")
-    (license license:bsd-2)))
 
 (define-public python-pytest-sanic
   (package
@@ -227,122 +159,6 @@ fragments\" which contain information useful to end users.")
 loop.  uvloop is implemented in Cython and uses libuv under the hood.")
     (license license:expat)))
 
-(define-public python-immutables
-  (package
-    (name "python-immutables")
-    (version "0.11")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "immutables" version))
-       (sha256
-        (base32
-         "18x4lnl03rkg2y7ljb916pv3v40kvi6zwg0i36n30rfwl1w0b1fn"))))
-    (build-system python-build-system)
-    (home-page
-     "https://github.com/MagicStack/immutables")
-    (synopsis "Immutable Collections")
-    (description "An immutable mapping type for Python.  The underlying
-datastructure is a Hash Array Mapped Trie (HAMT) used in Clojure, Scala,
-Haskell, and other functional languages.  Immutable mappings based on HAMT have
-O(log N) performance for both set() and get() operations, which is essentially
-O(1) for relatively small mappings.")
-    (license license:asl2.0)))
-
-(define-public python-sniffio
-  (package
-    (name "python-sniffio")
-    (version "1.1.0")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "sniffio" version))
-       (sha256
-        (base32
-         "08bsp2pp2dxzn9yzcafwzw8jlm0jf50as0ix8vfhxzk91w810f4f"))))
-    (build-system python-build-system)
-    (native-inputs
-     `(("python-curio" ,python-curio)
-       ("python-pytest" ,python-pytest)))
-    (home-page
-     "https://sniffio.readthedocs.io/en/latest/")
-    (synopsis
-     "Sniff out which async library your code is running under")
-    (description
-     "This is a tiny package whose only purpose is to let you detect which
-async library your code is running under.")
-    (license '(license:expat license:asl2.0))))
-
-(define-public python-hpack
-  (package
-    (name "python-hpack")
-    (version "3.0.0")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "hpack" version))
-       (sha256
-        (base32
-         "1lp9ja4dk6jg0pm2d18kvh95k9p6yxhh4l1h7y541qzs9cgrrv4f"))))
-    (build-system python-build-system)
-    (home-page "https://python-hyper.org/projects/hpack/en/latest/")
-    (synopsis "Pure-Python HPACK header compression")
-    (description
-     "hpack provides a simple Python interface to the HPACK compression
-algorithm, used to compress HTTP headers in HTTP/2.  Used by some of the most
-popular HTTP/2 implementations in Python, HPACK offers a great Python interface
-as well as optional upgrade to optimised C-based compression routines from
-nghttp2.")
-    (license license:expat)))
-
-(define-public python-hyperframe
-  (package
-    (name "python-hyperframe")
-    (version "5.2.0")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "hyperframe" version))
-       (sha256
-        (base32
-         "07xlf44l1cw0ghxx46sbmkgzil8vqv8kxwy42ywikiy35izw3xd9"))))
-    (build-system python-build-system)
-    (home-page
-     "https://python-hyper.org/hyperframe/en/latest/")
-    (synopsis "HTTP/2 framing layer for Python")
-    (description "hyperframe is a pure-Python tool for working with HTTP/2
-frames.  This library allows you to create, serialize, and parse HTTP/2
-frames.")
-    (license license:expat)))
-
-(define-public python-h2
-  (package
-    (name "python-h2")
-    (version "3.1.1")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "h2" version))
-       (sha256
-        (base32
-         "1d1svhixk3hr78ph3nx8wi7sagx1xrvm712mmk028i2rhb92p8xq"))))
-    (build-system python-build-system)
-    (propagated-inputs
-     `(("python-hpack" ,python-hpack)
-       ("python-hyperframe" ,python-hyperframe)))
-    (home-page "https://python-hyper.org/projects/h2/en/stable/")
-    (synopsis
-     "HTTP/2 State-Machine based protocol implementation")
-    (description
-     "Hyper-h2 is a HTTP/2 protocol stack, written entirely in Python.  The
-goal of Hyper-h2 is to be a common HTTP/2 stack for the Python ecosystem,
-usable in all programs regardless of concurrency model or environment.  To
-achieve this, Hyper-h2 is entirely self-contained: it does no I/O of any kind,
-leaving that up to a wrapper library to control.  This ensures that it can
-seamlessly work in all kinds of environments, from single-threaded code to
-Twisted.")
-    (license license:expat)))
-
 (define-public python-h11
   (package
     (name "python-h11")
@@ -469,29 +285,6 @@ provides a Python interface for the list.")
                 "01b42wqzwpnq5pnp1z0rplmqv8mnhwbvd8kw9raww9l18ayx0i03"))))
     (build-system python-build-system)))
 
-(define-public python-websockets
-  (package
-    (name "python-websockets")
-    (version "8.1")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "websockets" version))
-       (sha256
-        (base32
-         "03s3ml6sbki24aajllf8aily0xzrn929zxi84p50zkkbikdd4raw"))))
-    (build-system python-build-system)
-    (home-page
-     "https://websockets.readthedocs.io/en/stable/")
-    (synopsis
-     "An implementation of the WebSocket Protocol (RFC 6455 & 7692)")
-    (description
-     "websockets is a library for building WebSocket servers and clients in
-Python with a focus on correctness and simplicity.  Built on top of asyncio,
-Python’s standard asynchronous I/O framework, it provides an elegant
-coroutine-based API.")
-    (license license:bsd-3)))
-
 (define-public python-aiofiles
   (package
     (name "python-aiofiles")
@@ -550,6 +343,15 @@ NodeJS.")
         (base32
          "12cb4phd8y6rlf493zian5kpvn8qzq8zhkdawhc0c54v3lr0ahqx"))))
     (build-system python-build-system)
+    (arguments
+     '(#:phases
+       (modify-phases %standard-phases
+         (add-after 'unpack 'use-recent-pytest
+           ;; allow using a recent pytest
+           (lambda* (#:key inputs #:allow-other-keys)
+            (substitute* "setup.py"
+             (("pytest==5.2.1") "pytest"))
+             #t)))))
     (propagated-inputs
      `(("python-aiofiles" ,python-aiofiles)
        ("python-httptools" ,python-httptools)
@@ -567,7 +369,7 @@ NodeJS.")
        ("gunicorn" ,gunicorn)
        ("python-httpcore" ,python-httpcore-0.3)
        ;; package asks for this precise version
-       ("python-pytest" ,python-pytest-5.2)
+       ("python-pytest" ,python-pytest)
        ("python-pytest-asyncio" ,python-pytest-asyncio)
        ("python-pytest-benchmark"
         ,python-pytest-benchmark)
@@ -586,50 +388,6 @@ NodeJS.")
     (description
      "A web server and web framework that's written to go fast. Build fast. Run fast.")
     (license license:expat)))
-
-(define-public python-curio
-  (package
-    (name "python-curio")
-    (version "1.1")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "curio" version))
-       (sha256
-        (base32
-         "07477rzjm8j0vjr5b6hnx4kwfvqm402ykpasqkd8lsh6d63h101a"))))
-    (build-system python-build-system)
-    (native-inputs
-     `(("python-pytest" ,python-pytest)
-       ("python-sphinx" ,python-sphinx)))
-    (home-page "https://curio.readthedocs.io/en/latest/")
-    (synopsis "Concurrent I/O")
-    (description "Curio is a coroutine-based library for concurrent Python
-systems programming. It provides standard programming abstractions such as as
-tasks, sockets, files, locks, and queues.")
-    (license license:bsd-3)))
-
-(define-public python-aiohttp-cors
-  (package
-    (name "python-aiohttp-cors")
-    (version "0.7.0")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "aiohttp_cors" version))
-       (sha256
-        (base32
-         "0pczn54bqd32v8zhfbjfybiza6xh1szwxy6as577dn8g23bwcfad"))))
-    (build-system python-build-system)
-    (propagated-inputs
-     `(("python-aiohttp" ,python-aiohttp)))
-    ;; tests require selenium
-    (arguments `(#:tests? #f))
-    (home-page
-     "https://github.com/aio-libs/aiohttp-cors")
-    (synopsis "CORS support for aiohttp")
-    (description "CORS support for aiohttp")
-    (license license:asl2.0)))
 
 (define-public uvicorn
   (package
@@ -695,171 +453,5 @@ possible.  To that end it is written in pure Python and performs no I/O of its
 own.  Instead it relies on the user to provide a bridge between it and
 whichever I/O mechanism is in use, allowing it to be used in single-threaded,
 multi-threaded or event-driven code.")
-    (license license:expat)))
-
-(define-public python-outcome
-  (package
-    (name "python-outcome")
-    ;; cannot upgrade to 1.0.1 until python-attrs and thus python-pytest are
-    ;; upgraded
-    (version "1.0.0")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "outcome" version))
-       (sha256
-        (base32
-         "0wdcakx1r1317bx6139k9gv6k272fryid83d1kk0r43andfw0n4x"))))
-    (build-system python-build-system)
-    (propagated-inputs
-     `(("python-attrs" ,python-attrs)))
-    (native-inputs
-     `(("python-pytest" ,python-pytest)
-       ("python-async-generator" ,python-async-generator)))
-    (arguments
-     `(#:phases
-       (modify-phases %standard-phases
-         (replace 'check
-           (lambda* (#:key inputs outputs #:allow-other-keys)
-             (add-installed-pythonpath inputs outputs)
-             (invoke "pytest" "tests"))))))
-    (home-page
-     "https://outcome.readthedocs.io/en/latest/")
-    (synopsis
-     "Capture the outcome of Python function calls.")
-    (description
-     "Outcome provides a function for capturing the outcome of a Python
-function call, so that it can be passed around.")
-    (license '(license:expat license:asl2.0))))
-
-(define-public python-trio
-  (package
-    (name "python-trio")
-    ;; cannot upgrade until python-attrs is upgraded to >= 19.2
-    (version "0.12.1")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "trio" version))
-       (sha256
-        (base32
-         "0wnnrs36arvimrfgrlbpjw3nx7lppx43yvk2b380ivv69h52i6hl"))))
-    (build-system python-build-system)
-    (propagated-inputs
-     `(("python-async-generator"
-        ,python-async-generator)
-       ("python-attrs" ,python-attrs)
-       ("python-idna" ,python-idna)
-       ("python-outcome" ,python-outcome)
-       ("python-sniffio" ,python-sniffio)
-       ("python-sortedcontainers"
-        ,python-sortedcontainers)))
-    (native-inputs
-     `(("python-pytest" ,python-pytest)
-       ("python-astor" ,python-astor)
-       ("python-yapf" ,python-yapf)
-       ("python-pyopenssl" ,python-pyopenssl)
-       ("python-pylint" ,python-pylint)
-       ("python-jedi" ,python-jedi)
-       ("python-trustme" ,python-trustme)))
-    (arguments
-     ;; most tests require I/O and don’t work in the sandbox
-     `(#:tests? #f))
-    (home-page "https://github.com/python-trio/trio")
-    (synopsis
-     "A friendly Python library for async concurrency and I/O")
-    (description
-     "A friendly Python library for async concurrency and I/O")
-    (license '(license:expat license:asl2.0))))
-
-(define-public python-brotli
-  (package
-    (name "python-brotli")
-    (version "1.0.7")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "Brotli" version ".zip"))
-       (sha256
-        (base32
-         "19x5dqxckb62n37mpnczp21rfxqvgpm0ki5ds8ac65zx8hbxqf05"))))
-    (build-system python-build-system)
-    ;; build system does not support linking to system libbrotli, it’s always
-    ;; built from source
-    (native-inputs
-     ;; sources only available as zip
-     `(("unzip" ,unzip)))
-    (home-page "https://github.com/google/brotli")
-    (synopsis
-     "Python bindings for the Brotli compression library")
-    (description
-     "Brotli is a general-purpose lossless compression algorithm.
-It is similar in speed to deflate but offers denser compression.  This package
-provides Python bindings for libbrotlienc and libbrotlidec.")
-    (license license:expat)))
-
-(define-public python-pytest-5.2
-  (package
-    (name "python-pytest")
-    (version "5.2.1")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "pytest" version))
-       (sha256
-        (base32
-         "185a7k3c4bdmkk7rw2z9hb5i1ib5phkiqc378yrhq7clyhsk8mna"))))
-    (build-system python-build-system)
-    (propagated-inputs
-     `(("python-atomicwrites" ,python-atomicwrites)
-       ("python-attrs" ,python-attrs)
-       ("python-colorama" ,python-colorama)
-       ("python-importlib-metadata"
-        ,python-importlib-metadata)
-       ("python-more-itertools" ,python-more-itertools)
-       ("python-packaging" ,python-packaging)
-       ("python-pathlib2" ,python-pathlib2)
-       ("python-pluggy" ,python-pluggy-0.13)
-       ("python-py" ,python-py)
-       ("python-wcwidth" ,python-wcwidth)))
-    (native-inputs
-     `(("python-hypothesis" ,python-hypothesis)
-       ("python-mock" ,python-mock)
-       ("python-nose" ,python-nose)
-       ("python-requests" ,python-requests)
-       ("python-xmlschema" ,python-xmlschema)
-       ("python-setuptools-scm" ,python-setuptools-scm)
-       ("python-pluggy" ,python-pluggy-0.13)))
-    (home-page "https://docs.pytest.org/en/latest/")
-    (synopsis
-     "pytest: simple powerful testing with Python")
-    (description
-     "pytest: simple powerful testing with Python")
-    (license license:expat)))
-
-(define-public python-pluggy-0.13
-  (package
-    (name "python-pluggy")
-    (version "0.13.1")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "pluggy" version))
-       (sha256
-        (base32
-         "1c35qyhvy27q9ih9n899f3h4sdnpgq027dbiilly2qb5cvgarchm"))))
-    (build-system python-build-system)
-    (propagated-inputs
-     `(("python-importlib-metadata"
-        ,python-importlib-metadata)))
-    (native-inputs
-     `(("python-setuptools-scm" ,python-setuptools-scm)
-       ("python-tox" ,python-tox)))
-    (home-page
-     "https://github.com/pytest-dev/pluggy")
-    (synopsis
-     "plugin and hook calling mechanisms for python")
-    (description
-     "plugin and hook calling mechanisms for python")
     (license license:expat)))
 
