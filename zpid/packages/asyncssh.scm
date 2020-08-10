@@ -12,47 +12,28 @@
   #:use-module (gnu packages python-crypto)
   #:use-module (gnu packages python-xyz))
 
-(define python-shouldbe-fixed
-  (package
-    (inherit python-shouldbe)
-    (name "python-shouldbe")
-    (version "0.1.2")
-    (source
-     (origin
-       (inherit (package-source python-shouldbe))
-       (patches (search-patches "python-shouldbe-0.1.2-cpy3.8.patch"))))))
-
-;; python-gssapi with fixed shouldbe
-(define python-gssapi-shouldbe
-  ((package-input-rewriting `((,python-shouldbe . ,python-shouldbe-fixed))) python-gssapi))
-
 ;; python-gssapi with disabled tests, some of them fail now for unknown reasons
-(define-public python-gssapi-fixed
-  (package
-    (inherit python-gssapi-shouldbe)
+(define-public python-gssapi-notests
+  (hidden-package (package/inherit python-gssapi
     (name "python-gssapi")
-    (arguments `(#:tests? #f))))
+    (arguments `(#:tests? #f)))))
 
-;; asyncio with support for old python-cryptography 2.7
 (define-public python-asyncssh
   (package
     (name "python-asyncssh")
-    (version "2.2.1")
+    (version "2.3.0")
     (source
       (origin
         (method url-fetch)
         (uri (pypi-uri "asyncssh" version))
         (sha256
           (base32
-            "13ik6gc8qh8v2dkhfcv2rrip19bcg4kykfi37464l43s76mg3yds"))
-        ;; revert changes that require python-cryptography 2.8, no functional
-        ;; differences
-        (patches (search-patches "python-asyncssh-2.2.1-no-crypto2.8.patch"))))
+            "0pi6npmsgx7l9r1qrfvg8mxx3i23ipff492xz4yhrw13f56a7ga4"))))
     (build-system python-build-system)
     (propagated-inputs
      `(("python-cryptography" ,python-cryptography)
        ("python-pyopenssl" ,python-pyopenssl)
-       ("python-gssapi" ,python-gssapi-fixed)
+       ("python-gssapi" ,python-gssapi-notests)
        ("python-bcrypt" ,python-bcrypt)))
     ;; required for test suite
     (native-inputs
@@ -65,8 +46,9 @@
            (lambda* _
             (substitute* "tests/test_agent.py"
               ;; Test fails for unknown reason
-              (("async def test_confirm")
-                "@unittest.skip('disabled by guix')\n    async def test_confirm")))))))
+              (("(.+)async def test_confirm" all indent)
+                (string-append indent "@unittest.skip('disabled by guix')\n"
+                 indent "async def test_confirm"))))))))
     (home-page "https://asyncssh.readthedocs.io/")
     (synopsis
       "Asynchronous SSHv2 client and server library")
