@@ -12,3 +12,9 @@ proper and disappear from this channel once accepted.
 .. _Using a Custom Guix Channel: https://guix.gnu.org/manual/en/guix.html#Using-a-Custom-Guix-Channel
 .. _leibniz-psychology.org: https://www.leibniz-psychology.org
 
+We mainly provide recent versions of scientific software like:
+
+- Jupyter Notebook
+- JupyterLab
+- and RStudio Web
+

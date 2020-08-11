@@ -15,7 +15,7 @@ jobs:
       matrix:
         package:
           - python-asyncssh
-          - jupyter-zpid
+          # this builds python-notebook as well
           - python-jupyterlab
           - python-sanic
           - rstudio-server-zpid
