@@ -19,6 +19,7 @@ jobs:
           - python-jupyterlab
           - python-sanic
           - rstudio-server-zpid
+          - python-tortoise-orm
     steps:
       - name: Guix cache
         uses: actions/cache@v2
@@ -32,5 +33,7 @@ jobs:
         uses: PromyLOPh/guix-install-action@v1
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Build package ${{ matrix.package }}
+      - name: Lint package
+        run: guix lint -L . ${{ matrix.package }}
+      - name: Build package
         run: guix build -L . ${{ matrix.package }}
