@@ -34,6 +34,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Lint package
-        run: guix lint -L . ${{ matrix.package }}
+        run: |
+            guix lint -L . ${{ matrix.package }} |& sed -nre 's#(.*):([0-9]+):([0-9]+): (.*)$#::warning file=\1,line=\2,col=\3::\4#gp'
       - name: Build package
         run: guix build -L . ${{ matrix.package }}
