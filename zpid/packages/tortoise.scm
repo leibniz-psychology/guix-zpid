@@ -21,7 +21,7 @@
   (package
     (inherit db:python-pypika)
     (name "python-pypika")
-    (version "0.37.6")
+    (version "0.38.0")
     (source
      (origin (method git-fetch)
              (uri (git-reference
@@ -30,7 +30,7 @@
              (file-name (git-file-name name version))
              (sha256
               (base32
-               "0b137xcl5fj3lc7aqvljg173y17d3jn85ybrhi0kilka8z318c3d"))))))
+               "01x654x70rqrcs0p3x297dhn1r3nnjgd2pi6qp3y6x87rz68kg2d"))))))
 
 (define python-tortoise-orm-rewritten
   ((package-input-rewriting
@@ -42,12 +42,12 @@
   (package
     (inherit python-tortoise-orm-rewritten)
     (name "python-tortoise-orm")
-    (version "0.16.11")
+    (version "0.16.14")
     (source
      (origin
        (method url-fetch)
        (uri (pypi-uri "tortoise-orm" version))
        (sha256
         (base32
-         "1fw6w7rm7ff1c1fiyl6c0ijm2hdfqkw0c5lx8vlspgbil5cmr8h8"))))))
+         "1vpbbwc516zv93lckxfmcl5n90gkd2bk19bcjkx6km26rpsd9zyn"))))))
 
