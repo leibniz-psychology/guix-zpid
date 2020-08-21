@@ -28,7 +28,7 @@
 (define-public rstudio-server
   (package
     (name "rstudio-server")
-    (version "1.3.959")
+    (version "1.3.1073")
     (source (origin
               (method git-fetch)
               (uri (git-reference
@@ -37,12 +37,10 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "0blskjpp5zi56wxicpilcxr3r08328pcr2i5ih5wcywdayvic86w"))
+                "0kcdjl1fw6aglz4k1di0qpr0hi2jqf7s5sm1jrzp50rs3nlsab0q"))
               (patches
                (search-patches "rstudio-server-1.3.959-unbundle.patch"
-                               ;; fix for r >= 4
-                               "rstudio-server-1.2.5042-fix-rslave.patch"
-                               ))
+							   "rstudio-server-1.3-fix-auth-none.patch"))
               (modules '((guix build utils)))
               (snippet
                '(begin
@@ -147,7 +145,8 @@ web browser.")
     (source (origin
               (inherit (package-source rstudio-server))
               (patches (append (origin-patches (package-source rstudio-server))
-                               (search-patches "rstudio-server-1.2.5033-listen-socket.patch")))))))
+                               (search-patches "rstudio-server-1.3-oneshot.patch"
+											   "rstudio-server-1.3-rserver-socket.patch")))))))
 
 (define-public mathjax
   (package
