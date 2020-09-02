@@ -20,11 +20,11 @@
   #:use-module (srfi srfi-26))
 
 (define-public psychnotebook-app-rstudio
-  (let ((commit "3e15b9b173b8a9d2a7f55743ecba24e54b77ffad")
+  (let ((commit "8f39d49003f9bc6d78583913cb893195a666df05")
         (revision "1"))
   (package
     (name "psychnotebook-app-rstudio")
-	(version (git-version "0.1" revision commit))
+    (version (git-version "0.1" revision commit))
     (source (origin
               (method git-fetch)
               (uri (git-reference
@@ -72,7 +72,7 @@
         (revision "1"))
   (package
     (name "psychnotebook-app-jupyterlab")
-	(version (git-version "0.1" revision commit))
+    (version (git-version "0.1" revision commit))
     (source (origin
               (method git-fetch)
               (uri (git-reference
