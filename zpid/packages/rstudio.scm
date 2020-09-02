@@ -40,7 +40,7 @@
                 "0kcdjl1fw6aglz4k1di0qpr0hi2jqf7s5sm1jrzp50rs3nlsab0q"))
               (patches
                (search-patches "rstudio-server-1.3.959-unbundle.patch"
-							   "rstudio-server-1.3-fix-auth-none.patch"))
+                               "rstudio-server-1.3-fix-auth-none.patch"))
               (modules '((guix build utils)))
               (snippet
                '(begin
@@ -79,6 +79,8 @@
                (("/usr/bin/env") (string-append (assoc-ref inputs "coreutils") "/bin/env")))
              (substitute* '("src/cpp/session/modules/SessionFiles.R")
                (("\"zip\"") (string-append "\"" (assoc-ref inputs "zip") "/bin/zip\"")))
+             (substitute* '("src/cpp/session/modules/SessionFiles.cpp")
+               (("\"unzip ") (string-append "\"" (assoc-ref inputs "unzip") "/bin/unzip ")))
              #t))
          (add-after 'unpack 'set-JAVA_HOME
            (lambda* (#:key inputs #:allow-other-keys)
@@ -89,6 +91,7 @@
                 (setenv "RSTUDIO_VERSION_MAJOR" major)
                 (setenv "RSTUDIO_VERSION_MINOR" minor)
                 (setenv "RSTUDIO_VERSION_PATCH" patch)))
+             (setenv "PACKAGE_OS" "GNU Guix")
              #t)))))
     (native-inputs
      `(("unzip" ,unzip)
@@ -105,12 +108,14 @@
        ("util-linux" ,util-linux "lib")
        ("pandoc" ,ghc-pandoc)
        ("which" ,which)
-	   ("mathjax" ,mathjax) ; XXX: not sure this is the correct version, but
-	   ; any 2.7 patch release should work, right?
+       ("mathjax" ,mathjax) ; XXX: not sure this is the correct version, but
+       ; any 2.7 patch release should work, right?
        ;; for `env`
        ("coreutils" ,coreutils)
        ;; File panel -> More -> Export
        ("zip" ,zip)
+       ;; File panel -> Upload -> Upload zip file
+       ("unzip" ,unzip)
        ("dict-source-tarball"
         ,(origin
            (method url-fetch)
@@ -146,7 +151,7 @@ web browser.")
               (inherit (package-source rstudio-server))
               (patches (append (origin-patches (package-source rstudio-server))
                                (search-patches "rstudio-server-1.3-oneshot.patch"
-											   "rstudio-server-1.3-rserver-socket.patch")))))))
+                                               "rstudio-server-1.3-rserver-socket.patch")))))))
 
 (define-public mathjax
   (package
