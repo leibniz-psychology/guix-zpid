@@ -67,6 +67,68 @@
     (description #f)
     (license #f))))
 
+;; r-httpuv with fixed issue https://github.com/rstudio/httpuv/issues/282
+(define r-httpuv-fixed
+  (let ((base r-httpuv))
+    (package
+      (inherit base)
+      ;; Cannot use substitute-keyword-arguments here, because package has no #:phases
+      (arguments
+       `(#:phases
+         (modify-phases %standard-phases
+           (add-after 'unpack 'fix-socket
+             (lambda* (#:key outputs #:allow-other-keys)
+               ;; Fix https://github.com/rstudio/httpuv/issues/282
+               (substitute* "src/http.cpp"
+                 (("uv_pipe_init\\(pLoop, &pSocket->handle\\.pipe, true\\);")
+                  "uv_pipe_init(pLoop, &pSocket->handle.pipe, 0);"))
+               #t))))))))
+
+(define rewrite-r-httpuv
+  (package-input-rewriting
+   `((,r-httpuv . ,r-httpuv-fixed))))
+
+(define-public psychnotebook-app-rmarkdown
+  (let ((commit "55db8b9b683efb3479e4b5749190b9b5efa251a4")
+        (revision "1"))
+  (rewrite-r-httpuv (package
+    (name "psychnotebook-app-rmarkdown")
+    (version (git-version "0.1" revision commit))
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/leibniz-psychology/psychnotebook-app-rmarkdown.git")
+                    (commit commit)))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "1l1apl48q6x5qqgamchjciyns8s93vr0955m3x70r8wibgxxds77"))))
+    (build-system gnu-build-system)
+    (native-inputs `(("m4" ,m4)))
+    ;; R packages must be propagated.
+    (propagated-inputs
+     `(("r-rmarkdown" ,r-rmarkdown)
+       ("r-shiny" ,r-shiny) ; rmarkdown does not include shiny.
+       ("r-learnr" ,r-learnr) ; Commonly used, depends on r-httpuv and must be rewritten here, because we cannot do that from /spec manifests.
+       ("coreutils" ,coreutils) ; For some reason.
+       ("r-minimal" ,r-minimal))) ; Must be propagated, so it sets R_LIBS_SITE.
+    (arguments
+     '(#:phases
+       (modify-phases %standard-phases
+         (delete 'configure)
+         (delete 'build)
+         (delete 'check)
+         (replace 'install
+           (lambda* (#:key inputs outputs #:allow-other-keys)
+             (invoke
+              "make" "install"
+              (string-append "PREFIX=" (assoc-ref outputs "out"))
+              (string-append "R_PREFIX=" (assoc-ref inputs "r-minimal"))))))))
+    (home-page "https://github.com/leibniz-psychology/psychnotebook-app-rmarkdown")
+    (synopsis "RMarkdown integration for PsychNotebook")
+    (description #f)
+    (license #f)))))
+
 (define-public psychnotebook-app-jupyterlab
   (let ((commit "ef5498b275013723cc1984a729f467e7c439a913")
         (revision "1"))
