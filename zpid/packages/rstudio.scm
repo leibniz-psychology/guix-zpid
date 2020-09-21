@@ -28,7 +28,7 @@
 (define-public rstudio-server
   (package
     (name "rstudio-server")
-    (version "1.3.1073")
+    (version "1.3.1093")
     (source (origin
               (method git-fetch)
               (uri (git-reference
@@ -37,10 +37,9 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "0kcdjl1fw6aglz4k1di0qpr0hi2jqf7s5sm1jrzp50rs3nlsab0q"))
+                "0zarhsm3cghz4fn4c53y2zy05z3cxqzp87h16ya8v7hyxapaqfy6"))
               (patches
-               (search-patches "rstudio-server-1.3.959-unbundle.patch"
-                               "rstudio-server-1.3-fix-auth-none.patch"))
+               (search-patches "rstudio-server-1.3.959-unbundle.patch"))
               (modules '((guix build utils)))
               (snippet
                '(begin
