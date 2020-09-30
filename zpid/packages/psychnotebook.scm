@@ -15,7 +15,7 @@
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages cran)
   #:use-module (zpid packages rstudio)
-  #:use-module (zpid packages jupyterlab)
+  #:use-module (guix-science packages jupyter)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-26))
 
