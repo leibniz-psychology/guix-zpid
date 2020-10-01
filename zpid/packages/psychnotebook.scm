@@ -20,8 +20,8 @@
   #:use-module (srfi srfi-26))
 
 (define-public psychnotebook-app-rstudio
-  (let ((commit "8f39d49003f9bc6d78583913cb893195a666df05")
-        (revision "1"))
+  (let ((commit "654f3d6601cab1f1b35a7a6f36cf5d9ccfb9cfee")
+        (revision "2"))
   (package
     (name "psychnotebook-app-rstudio")
     (version (git-version "0.1" revision commit))
@@ -33,7 +33,7 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "0f3i1s46a8jj0kkg7ildzwi5afmd2gkf4gbhwkrmwaqy9fk97kdh"))))
+                "0ai5zk7d44zgpnsl087b88pigbnbl79djdbs2cqw9ajic0vxzkgl"))))
     (build-system gnu-build-system)
     (native-inputs `(("m4" ,m4)))
     (inputs
@@ -68,8 +68,8 @@
     (license #f))))
 
 (define-public psychnotebook-app-rmarkdown
-  (let ((commit "55db8b9b683efb3479e4b5749190b9b5efa251a4")
-        (revision "1"))
+  (let ((commit "f957f5d723ea7669b304386f5fe307614cf5c037")
+        (revision "2"))
   (package
     (name "psychnotebook-app-rmarkdown")
     (version (git-version "0.1" revision commit))
@@ -81,7 +81,7 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "1l1apl48q6x5qqgamchjciyns8s93vr0955m3x70r8wibgxxds77"))))
+                "0jccmqdap9rr149v00ahjcisx00yc3jsfzsndszw5rxdkl7a44m2"))))
     (build-system gnu-build-system)
     (native-inputs `(("m4" ,m4)))
     ;; R packages must be propagated.
@@ -108,8 +108,8 @@
     (license #f))))
 
 (define-public psychnotebook-app-jupyterlab
-  (let ((commit "ef5498b275013723cc1984a729f467e7c439a913")
-        (revision "1"))
+  (let ((commit "38078887f77b6f31d43f37652bc5c3e5c8d3fe09")
+        (revision "2"))
   (package
     (name "psychnotebook-app-jupyterlab")
     (version (git-version "0.1" revision commit))
@@ -121,7 +121,7 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "1p6xxjig035mwv5c7n9q2bh9vpri1qx7j6z07icqji56hh2rckvw"))))
+                "0w0bm8z2xgzba1ipwxdiz6va9lb31ll7pmnldq37lldww3mi5xv5"))))
     (build-system gnu-build-system)
     (native-inputs `(("m4" ,m4)))
     (inputs
