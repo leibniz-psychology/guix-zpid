@@ -108,8 +108,8 @@
     (license #f))))
 
 (define-public psychnotebook-app-jupyterlab
-  (let ((commit "38078887f77b6f31d43f37652bc5c3e5c8d3fe09")
-        (revision "2"))
+  (let ((commit "79a1ebd167268ca3119bec11a5621be638a1012c")
+        (revision "3"))
   (package
     (name "psychnotebook-app-jupyterlab")
     (version (git-version "0.1" revision commit))
@@ -121,7 +121,7 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "0w0bm8z2xgzba1ipwxdiz6va9lb31ll7pmnldq37lldww3mi5xv5"))))
+                "165pk0j2m6mfpj8difnm16qz10csq12mvfq5gc710aw2ghj27x0q"))))
     (build-system gnu-build-system)
     (native-inputs `(("m4" ,m4)))
     (inputs
