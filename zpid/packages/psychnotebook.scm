@@ -14,8 +14,11 @@
   #:use-module (gnu packages python)
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages cran)
+  #:use-module (gnu packages xorg)
+  #:use-module (gnu packages gnome)
   #:use-module (zpid packages rstudio)
   #:use-module (guix-science packages jupyter)
+  #:use-module (guix-science packages jasp)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-26))
 
@@ -157,3 +160,44 @@
     (synopsis "JupyterLab integration for PsychNotebook")
     (description #f)
     (license #f))))
+
+(define-public psychnotebook-app-jasp
+  (let ((commit "7f7502d2e89af2d8bf83d85ae416c5988087bc1f")
+        (revision "1"))
+  (package
+    (name "psychnotebook-app-jasp")
+    (version (git-version "0.1" revision commit))
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/leibniz-psychology/psychnotebook-app-jasp.git")
+                    (commit commit)))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "0r8mwd8n3mcz6myv5nmyc44ww4djrp74gcfz97vrrzgrckk5knjl"))))
+    (build-system gnu-build-system)
+    (native-inputs `(("m4" ,m4)))
+    (inputs
+     `(("jasp" ,jasp)
+       ("xpra" ,xpra)
+	   ;; Need this fallback icon theme.
+       ("hicolor-icon-theme" ,hicolor-icon-theme)))
+    (arguments
+     '(#:phases
+       (modify-phases %standard-phases
+         (delete 'configure)
+         (delete 'build)
+         (delete 'check)
+         (replace 'install
+           (lambda* (#:key inputs outputs #:allow-other-keys)
+             (invoke
+              "make" "install"
+              (string-append "PREFIX=" (assoc-ref outputs "out"))
+              (string-append "JASP_PREFIX=" (assoc-ref inputs "jasp"))
+              (string-append "XPRA_PREFIX=" (assoc-ref inputs "xpra"))))))))
+    (home-page "https://github.com/leibniz-psychology/psychnotebook-app-jasp")
+    (synopsis "JASP integration for PsychNotebook")
+    (description #f)
+    (license #f))))
+
