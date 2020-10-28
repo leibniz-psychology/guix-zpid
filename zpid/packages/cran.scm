@@ -2,6 +2,7 @@
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix download)
+  #:use-module (guix git-download)
   #:use-module (guix utils)
   #:use-module (guix build utils)
   #:use-module (guix build-system r)
@@ -229,5 +230,68 @@ functionality from the DiagrammeR package.  DiagrammeR provides nice path
 diagrams via Graphviz, and these functions make it easy to generate these
 diagrams from a lavaan path model without having to write the DOT language
 graph specification.")
+    (license license:gpl2+)))
+
+(define-public r-clubsandwich
+  (package
+    (name "r-clubsandwich")
+    (version "0.3.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (cran-uri "clubSandwich" version))
+       (sha256
+        (base32
+         "1q4kidxcarlazh9zaav6vdc7ixb3hdg3zh5kr6mwkm087gi05nw5"))))
+    (properties `((upstream-name . "clubSandwich")))
+    (build-system r-build-system)
+    (propagated-inputs
+     `(("r-sandwich" ,r-sandwich)))
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page "https://github.com/jepusto/clubSandwich")
+    (synopsis "Cluster-Robust (Sandwich) Variance Estimators with Small-Sample
+Corrections")
+    (description
+     "Provides several cluster-robust variance estimators (i.e.,
+sandwich estimators) for ordinary and weighted least squares linear regression
+models, including the bias-reduced linearization estimator introduced by Bell
+and McCaffrey (2002) 
+<http://www.statcan.gc.ca/pub/12-001-x/2002002/article/9058-eng.pdf> and 
+developed further by Pustejovsky and Tipton (2017) 
+<DOI:10.1080/07350015.2016.1247004>. The package includes functions for estimating
+the variance- covariance matrix and for testing single- and multiple-
+contrast hypotheses based on Wald test statistics. Tests of single regression
+coefficients use Satterthwaite or saddle-point corrections. Tests of multiple-
+contrast hypotheses use an approximation to Hotelling's T-squared distribution.
+Methods are provided for a variety of fitted models, including lm() and mlm
+objects, glm(), ivreg (from package 'AER'), plm() (from package 'plm'), gls()
+and lme() (from 'nlme'), robu() (from 'robumeta'), and rma.uni() and rma.mv()
+(from 'metafor').")
+    (license license:gpl3)))
+
+(define-public r-puniform
+  (package
+    (name "r-puniform")
+    (version "0.2.3")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (cran-uri "puniform" version))
+       (sha256
+        (base32
+         "1y47y6s76pjvp10m8rvdh7y1iidjw96a4wrr920w0js3rn4fi1fz"))))
+    (properties `((upstream-name . "puniform")))
+    (build-system r-build-system)
+    (propagated-inputs
+     `(("r-adgoftest" ,r-adgoftest)
+       ("r-metafor" ,r-metafor)
+       ("r-rcpp" ,r-rcpp)
+       ("r-rcpparmadillo" ,r-rcpparmadillo)))
+    (home-page
+     "https://cran.r-project.org/web/packages/puniform")
+    (synopsis
+     "Meta-Analysis Methods Correcting for Publication Bias")
+    (description
+     "This package provides meta-analysis methods that correct for publication bias and outcome reporting bias.  Four methods and a visual tool are currently included in the package.  The p-uniform method as described in van Assen, van Aert, and Wicherts (2015) <doi:10.1037/met0000025> can be used for estimating the average effect size, testing the null hypothesis of no effect, and testing for publication bias using only the statistically significant effect sizes of primary studies.  The second method in the package is the p-uniform* method as described in van Aert and van Assen (2019) <doi:10.31222/osf.io/zqjr9>.  This method is an extension of the p-uniform method that allows for estimation of the average effect size and the between-study variance in a meta-analysis, and uses both the statistically significant and nonsignificant effect sizes.  The third method in the package is the hybrid method as described in van Aert and van Assen (2017) <doi:10.3758/s13428-017-0967-6>.  The hybrid method is a meta-analysis method for combining an original study and replication and while taking into account statistical significance of the  original study.  The p-uniform and hybrid method are based on the statistical theory that the distribution of p-values is uniform conditional on the population effect size.  The fourth method in the package is the Snapshot Bayesian Hybrid Meta-Analysis Method as described in van Aert and van Assen (2018) <doi:10.1371/journal.pone.0175302>.  This method computes posterior probabilities for four true effect sizes (no, small, medium, and large) based on an original study and replication while taking into account publication bias in the original study.  The method can also be used for computing the required sample size of the replication akin to power analysis in null hypothesis significance testing.  The meta-plot is a visual tool for meta-analysis that provides information on the primary studies in the meta-analysis, the results of the meta-analysis, and characteristics of the research on the effect under study (van Assen and others, 2020).  Helper functions to apply the Correcting for Outcome Reporting Bias (CORB) method to correct for outcome reporting bias in a meta-analysis (van Aert & Wicherts, 2020).")
     (license license:gpl2+)))
 
