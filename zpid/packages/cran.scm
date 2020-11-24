@@ -372,3 +372,92 @@ xlxs package.  This release corresponds to POI 3.10.1.")
 97/2000/XP/2003 file formats.")
     (license license:gpl3)))
 
+;; Not upstreamable: Git version
+(define-public r-gradethis
+ (let ((commit "891564c53d1777d56f4652e81716e398b238113b")
+        (revision "1"))
+  (package
+    (name "r-gradethis")
+    (version (git-version "0.2.0.9000" revision commit))
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/rstudio-education/gradethis.git")
+                    (commit commit)))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "1v77rrzc2sgy8h2qci7xw3l1wrf6sqv9z3g5gnp3bcnyww09wsrq"))))
+    (properties `((upstream-name . "gradethis")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-purrr" ,r-purrr)
+        ("r-rlang" ,r-rlang)
+        ("r-glue" ,r-glue)
+        ("r-checkmate" ,r-checkmate)
+        ("r-testthat" ,r-testthat)
+        ("r-learnr" ,r-learnr)
+        ("r-lifecycle" ,r-lifecycle)
+        ("r-ellipsis" ,r-ellipsis)
+        ("r-waldo" ,r-waldo)))
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page "https://github.com/rstudio-education/gradethis/")
+    (synopsis
+      "Tools for \"grading\" student exercises in learnr tutorials")
+    (description
+     "Pairing with the 'learnr' R package, 'gradethis' provides multiple
+methods to grade 'learnr' exercises.  To learn more about 'learnr' tutorials,
+please visit @url{http://rstudio.github.io/learnr/}.")
+    (license license:gpl3))))
+
+(define-public r-diffobj
+  (package
+    (name "r-diffobj")
+    (version "0.3.2")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "diffobj" version))
+        (sha256
+          (base32
+            "0v18zz14g8ppzmj1d997rdmsfh327ml4wvpmfx168lravdsk5ym2"))))
+    (properties `((upstream-name . "diffobj")))
+    (build-system r-build-system)
+    (propagated-inputs `(("r-crayon" ,r-crayon)))
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page "https://github.com/brodieG/diffobj")
+    (synopsis "Diffs for R Objects")
+    (description
+      "Generate a colorized diff of two R objects for an intuitive
+visualization of their differences.")
+    (license license:gpl2+)))
+
+(define-public r-waldo
+  (package
+    (name "r-waldo")
+    (version "0.2.3")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "waldo" version))
+        (sha256
+          (base32
+            "0lsw8p4wiggqm9fvh5vgmf0ms0npcg3hcwyzlg5ahv5yx4pv5fhz"))))
+    (properties `((upstream-name . "waldo")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-cli" ,r-cli)
+        ("r-diffobj" ,r-diffobj)
+        ("r-fansi" ,r-fansi)
+        ("r-glue" ,r-glue)
+        ("r-rematch2" ,r-rematch2)
+        ("r-rlang" ,r-rlang)
+        ("r-tibble" ,r-tibble)))
+    (home-page "https://github.com/r-lib/waldo")
+    (synopsis "Find Differences Between R Objects")
+    (description
+      "Compare complex R objects and reveal the key differences.  Designed
+particularly for use in testing packages where being able to quickly isolate
+key differences makes understanding test failures much easier.")
+    (license license:expat)))
+
