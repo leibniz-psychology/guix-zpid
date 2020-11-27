@@ -1,0 +1,15 @@
+Disable, since it overrides rsession options to true.
+
+diff --git a/src/cpp/session/SessionOptionsOverlay.cpp b/src/cpp/session/SessionOptionsOverlay.cpp
+index c3ea024413..f78fc244b8 100644
+--- a/src/cpp/session/SessionOptionsOverlay.cpp
++++ b/src/cpp/session/SessionOptionsOverlay.cpp
+@@ -36,7 +36,7 @@ void Options::resolveOverlayOptions()
+ 
+ bool Options::allowOverlay() const
+ {
+-   return true;
++   return false;
+ }
+ 
+ bool Options::supportsDriversLicensing() const
