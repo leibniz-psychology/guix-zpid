@@ -159,29 +159,6 @@ fragments\" which contain information useful to end users.")
 loop.  uvloop is implemented in Cython and uses libuv under the hood.")
     (license license:expat)))
 
-(define-public python-h11
-  (package
-    (name "python-h11")
-    (version "0.9.0")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "h11" version))
-       (sha256
-        (base32
-         "1qfad70h59hya21vrzz8dqyyaiqhac0anl2dx3s3k80gpskvrm1k"))))
-    (build-system python-build-system)
-    (native-inputs
-     `(("python-pytest" ,python-pytest)))
-    (home-page "https://github.com/python-hyper/h11")
-    (synopsis
-     "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1")
-    (description
-     "h11 implements the HTTP/1.1 protocol, but contains no IO code whatsoever.
-This means you can hook h11 up to your favorite network API, and that could be
-anything you want: synchronous, threaded or asynchronous.")
-    (license license:expat)))
-
 (define-public python-h11-0.8
   (package
     (inherit python-h11)
@@ -250,7 +227,7 @@ provides a Python interface for the list.")
        ("python-trustme" ,python-trustme)
        ("python-pytest-cov" ,python-pytest-cov)
        ("python-brotli" ,python-brotli)
-       ("uvicorn" ,uvicorn)))
+       ("python-uvicorn" ,python-uvicorn)))
     (arguments
      `(#:phases
        (modify-phases %standard-phases
@@ -306,31 +283,10 @@ helps with this by introducing asynchronous versions of files that support
 delegating operations to a separate thread pool.")
     (license license:asl2.0)))
 
-(define-public python-httptools
-  (package
-    (name "python-httptools")
-    (version "0.0.13")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "httptools" version))
-       (sha256
-        (base32
-         "1z0xl0n16jdv84yqm78nh68z8lz1qsmq7094jkj4ixqzl1xvs370"))))
-    (build-system python-build-system)
-    (home-page
-     "https://github.com/MagicStack/httptools")
-    (synopsis
-     "Python binding for the nodejs HTTP parser")
-    (description
-     "This package contains Python bindings for the HTTP parser library used by
-NodeJS.")
-    (license license:expat)))
-
 (define-public python-sanic
   (package
     (name "python-sanic")
-    (version "19.12.2")
+    (version "19.12.4")
     ;; pypi releases lack the examples/ directory, which is required for tests
     (source
      (origin
@@ -341,7 +297,7 @@ NodeJS.")
        (file-name (git-file-name name version))
        (sha256
         (base32
-         "12cb4phd8y6rlf493zian5kpvn8qzq8zhkdawhc0c54v3lr0ahqx"))))
+         "1zslwfxdq8y9fnaslckgp2dg8dfxfbn8g19m9xdr5ibma290ffbm"))))
     (build-system python-build-system)
     (arguments
      '(#:phases
@@ -350,7 +306,8 @@ NodeJS.")
            ;; allow using a recent pytest
            (lambda* (#:key inputs #:allow-other-keys)
             (substitute* "setup.py"
-             (("pytest==5.2.1") "pytest"))
+             (("pytest==5.2.1") "pytest")
+             (("multidict==5.0.0") "multidict"))
              #t)))))
     (propagated-inputs
      `(("python-aiofiles" ,python-aiofiles)
@@ -380,7 +337,7 @@ NodeJS.")
        ("python-tox" ,python-tox)
        ("python-ujson" ,python-ujson)
        ("python-uvloop" ,python-uvloop)
-       ("uvicorn" ,uvicorn)))
+       ("python-uvicorn" ,python-uvicorn)))
     (home-page
      "http://github.com/huge-success/sanic")
     (synopsis
@@ -388,70 +345,3 @@ NodeJS.")
     (description
      "A web server and web framework that's written to go fast. Build fast. Run fast.")
     (license license:expat)))
-
-(define-public uvicorn
-  (package
-    (name "uvicorn")
-    (version "0.11.3")
-    (source
-     (origin
-       (method git-fetch)
-       ;; Pypi does not have tests.
-       (uri (git-reference
-             (url "https://github.com/encode/uvicorn")
-             (commit version)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "0c06klxnk5f8r3wgk9cgf224ajk8x87mmb4nbigi2qfnh8j5x6i9"))))
-    (build-system python-build-system)
-    (propagated-inputs
-     `(("python-click" ,python-click)
-       ("python-h11" ,python-h11)
-       ("python-httptools" ,python-httptools)
-       ("python-uvloop" ,python-uvloop)
-       ("python-websockets" ,python-websockets)
-       ("python-wsproto" ,python-wsproto)))
-    (native-inputs
-     `(("python-pytest" ,python-pytest)
-       ("python-requests" ,python-requests)))
-    (arguments
-     `(#:phases
-       (modify-phases %standard-phases
-         (replace 'check
-           (lambda _
-             (invoke "pytest"))))))
-    (home-page "https://github.com/encode/uvicorn")
-    (synopsis "The lightning-fast ASGI server")
-    (description "Uvicorn is a lightning-fast ASGI server implementation, using
-uvloop and httptools.  It currently supports HTTP/1.1 and WebSockets.")
-    (license license:bsd-3)))
-
-(define-public python-wsproto
-  (package
-    (name "python-wsproto")
-    (version "0.15.0")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "wsproto" version))
-       (sha256
-        (base32
-         "17gsxlli4w8am1wwwl3k90hpdfa213ax40ycbbvb7hjx1v1rhiv1"))))
-    (build-system python-build-system)
-    (propagated-inputs
-     `(("python-h11" ,python-h11)))
-    (native-inputs
-     `(("python-pytest" ,python-pytest)))
-    (home-page
-     "https://wsproto.readthedocs.io/en/latest/")
-    (synopsis
-     "WebSockets state-machine based protocol implementation")
-    (description
-     "wsproto is a WebSocket protocol stack written to be as flexible as
-possible.  To that end it is written in pure Python and performs no I/O of its
-own.  Instead it relies on the user to provide a bridge between it and
-whichever I/O mechanism is in use, allowing it to be used in single-threaded,
-multi-threaded or event-driven code.")
-    (license license:expat)))
-
