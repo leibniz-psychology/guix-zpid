@@ -7,6 +7,9 @@
   #:use-module (guix build utils)
   #:use-module (guix build-system r)
   #:use-module (gnu packages)
+  #:use-module (gnu packages compression)
+  #:use-module (gnu packages pkg-config)
+  #:use-module (gnu packages version-control)
   #:use-module (gnu packages statistics)
   #:use-module (gnu packages graph)
   #:use-module (gnu packages cran))
@@ -14,14 +17,14 @@
 (define-public r-prereg
   (package
     (name "r-prereg")
-    (version "0.4.0")
+    (version "0.5.0")
     (source
       (origin
         (method url-fetch)
         (uri (cran-uri "prereg" version))
         (sha256
           (base32
-            "1jhlgp7ajq6mx7gn4kf3b7wqzs3v0678pa1r6p4mgvvynic8rnqj"))))
+            "0bck13iiaxwpqh0rd45mp1s5d8z62ggg0wa7rmyi8a65aywiypsi"))))
     (properties `((upstream-name . "prereg")))
     (build-system r-build-system)
     (propagated-inputs
@@ -30,7 +33,7 @@
     (synopsis
       "R Markdown Templates to Preregister Scientific Studies")
     (description
-     "This package provides a collection of templates to author
+      "This package provides a collection of templates to author
 preregistration documents for scientific studies in PDF format.")
     (license license:gpl3)))
 
@@ -460,4 +463,102 @@ visualization of their differences.")
 particularly for use in testing packages where being able to quickly isolate
 key differences makes understanding test failures much easier.")
     (license license:expat)))
+
+(define-public r-credentials
+  (package
+    (name "r-credentials")
+    (version "1.3.0")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "credentials" version))
+        (sha256
+          (base32
+            "1w9zj34xdwz9bszsvhv2cbgq96y5sgxbh7ndn31pgfcpzlkfq6f1"))))
+    (properties `((upstream-name . "credentials")))
+    (build-system r-build-system)
+    (arguments
+     '(#:phases
+       (modify-phases %standard-phases
+         (add-after 'unpack 'add-env
+           (lambda* (#:key inputs #:allow-other-keys)
+            (setenv "HOME" "/tmp")
+               #t)))))
+    (inputs `(("git" ,git)))
+    (propagated-inputs
+      `(("r-askpass" ,r-askpass)
+        ("r-curl" ,r-curl)
+        ("r-jsonlite" ,r-jsonlite)
+        ("r-openssl" ,r-openssl)
+        ("r-sys" ,r-sys)))
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page
+      "https://docs.ropensci.org/credentialshttps://github.com/r-lib/credentials")
+    (synopsis
+      "Tools for Managing SSH and Git Credentials")
+    (description
+      "Setup and retrieve HTTPS and SSH credentials for use with 'git' and other services.  For HTTPS remotes the package interfaces the 'git-credential' utility which 'git' uses to store HTTP usernames and passwords.  For SSH remotes we provide convenient functions to find or generate appropriate SSH keys.  The package both helps the user to setup a local git installation, and also provides a back-end for git/ssh client libraries to authenticate with existing user credentials.")
+    (license license:expat)))
+
+(define-public r-gert
+  (package
+    (name "r-gert")
+    (version "1.0.2")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "gert" version))
+        (sha256
+          (base32
+            "1lq4hgv2727lwcv8vha5af26nslj99rjxjrgflshmmcihawpls1n"))))
+    (properties `((upstream-name . "gert")))
+    (build-system r-build-system)
+    (inputs `(("zlib" ,zlib) ("libgit2" ,libgit2)))
+    (propagated-inputs
+      `(("r-askpass" ,r-askpass)
+        ("r-credentials" ,r-credentials)
+        ("r-openssl" ,r-openssl)
+        ("r-rstudioapi" ,r-rstudioapi)
+        ("r-zip" ,r-zip)))
+    (native-inputs
+      `(("pkg-config" ,pkg-config) ("r-knitr" ,r-knitr)))
+    (home-page "https://docs.ropensci.org/gert/")
+    (synopsis "Simple Git Client for R")
+    (description
+      "Simple git client for R based on 'libgit2' with support for SSH and HTTPS remotes.  All functions in 'gert' use basic R data types (such as vectors and data-frames) for their arguments and return values.  User credentials are shared with command line 'git' through the git-credential store and ssh keys stored on disk or ssh-agent.  On Linux, a somewhat recent version of 'libgit2' is required; we provide a 'PPA' for older Ubuntu 'LTS' versions.")
+    (license license:expat)))
+
+;; Not upstreamable: git version
+(define-public r-worcs
+ (let ((commit "aad055c1f874cd65d48429ac9ace25cef1f3b599")
+        (revision "1"))
+  (package
+    (name "r-worcs")
+    (version (git-version "0.1.6.4" revision commit))
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/cjvanlissa/worcs.git")
+                    (commit commit)))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "0s5j4mw73pwdys4fbi9i9xn9cbhvzhdh38kpm4sdd9qs7p6vry5f"))))
+    (properties `((upstream-name . "worcs")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-digest" ,r-digest)
+        ("r-gert" ,r-gert)
+        ("r-prereg" ,r-prereg)
+        ("r-ranger" ,r-ranger)
+        ("r-rmarkdown" ,r-rmarkdown)
+        ("r-rticles" ,r-rticles)
+        ("r-yaml" ,r-yaml)))
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page "https://github.com/cjvanlissa/worcs")
+    (synopsis
+      "Workflow for Open Reproducible Code in Science")
+    (description
+      "Create reproducible and transparent research projects in 'R', with a minimal amount of code.  This package is based on the Workflow for Open Reproducible Code in Science (WORCS), a step-by-step procedure based on best practices for Open Science.  It includes an 'RStudio' project template, several convenience functions, and all dependencies required to make your project reproducible and transparent.  WORCS is explained in the tutorial paper by Van Lissa, Brandmaier, Brinkman, Lamprecht, Struiksma, & Vreede (2020). <doi:10.17605/OSF.IO/ZCVBS>.")
+    (license license:gpl3+))))
 
