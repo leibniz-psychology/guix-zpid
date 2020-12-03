@@ -374,11 +374,11 @@ xlxs package.  This release corresponds to POI 3.10.1.")
 
 ;; Not upstreamable: Git version
 (define-public r-gradethis
- (let ((commit "891564c53d1777d56f4652e81716e398b238113b")
+ (let ((commit "28b22dcd714374f254bfc7f954c500bb7ee34778")
         (revision "1"))
   (package
     (name "r-gradethis")
-    (version (git-version "0.2.0.9000" revision commit))
+    (version (git-version "0.1.0.9004" revision commit))
     (source (origin
               (method git-fetch)
               (uri (git-reference
@@ -387,7 +387,7 @@ xlxs package.  This release corresponds to POI 3.10.1.")
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "1v77rrzc2sgy8h2qci7xw3l1wrf6sqv9z3g5gnp3bcnyww09wsrq"))))
+                "0y8z5bs4i6j3qxk09s1jv58cxjpg6zmr4zhsv53cxcsqvgg1fiy0"))))
     (properties `((upstream-name . "gradethis")))
     (build-system r-build-system)
     (propagated-inputs
