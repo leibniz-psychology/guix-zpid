@@ -562,3 +562,28 @@ key differences makes understanding test failures much easier.")
       "Create reproducible and transparent research projects in 'R', with a minimal amount of code.  This package is based on the Workflow for Open Reproducible Code in Science (WORCS), a step-by-step procedure based on best practices for Open Science.  It includes an 'RStudio' project template, several convenience functions, and all dependencies required to make your project reproducible and transparent.  WORCS is explained in the tutorial paper by Van Lissa, Brandmaier, Brinkman, Lamprecht, Struiksma, & Vreede (2020). <doi:10.17605/OSF.IO/ZCVBS>.")
     (license license:gpl3+))))
 
+(define-public r-esc
+  (package
+    (name "r-esc")
+    (version "0.5.1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "esc" version))
+        (sha256
+          (base32
+            "0gns7gz55p6pha05413r3hlvd7f2v1amxkg13d197mab1ypqic7q"))))
+    (properties `((upstream-name . "esc")))
+    (build-system r-build-system)
+    (home-page "https://strengejacke.github.io/esc/")
+    (synopsis
+      "Effect Size Computation for Meta Analysis")
+    (description
+      "Implementation of the web-based 'Practical Meta-Analysis Effect Size
+Calculator' from David B.  Wilson
+(@url{http://www.campbellcollaboration.org/escalc/html/EffectSizeCalculator-Home.php})
+in R.  Based on the input, the effect size can be returned as standardized mean
+difference, Cohen's f, Hedges' g, Pearson's r or Fisher's transformation z,
+odds ratio or log odds, or eta squared effect size.")
+    (license license:gpl3)))
+
