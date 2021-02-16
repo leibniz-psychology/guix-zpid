@@ -12,6 +12,7 @@
   #:use-module (gnu packages version-control)
   #:use-module (gnu packages statistics)
   #:use-module (gnu packages graph)
+  #:use-module (gnu packages pdf)
   #:use-module (gnu packages cran))
 
 (define-public r-prereg
@@ -434,4 +435,482 @@ in R.  Based on the input, the effect size can be returned as standardized mean
 difference, Cohen's f, Hedges' g, Pearson's r or Fisher's transformation z,
 odds ratio or log odds, or eta squared effect size.")
     (license license:gpl3)))
+
+(define-public r-qdapregex
+  (package
+    (name "r-qdapregex")
+    (version "0.7.2")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "qdapRegex" version))
+        (sha256
+          (base32
+            "1xa8q1way3gjadrjh3mv3xr4c6b4h16nd2c6lgl969difplpfz9p"))))
+    (properties `((upstream-name . "qdapRegex")))
+    (build-system r-build-system)
+    (propagated-inputs `(("r-stringi" ,r-stringi)))
+    (home-page
+      "http://trinker.github.com/qdapRegex/")
+    (synopsis
+      "Regular Expression Removal, Extraction, and Replacement Tools")
+    (description
+      "This package provides a collection of regular expression tools associated with the 'qdap' package that may be useful outside of the context of discourse analysis.  Tools include removal/extraction/replacement of abbreviations, dates, dollar amounts, email addresses, hash tags, numbers, percentages, citations, person tags, phone numbers, times, and zip codes.")
+    (license license:gpl2)))
+
+(define-public r-mgsub
+  (package
+    (name "r-mgsub")
+    (version "1.7.2")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "mgsub" version))
+        (sha256
+          (base32
+            "02l1b96zv36ia0c97wgcwfhi037mbn3wy9c64hcw0n0w67yj77rr"))))
+    (properties `((upstream-name . "mgsub")))
+    (build-system r-build-system)
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page
+      "https://cran.r-project.org/package=mgsub")
+    (synopsis
+      "Safe, Multiple, Simultaneous String Substitution")
+    (description
+      "Designed to enable simultaneous substitution in strings in a safe fashion.  Safe means it does not rely on placeholders (which can cause errors in same length matches).")
+    (license license:expat)))
+
+(define-public r-dtt
+  (package
+    (name "r-dtt")
+    (version "0.1-2")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "dtt" version))
+        (sha256
+          (base32
+            "0n8gj5iylfagdbaqirpykb01a9difsy4zl6qq55f0ghvazxqdvmn"))))
+    (properties `((upstream-name . "dtt")))
+    (build-system r-build-system)
+    (home-page "http://www.r-project.org")
+    (synopsis "Discrete Trigonometric Transforms")
+    (description
+      "This package provides functions for 1D and 2D Discrete Cosine Transform (DCT), Discrete Sine Transform (DST) and Discrete Hartley Transform (DHT).")
+    (license license:gpl2+)))
+
+(define-public r-textshape
+  (package
+    (name "r-textshape")
+    (version "1.7.1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "textshape" version))
+        (sha256
+          (base32
+            "02111kj3kka84mpx7s19bjna9cas8diw5fxz51v5ggz0ldswa5pa"))))
+    (properties `((upstream-name . "textshape")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-data-table" ,r-data-table)
+        ("r-slam" ,r-slam)
+        ("r-stringi" ,r-stringi)))
+    (home-page "http://github.com/trinker/textshape")
+    (synopsis "Tools for Reshaping Text")
+    (description
+      "Tools that can be used to reshape and restructure text data.")
+    (license license:gpl2)))
+
+(define-public r-syuzhet
+  (package
+    (name "r-syuzhet")
+    (version "1.0.6")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "syuzhet" version))
+        (sha256
+          (base32
+            "16iccqdbw02iw82nah6kwz3gwfghi864j2y698n4b9dyc386ijzv"))))
+    (properties `((upstream-name . "syuzhet")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-dplyr" ,r-dplyr)
+        ("r-dtt" ,r-dtt)
+        ("r-nlp" ,r-nlp)
+        ("r-rlang" ,r-rlang)
+        ("r-textshape" ,r-textshape)
+        ("r-tidyr" ,r-tidyr)
+        ("r-zoo" ,r-zoo)))
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page "https://github.com/mjockers/syuzhet")
+    (synopsis
+      "Extracts Sentiment and Sentiment-Derived Plot Arcs from Text")
+    (description
+      "Extracts sentiment and sentiment-derived plot arcs from text using a variety of sentiment dictionaries conveniently packaged for consumption by R users.  Implemented dictionaries include \"syuzhet\" (default) developed in the Nebraska Literary Lab \"afinn\" developed by Finn Ã\x85rup Nielsen, \"bing\" developed by Minqing Hu and Bing Liu, and \"nrc\" developed by Mohammad, Saif M.  and Turney, Peter D.  Applicable references are available in README.md and in the documentation for the \"get_sentiment\" function.  The package also provides a hack for implementing Stanford's coreNLP sentiment parser.  The package provides several methods for plot arc normalization.")
+    (license license:gpl3)))
+
+(define-public r-lexicon
+  (package
+    (name "r-lexicon")
+    (version "1.2.1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "lexicon" version))
+        (sha256
+          (base32
+            "0x7rscsh6par2lj11sby7bmz41cxn63iiw51lgh29z09cg8j606c"))))
+    (properties `((upstream-name . "lexicon")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-data-table" ,r-data-table)
+        ("r-syuzhet" ,r-syuzhet)))
+    (home-page "https://github.com/trinker/lexicon")
+    (synopsis "Lexicons for Text Analysis")
+    (description
+      "This package provides a collection of lexical hash tables, dictionaries, and word lists.")
+    (license license:gpl3)))
+
+(define-public r-english
+  (package
+    (name "r-english")
+    (version "1.2-5")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "english" version))
+        (sha256
+          (base32
+            "0d6rin40wy2y6k75x8d5qvf03rfy139f309wrl8xwbdb1h8fjkd1"))))
+    (properties `((upstream-name . "english")))
+    (build-system r-build-system)
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page
+      "https://cran.r-project.org/package=english")
+    (synopsis "Translate Integers into English")
+    (description
+      "Allow numbers to be presented in an English language version, one, two, three, ...  Ordinals are also available, first, second, third, ...  and indefinite article choice, \"a\" or \"an\".")
+    (license license:gpl2)))
+
+(define-public r-textclean
+  (package
+    (name "r-textclean")
+    (version "0.9.3")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "textclean" version))
+        (sha256
+          (base32
+            "0kgjh6c4f14qkjc4fds7q7rpf4nkma3p0igm54fplmm3p853nvrz"))))
+    (properties `((upstream-name . "textclean")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-data-table" ,r-data-table)
+        ("r-english" ,r-english)
+        ("r-glue" ,r-glue)
+        ("r-lexicon" ,r-lexicon)
+        ("r-mgsub" ,r-mgsub)
+        ("r-qdapregex" ,r-qdapregex)
+        ("r-stringi" ,r-stringi)
+        ("r-textshape" ,r-textshape)))
+    (home-page
+      "https://github.com/trinker/textclean")
+    (synopsis "Text Cleaning Tools")
+    (description
+      "Tools to clean and process text.  Tools are geared at checking for substrings that are not optimal for analysis and replacing or removing them (normalizing) with more analysis friendly substrings (see Sproat, Black, Chen, Kumar, Ostendorf, & Richards (2001) <doi:10.1006/csla.2001.0169>) or extracting them into new variables.  For example, emoticons are often used in text but not always easily handled by analysis algorithms.  The replace_emoticon() function replaces emoticons with word equivalents.")
+    (license license:gpl2)))
+
+(define-public r-striprtf
+  (package
+    (name "r-striprtf")
+    (version "0.5.2")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "striprtf" version))
+        (sha256
+          (base32
+            "1ra6aalalig6drsj26z9s24lmb10zssagqrvgqqi4358zbm8gwcd"))))
+    (properties `((upstream-name . "striprtf")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-magrittr" ,r-magrittr)
+        ("r-rcpp" ,r-rcpp)
+        ("r-stringr" ,r-stringr)))
+    (home-page "https://github.com/kota7/striprtf")
+    (synopsis "Extract Text from RTF File")
+    (description
+      "Extracts plain text from RTF (Rich Text Format) file.")
+    (license license:expat)))
+
+(define-public r-ndjson
+  (package
+    (name "r-ndjson")
+    (version "0.8.0")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "ndjson" version))
+        (sha256
+          (base32
+            "0lvzbgfi1sg4kya1mvv67z14qk3vz9q57x22qh57xq8ampdkg812"))))
+    (properties `((upstream-name . "ndjson")))
+    (build-system r-build-system)
+    (inputs `(("zlib" ,zlib) ("zlib" ,zlib)))
+    (propagated-inputs
+      `(("r-data-table" ,r-data-table)
+        ("r-rcpp" ,r-rcpp)
+        ("r-tibble" ,r-tibble)))
+    (home-page "http://gitlab.com/hrbrmstr/ndjson")
+    (synopsis
+      "Wicked-Fast Streaming 'JSON' ('ndjson') Reader")
+    (description
+      "Streaming 'JSON' ('ndjson') has one 'JSON' record per-line and many modern 'ndjson' files contain large numbers of records.  These constructs may not be columnar in nature, but it is often useful to read in these files and \"flatten\" the structure out to enable working with the data in an R 'data.frame'-like context.  Functions are provided that make it possible to read in plain 'ndjson' files or compressed ('gz') 'ndjson' files and either validate the format of the records or create \"flat\" 'data.table' structures from them.")
+    (license license:expat)))
+
+(define-public r-streamr
+  (package
+    (name "r-streamr")
+    (version "0.4.5")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "streamR" version))
+        (sha256
+          (base32
+            "1clx3b0j2515r1nmnl6ki7qw5n54q3x2jvqv3zrc00kq71mlj7ix"))))
+    (properties `((upstream-name . "streamR")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-ndjson" ,r-ndjson)
+        ("r-rcurl" ,r-rcurl)
+        ("r-rjson" ,r-rjson)))
+    (home-page
+      "https://cran.r-project.org/package=streamR")
+    (synopsis
+      "Access to Twitter Streaming API via R")
+    (description
+      "This package provides functions to access Twitter's filter, sample, and user streams, and to parse the output into data frames.")
+    (license license:gpl2)))
+
+(define-public r-readods
+  (package
+    (name "r-readods")
+    (version "1.7.0")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "readODS" version))
+        (sha256
+          (base32
+            "1hi217ab7hp15jsbzi5ak57cqf8jn2rv78bnn74q72gn9mrfra7n"))))
+    (properties `((upstream-name . "readODS")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-cellranger" ,r-cellranger)
+        ("r-readr" ,r-readr)
+        ("r-stringi" ,r-stringi)
+        ("r-xml2" ,r-xml2)))
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page
+      "https://cran.r-project.org/package=readODS")
+    (synopsis "Read and Write ODS Files")
+    (description
+      "Import ODS (OpenDocument Spreadsheet) into R as a data frame.  Also support writing data frame into ODS file.")
+    (license license:gpl3)))
+
+(define-public r-qpdf
+  (package
+    (name "r-qpdf")
+    (version "1.1")
+	(source
+	 (origin
+	  (method url-fetch)
+	  (uri (cran-uri "qpdf" version))
+	  (sha256
+	   (base32
+		"03lnfncw8qd1fwfyqh1mjvnsjr3b63wxbah0wp5g7z7gba90dwbi"))
+	  (modules '((guix build utils)))
+	  (snippet
+	   '(begin
+           ;; unvendor libqpdf
+          (delete-file-recursively "src/libqpdf")
+          (delete-file-recursively "src/include/qpdf")
+          #t))))
+    (properties `((upstream-name . "qpdf")))
+    (build-system r-build-system)
+    (arguments
+     '(#:phases
+       (modify-phases %standard-phases
+         (add-after 'unpack 'configure
+           (lambda _
+             (setenv "EXTERNAL_QPDF" "1")
+             #t)))))
+    (inputs
+      `(("zlib" ,zlib)
+        ("qpdf" ,qpdf)))
+    (propagated-inputs
+      `(("r-askpass" ,r-askpass)
+        ("r-curl" ,r-curl)
+        ("r-rcpp" ,r-rcpp)))
+    (native-inputs `(("pkg-config" ,pkg-config)))
+    (home-page "https://github.com/ropensci/qpdf")
+    (synopsis
+      "Split, Combine and Compress PDF Files")
+    (description
+      "Content-preserving transformations transformations of PDF files such as split, combine, and compress.  This package interfaces directly to the 'qpdf' C++ API and does not require any command line utilities.  Note that 'qpdf' does not read actual content from PDF files: to extract text and data you need the 'pdftools' package.")
+    (license license:asl2.0)))
+
+(define-public r-pdftools
+  (package
+    (name "r-pdftools")
+    (version "2.3.1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "pdftools" version))
+        (sha256
+          (base32
+            "01i5g2mjkshis0zlm7lrvi7kkzl4dn3if1hzwkgzf9n2mi33ndsx"))))
+    (properties `((upstream-name . "pdftools")))
+    (build-system r-build-system)
+    (inputs
+      `(("zlib" ,zlib)
+        ("poppler" ,poppler)))
+    (propagated-inputs
+      `(("r-qpdf" ,r-qpdf) ("r-rcpp" ,r-rcpp)))
+    (native-inputs `(("pkg-config" ,pkg-config)))
+    (home-page
+      "https://docs.ropensci.org/pdftoolshttps://github.com/ropensci/pdftools#readmehttps://poppler.freedesktop.org")
+    (synopsis
+      "Text Extraction, Rendering and Converting of PDF Documents")
+    (description
+      "Utilities based on 'libpoppler' for extracting text, fonts, attachments and metadata from a PDF file.  Also supports high quality rendering of PDF documents into PNG, JPEG, TIFF format, or into raw bitmap vectors for further processing in R.")
+    (license license:expat)))
+
+(define-public r-antiword
+  (package
+    (name "r-antiword")
+    (version "1.3")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "antiword" version))
+        (sha256
+          (base32
+            "034znb0g9wwb8gi1r3z75v3sbb4mh83qrc4y8mbfx5lbgh8zhj6j"))))
+    (properties `((upstream-name . "antiword")))
+    (build-system r-build-system)
+    (propagated-inputs `(("r-sys" ,r-sys)))
+    (home-page
+      "https://github.com/ropensci/antiword#readmehttp://www.winfield.demon.nl")
+    (synopsis
+      "Extract Text from Microsoft Word Documents")
+    (description
+      "Wraps the 'AntiWord' utility to extract text from Microsoft Word documents.  The utility only supports the old 'doc' format, not the new xml based 'docx' format.  Use the 'xml2' package to read the latter.")
+    (license license:gpl2)))
+
+(define-public r-readtext
+  (package
+    (name "r-readtext")
+    (version "0.80")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "readtext" version))
+        (sha256
+          (base32
+            "0q8ajnp99fwvh14ppkm2z3gqwdwmjrvxvsfb4q7ad0dhkqric05y"))))
+    (properties `((upstream-name . "readtext")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-antiword" ,r-antiword)
+        ("r-data-table" ,r-data-table)
+        ("r-digest" ,r-digest)
+        ("r-httr" ,r-httr)
+        ("r-jsonlite" ,r-jsonlite)
+        ("r-pdftools" ,r-pdftools)
+        ("r-readods" ,r-readods)
+        ("r-readxl" ,r-readxl)
+        ("r-streamr" ,r-streamr)
+        ("r-stringi" ,r-stringi)
+        ("r-striprtf" ,r-striprtf)
+        ("r-tibble" ,r-tibble)
+        ("r-xml2" ,r-xml2)))
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page
+      "https://github.com/quanteda/readtext")
+    (synopsis
+      "Import and Handling for Plain and Formatted Text Files")
+    (description
+      "This package provides functions for importing and handling text files and formatted text files with additional meta-data, such including '.csv', '.tab', '.json', '.xml', '.html', '.pdf', '.doc', '.docx', '.rtf', '.xls', '.xlsx', and others.")
+    (license license:gpl3)))
+
+(define-public r-packcircles
+  (package
+    (name "r-packcircles")
+    (version "0.3.4")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "packcircles" version))
+        (sha256
+          (base32
+            "05pv5c4k4njkr0xw6i6ksiy34hcyx2lbiqpv5gxw81yrkm0rxfyk"))))
+    (properties `((upstream-name . "packcircles")))
+    (build-system r-build-system)
+    (propagated-inputs `(("r-rcpp" ,r-rcpp)))
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page
+      "https://github.com/mbedward/packcircles")
+    (synopsis "Circle Packing")
+    (description
+      "Algorithms to find arrangements of non-overlapping circles.")
+    (license license:expat)))
+
+(define-public r-quantqual
+  (let ((commit
+          "97b9e8de092205b38c7812a95d7ce92b1d35c0ce")
+        (revision "1"))
+    (package
+      (name "r-quantqual")
+      (version (git-version "0.3.7" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/AndreasFischer1985/quantqual.git")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1ai41jn3gnxcv4vi75ghf4zwa0p1a0jljzw0zdpz1nc92yv7rqbp"))))
+      (properties `((upstream-name . "quantqual")))
+      (build-system r-build-system)
+      (propagated-inputs
+        `(("r-caret" ,r-caret)
+          ("r-glmnet" ,r-glmnet)
+          ("r-knitr" ,r-knitr)
+          ("r-nnet" ,r-nnet)
+          ("r-packcircles" ,r-packcircles)
+          ("r-psych" ,r-psych)
+          ("r-quanteda" ,r-quanteda)
+          ("r-readtext" ,r-readtext)
+          ("r-rmarkdown" ,r-rmarkdown)
+          ("r-stm" ,r-stm)
+          ("r-stringr" ,r-stringr)
+          ("r-topicmodels" ,r-topicmodels)
+          ("r-wordcloud" ,r-wordcloud)))
+      (native-inputs
+        `(("r-knitr" ,r-knitr)))
+      (home-page
+        "https://github.com/AndreasFischer1985/quantqual.git")
+      (synopsis
+        "Software package for analyzing quantitative and qualitative data.")
+      (description
+        "Software package for analyzing quantitative and qualitative data.")
+      (license license:gpl2))))
 
