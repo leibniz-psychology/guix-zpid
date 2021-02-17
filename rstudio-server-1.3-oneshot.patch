@@ -22,20 +22,30 @@ index ffded3f1e0..9e47e34721 100644
        ("server-pid-file",
           value<std::string>(&serverPidFile_)->default_value("/var/run/rstudio-server.pid"),
           "location of pid file to write (only in daemon mode)")
-diff --git a/src/cpp/server/ServerSessionManager.cpp b/src/cpp/server/ServerSessionManager.cpp
-index e7e6af38c9..1e5d6a1ba1 100644
---- a/src/cpp/server/ServerSessionManager.cpp
-+++ b/src/cpp/server/ServerSessionManager.cpp
-@@ -200,6 +200,9 @@ core::system::ProcessConfig sessionProcessConfig(
+diff --git a/src/cpp/server/ServerMain.cpp b/src/cpp/server/ServerMain.cpp
+index 12f9ceaaf6..ac0410127a 100644
+--- a/src/cpp/server/ServerMain.cpp
++++ b/src/cpp/server/ServerMain.cpp
+@@ -383,6 +383,9 @@ Error waitForSignals()
+       if (sig == SIGCHLD)
+       {
+          sessionManager().notifySIGCHLD();
++         if (server::options().serverOneshot()) {
++            return Success();
++         }
+       }
  
- void onProcessExit(const std::string& username, PidType pid)
- {
-+   if (server::options().serverOneshot()) {
-+      ::kill(::getpid(), SIGINT);
-+   }
- }
+       // SIGINT, SIGQUIT, SIGTERM
+@@ -795,7 +798,8 @@ int main(int argc, char * const argv[])
+       if (error)
+          return core::system::exitFailure(error, ERROR_LOCATION);
  
- } // anonymous namespace
+-      // NOTE: we never get here because waitForSignals waits forever
++      s_pHttpServer->stop();
++
+       return EXIT_SUCCESS;
+    }
+    CATCH_UNEXPECTED_EXCEPTION
 diff --git a/src/cpp/server/include/server/ServerOptions.hpp b/src/cpp/server/include/server/ServerOptions.hpp
 index 9edc320d58..b4277893e9 100644
 --- a/src/cpp/server/include/server/ServerOptions.hpp
