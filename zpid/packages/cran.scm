@@ -15,6 +15,7 @@
   #:use-module (gnu packages pdf)
   #:use-module (gnu packages geo)
   #:use-module (gnu packages sqlite)
+  #:use-module (gnu packages textutils)
   #:use-module (gnu packages cran))
 
 (define-public r-prereg
@@ -102,6 +103,8 @@ visualized at any level of the experiment's design.")
 mediation and estimating power.")
     (license license:gpl2+)))
 
+;; Not upstreamable: Bundles lots of JavaScript libraries, minified bootstrap,
+;; font-awesome, …
 (define-public r-visnetwork
   (package
     (name "r-visnetwork")
@@ -176,14 +179,14 @@ take advantage of any aesthetic properties assigned to nodes and edges.")
 (define-public r-lavaanplot
   (package
     (name "r-lavaanplot")
-    (version "0.5.1")
+    (version "0.6.0")
     (source
       (origin
         (method url-fetch)
         (uri (cran-uri "lavaanPlot" version))
         (sha256
           (base32
-            "01bx1snd3zhc8dmq0f407qhw2d00f6d38qpr791qc1mq5kr3d8qj"))))
+            "0x5iwx8rki17b1cdayjn42zfscdx9bm4m999pzn92l28gf55kmb6"))))
     (properties `((upstream-name . "lavaanPlot")))
     (build-system r-build-system)
     (propagated-inputs
@@ -204,14 +207,14 @@ graph specification.")
 (define-public r-clubsandwich
   (package
     (name "r-clubsandwich")
-    (version "0.3.2")
+    (version "0.5.3")
     (source
      (origin
        (method url-fetch)
        (uri (cran-uri "clubSandwich" version))
        (sha256
         (base32
-         "1q4kidxcarlazh9zaav6vdc7ixb3hdg3zh5kr6mwkm087gi05nw5"))))
+         "0jazgka18bb5n58d5sn94q7rc9sac82qrpl2i5b4rkx9q2pb39cn"))))
     (properties `((upstream-name . "clubSandwich")))
     (build-system r-build-system)
     (propagated-inputs
@@ -225,30 +228,31 @@ Corrections")
 sandwich estimators) for ordinary and weighted least squares linear regression
 models, including the bias-reduced linearization estimator introduced by Bell
 and McCaffrey (2002)
-<http://www.statcan.gc.ca/pub/12-001-x/2002002/article/9058-eng.pdf> and
+@url{http://www.statcan.gc.ca/pub/12-001-x/2002002/article/9058-eng.pdf} and
 developed further by Pustejovsky and Tipton (2017)
-<DOI:10.1080/07350015.2016.1247004>.  The package includes functions for estimating
+@url{doi:10.1080/07350015.2016.1247004}.  The package includes functions for estimating
 the variance- covariance matrix and for testing single- and multiple-
 contrast hypotheses based on Wald test statistics.  Tests of single regression
 coefficients use Satterthwaite or saddle-point corrections.  Tests of multiple-
 contrast hypotheses use an approximation to Hotelling's T-squared distribution.
-Methods are provided for a variety of fitted models, including lm() and mlm
-objects, glm(), ivreg (from package 'AER'), plm() (from package 'plm'), gls()
-and lme() (from 'nlme'), robu() (from 'robumeta'), and rma.uni() and rma.mv()
-(from 'metafor').")
+Methods are provided for a variety of fitted models, including @code{lm()} and
+@code{mlm} objects, @code{glm()}, ivreg (from package @code{AER}), @code{plm()}
+(from package @code{plm}), @code{gls()} and @code{lme()} (from @code{nlme}),
+@code{robu()} (from @code{robumeta}), and @code{rma.uni()} and @code{rma.mv()}
+(from @code{metafor}).")
     (license license:gpl3)))
 
 (define-public r-puniform
   (package
     (name "r-puniform")
-    (version "0.2.3")
+    (version "0.2.4")
     (source
      (origin
        (method url-fetch)
        (uri (cran-uri "puniform" version))
        (sha256
         (base32
-         "1y47y6s76pjvp10m8rvdh7y1iidjw96a4wrr920w0js3rn4fi1fz"))))
+         "0v2977y9cwjx74xk0ig745g09wn7nrcsrg4f6v315sglsm18iaa8"))))
     (properties `((upstream-name . "puniform")))
     (build-system r-build-system)
     (propagated-inputs
@@ -263,34 +267,47 @@ and lme() (from 'nlme'), robu() (from 'robumeta'), and rma.uni() and rma.mv()
     (description
      "This package provides meta-analysis methods that correct for publication
 bias and outcome reporting bias.  Four methods and a visual tool are currently
-included in the package.  The p-uniform method as described in van Assen, van
-Aert, and Wicherts (2015) <doi:10.1037/met0000025> can be used for estimating
-the average effect size, testing the null hypothesis of no effect, and testing
-for publication bias using only the statistically significant effect sizes of
-primary studies.  The second method in the package is the p-uniform* method as
-described in van Aert and van Assen (2019) <doi:10.31222/osf.io/zqjr9>.  This
-method is an extension of the p-uniform method that allows for estimation of
-the average effect size and the between-study variance in a meta-analysis, and
-uses both the statistically significant and nonsignificant effect sizes.  The
-third method in the package is the hybrid method as described in van Aert and
-van Assen (2017) <doi:10.3758/s13428-017-0967-6>.  The hybrid method is a
-meta-analysis method for combining an original study and replication and while
-taking into account statistical significance of the  original study.  The
-p-uniform and hybrid method are based on the statistical theory that the
-distribution of p-values is uniform conditional on the population effect size.
+included in the package.
+
+@enumerate
+@item The p-uniform method as described in van Assen, van Aert, and Wicherts
+(2015) @url{doi:10.1037/met0000025} can be used for estimating the average
+effect size, testing the null hypothesis of no effect, and testing for
+publication bias using only the statistically significant effect sizes of
+primary studies.
+
+@item The p-uniform* method as described in van Aert and van Assen (2019)
+@url{doi:10.31222/osf.io/zqjr9}.  This method is an extension of the p-uniform
+method that allows for estimation of the average effect size and the
+between-study variance in a meta-analysis, and uses both the statistically
+significant and nonsignificant effect sizes.
+
+@item The hybrid method as described in van Aert and van Assen (2017)
+@url{doi:10.3758/s13428-017-0967-6}.  The hybrid method is a meta-analysis
+method for combining an original study and replication and while taking into
+account statistical significance of the  original study.  The p-uniform and
+hybrid method are based on the statistical theory that the distribution of
+p-values is uniform conditional on the population effect size.
+
+@item
 The fourth method in the package is the Snapshot Bayesian Hybrid Meta-Analysis
 Method as described in van Aert and van Assen (2018)
-<doi:10.1371/journal.pone.0175302>.  This method computes posterior
+@url{doi:10.1371/journal.pone.0175302}.  This method computes posterior
 probabilities for four true effect sizes (no, small, medium, and large) based
 on an original study and replication while taking into account publication bias
 in the original study.  The method can also be used for computing the required
 sample size of the replication akin to power analysis in null hypothesis
-significance testing.  The meta-plot is a visual tool for meta-analysis that
+significance testing.
+@end enumerate
+
+The meta-plot is a visual tool for meta-analysis that
 provides information on the primary studies in the meta-analysis, the results
 of the meta-analysis, and characteristics of the research on the effect under
-study (van Assen and others, 2020).  Helper functions to apply the Correcting
-for Outcome Reporting Bias (CORB) method to correct for outcome reporting bias
-in a meta-analysis (van Aert & Wicherts, 2020).")
+study (van Assen and others, 2020).
+
+Helper functions to apply the Correcting for Outcome Reporting Bias (CORB)
+method to correct for outcome reporting bias in a meta-analysis (van Aert &
+Wicherts, 2020).")
     (license license:gpl2+)))
 
 ;; Not upstreamable, contains precompiled jars.
@@ -313,7 +330,7 @@ in a meta-analysis (van Aert & Wicherts, 2020).")
     (synopsis
       "Package required POI jars for the xlsx package")
     (description
-	  "The xlsxjars package collects all the external jars required for the
+      "The xlsxjars package collects all the external jars required for the
 xlxs package.  This release corresponds to POI 3.10.1.")
     (license license:gpl3)))
 
@@ -337,7 +354,7 @@ xlxs package.  This release corresponds to POI 3.10.1.")
     (synopsis
       "Read, Write, Format Excel 2007 and Excel 97/2000/XP/2003 Files")
     (description
-	  "Provide R functions to read/write/format Excel 2007 and Excel
+      "Provide R functions to read/write/format Excel 2007 and Excel
 97/2000/XP/2003 file formats.")
     (license license:gpl3)))
 
@@ -374,9 +391,9 @@ xlxs package.  This release corresponds to POI 3.10.1.")
     (synopsis
       "Tools for \"grading\" student exercises in learnr tutorials")
     (description
-     "Pairing with the 'learnr' R package, 'gradethis' provides multiple
-methods to grade 'learnr' exercises.  To learn more about 'learnr' tutorials,
-please visit @url{http://rstudio.github.io/learnr/}.")
+     "Pairing with the @code{learnr} R package, @code{gradethis} provides
+multiple methods to grade @code{learnr} exercises.  To learn more about
+@code{learnr} tutorials, please visit @url{http://rstudio.github.io/learnr/}.")
     (license license:gpl3))))
 
 ;; Not upstreamable: git version
@@ -410,7 +427,14 @@ please visit @url{http://rstudio.github.io/learnr/}.")
     (synopsis
       "Workflow for Open Reproducible Code in Science")
     (description
-      "Create reproducible and transparent research projects in 'R', with a minimal amount of code.  This package is based on the Workflow for Open Reproducible Code in Science (WORCS), a step-by-step procedure based on best practices for Open Science.  It includes an 'RStudio' project template, several convenience functions, and all dependencies required to make your project reproducible and transparent.  WORCS is explained in the tutorial paper by Van Lissa, Brandmaier, Brinkman, Lamprecht, Struiksma, & Vreede (2020). <doi:10.17605/OSF.IO/ZCVBS>.")
+      "Create reproducible and transparent research projects in @command{R},
+with a minimal amount of code.  This package is based on the Workflow for Open
+Reproducible Code in Science (WORCS), a step-by-step procedure based on best
+practices for Open Science.  It includes an RStudio project template, several
+convenience functions, and all dependencies required to make your project
+reproducible and transparent.  WORCS is explained in the tutorial paper by Van
+Lissa, Brandmaier, Brinkman, Lamprecht, Struiksma, & Vreede (2020).
+@url{doi:10.17605/OSF.IO/ZCVBS}.")
     (license license:gpl3+))))
 
 (define-public r-esc
@@ -457,7 +481,11 @@ odds ratio or log odds, or eta squared effect size.")
     (synopsis
       "Regular Expression Removal, Extraction, and Replacement Tools")
     (description
-      "This package provides a collection of regular expression tools associated with the 'qdap' package that may be useful outside of the context of discourse analysis.  Tools include removal/extraction/replacement of abbreviations, dates, dollar amounts, email addresses, hash tags, numbers, percentages, citations, person tags, phone numbers, times, and zip codes.")
+      "This package provides a collection of regular expression tools
+associated with the @code{qdap} package that may be useful outside of the
+context of discourse analysis.  Tools include removal/extraction/replacement of
+abbreviations, dates, dollar amounts, email addresses, hash tags, numbers,
+percentages, citations, person tags, phone numbers, times, and zip codes.")
     (license license:gpl2)))
 
 (define-public r-mgsub
@@ -479,7 +507,9 @@ odds ratio or log odds, or eta squared effect size.")
     (synopsis
       "Safe, Multiple, Simultaneous String Substitution")
     (description
-      "Designed to enable simultaneous substitution in strings in a safe fashion.  Safe means it does not rely on placeholders (which can cause errors in same length matches).")
+      "Designed to enable simultaneous substitution in strings in a safe
+fashion.  Safe means it does not rely on placeholders (which can cause errors
+in same length matches).")
     (license license:expat)))
 
 (define-public r-dtt
@@ -498,7 +528,9 @@ odds ratio or log odds, or eta squared effect size.")
     (home-page "http://www.r-project.org")
     (synopsis "Discrete Trigonometric Transforms")
     (description
-      "This package provides functions for 1D and 2D Discrete Cosine Transform (DCT), Discrete Sine Transform (DST) and Discrete Hartley Transform (DHT).")
+      "This package provides functions for 1D and 2D Discrete Cosine Transform
+(@dfn{DCT}), Discrete Sine Transform (@dfn{DST}) and Discrete Hartley Transform
+(@dfn{DHT}).")
     (license license:gpl2+)))
 
 (define-public r-textshape
@@ -550,7 +582,16 @@ odds ratio or log odds, or eta squared effect size.")
     (synopsis
       "Extracts Sentiment and Sentiment-Derived Plot Arcs from Text")
     (description
-      "Extracts sentiment and sentiment-derived plot arcs from text using a variety of sentiment dictionaries conveniently packaged for consumption by R users.  Implemented dictionaries include \"syuzhet\" (default) developed in the Nebraska Literary Lab \"afinn\" developed by Finn Ã\x85rup Nielsen, \"bing\" developed by Minqing Hu and Bing Liu, and \"nrc\" developed by Mohammad, Saif M.  and Turney, Peter D.  Applicable references are available in README.md and in the documentation for the \"get_sentiment\" function.  The package also provides a hack for implementing Stanford's coreNLP sentiment parser.  The package provides several methods for plot arc normalization.")
+      "Extracts sentiment and sentiment-derived plot arcs from text using a
+variety of sentiment dictionaries conveniently packaged for consumption by R
+users.  Implemented dictionaries include @dfn{syuzhet} (default) developed in the
+Nebraska Literary Lab, @dfn{afinn} developed by Finn Arup Nielsen, @dfn{bing}
+developed by Minqing Hu and Bing Liu, and @dfn{nrc} developed by Mohammad, Saif
+M.  and Turney, Peter D.  Applicable references are available in
+@file{README.md} and in the documentation for the @code{get_sentiment}
+function.  The package also provides a hack for implementing Stanford's coreNLP
+sentiment parser.  The package provides several methods for plot arc
+normalization.")
     (license license:gpl3)))
 
 (define-public r-lexicon
@@ -572,7 +613,8 @@ odds ratio or log odds, or eta squared effect size.")
     (home-page "https://github.com/trinker/lexicon")
     (synopsis "Lexicons for Text Analysis")
     (description
-      "This package provides a collection of lexical hash tables, dictionaries, and word lists.")
+      "This package provides a collection of lexical hash tables, dictionaries,
+and word lists.")
     (license license:gpl3)))
 
 (define-public r-english
@@ -593,7 +635,9 @@ odds ratio or log odds, or eta squared effect size.")
       "https://cran.r-project.org/package=english")
     (synopsis "Translate Integers into English")
     (description
-      "Allow numbers to be presented in an English language version, one, two, three, ...  Ordinals are also available, first, second, third, ...  and indefinite article choice, \"a\" or \"an\".")
+      "Allow numbers to be presented in an English language version, one, two,
+three, ...  Ordinals are also available, first, second, third, ...  and
+indefinite article choice, \"a\" or \"an\".")
     (license license:gpl2)))
 
 (define-public r-textclean
@@ -622,7 +666,13 @@ odds ratio or log odds, or eta squared effect size.")
       "https://github.com/trinker/textclean")
     (synopsis "Text Cleaning Tools")
     (description
-      "Tools to clean and process text.  Tools are geared at checking for substrings that are not optimal for analysis and replacing or removing them (normalizing) with more analysis friendly substrings (see Sproat, Black, Chen, Kumar, Ostendorf, & Richards (2001) <doi:10.1006/csla.2001.0169>) or extracting them into new variables.  For example, emoticons are often used in text but not always easily handled by analysis algorithms.  The replace_emoticon() function replaces emoticons with word equivalents.")
+      "Tools to clean and process text.  Tools are geared at checking for
+substrings that are not optimal for analysis and replacing or removing them
+(normalizing) with more analysis friendly substrings (see Sproat, Black, Chen,
+Kumar, Ostendorf, & Richards (2001) @url{doi:10.1006/csla.2001.0169}) or
+extracting them into new variables.  For example, emoticons are often used in
+text but not always easily handled by analysis algorithms.  The
+@code{replace_emoticon()} function replaces emoticons with word equivalents.")
     (license license:gpl2)))
 
 (define-public r-striprtf
@@ -648,6 +698,20 @@ odds ratio or log odds, or eta squared effect size.")
       "Extracts plain text from RTF (Rich Text Format) file.")
     (license license:expat)))
 
+;; gzstream with PIC, so it can be used by shared libraries
+(define gzstream-pic
+  (package
+    (inherit gzstream)
+      (arguments
+        (substitute-keyword-arguments (package-arguments gzstream)
+          ((#:phases phases '%standard-phases)
+           `(modify-phases ,phases
+              (add-after 'unpack 'use-pic
+                (lambda _
+                  (substitute* "Makefile"
+                    (("CPPFLAGS = " all) (string-append all "-fPIC ")))
+                  #t))))))))
+  
 (define-public r-ndjson
   (package
     (name "r-ndjson")
@@ -658,19 +722,41 @@ odds ratio or log odds, or eta squared effect size.")
         (uri (cran-uri "ndjson" version))
         (sha256
           (base32
-            "0lvzbgfi1sg4kya1mvv67z14qk3vz9q57x22qh57xq8ampdkg812"))))
+            "0lvzbgfi1sg4kya1mvv67z14qk3vz9q57x22qh57xq8ampdkg812"))
+        (modules '((guix build utils)))
+        (snippet
+         '(begin
+             ;; unvendor gzstream
+            (for-each delete-file '("src/gzstream.cpp" "src/gzstream.h"))
+            #t))))
     (properties `((upstream-name . "ndjson")))
     (build-system r-build-system)
-    (inputs `(("zlib" ,zlib) ("zlib" ,zlib)))
+    (arguments
+     '(#:phases
+       (modify-phases %standard-phases
+         (add-after 'unpack 'use-system-gzstream
+           (lambda* (#:key inputs #:allow-other-keys)
+            (substitute* "src/Makevars"
+             (("PKG_LIBS = " all)
+              (string-append all "-lgzstream ")))
+             #t)))))
+    (inputs `(("zlib" ,zlib) ("gzstream" ,gzstream-pic)))
     (propagated-inputs
       `(("r-data-table" ,r-data-table)
         ("r-rcpp" ,r-rcpp)
         ("r-tibble" ,r-tibble)))
     (home-page "http://gitlab.com/hrbrmstr/ndjson")
     (synopsis
-      "Wicked-Fast Streaming 'JSON' ('ndjson') Reader")
+      "Wicked-Fast Streaming JSON (@dfn{ndjson}) Reader")
     (description
-      "Streaming 'JSON' ('ndjson') has one 'JSON' record per-line and many modern 'ndjson' files contain large numbers of records.  These constructs may not be columnar in nature, but it is often useful to read in these files and \"flatten\" the structure out to enable working with the data in an R 'data.frame'-like context.  Functions are provided that make it possible to read in plain 'ndjson' files or compressed ('gz') 'ndjson' files and either validate the format of the records or create \"flat\" 'data.table' structures from them.")
+      "Streaming JSON (@dfn{ndjson}) has one JSON record per-line and many
+modern ndjson files contain large numbers of records.  These constructs may not
+be columnar in nature, but it is often useful to read in these files and
+\"flatten\" the structure out to enable working with the data in an R
+@code{data.frame}-like context.  Functions are provided that make it possible
+to read in plain ndjson files or compressed (@code{gz}) ndjson files and either
+validate the format of the records or create \"flat\" @code{data.table}
+structures from them.")
     (license license:expat)))
 
 (define-public r-streamr
@@ -695,7 +781,8 @@ odds ratio or log odds, or eta squared effect size.")
     (synopsis
       "Access to Twitter Streaming API via R")
     (description
-      "This package provides functions to access Twitter's filter, sample, and user streams, and to parse the output into data frames.")
+      "This package provides functions to access Twitter's filter, sample, and
+user streams, and to parse the output into data frames.")
     (license license:gpl2)))
 
 (define-public r-readods
@@ -721,23 +808,24 @@ odds ratio or log odds, or eta squared effect size.")
       "https://cran.r-project.org/package=readODS")
     (synopsis "Read and Write ODS Files")
     (description
-      "Import ODS (OpenDocument Spreadsheet) into R as a data frame.  Also support writing data frame into ODS file.")
+      "Import OpenDocument Spreadsheet (@dfn{ODS}) into R as a data frame.
+Also support writing data frame into ODS file.")
     (license license:gpl3)))
 
 (define-public r-qpdf
   (package
     (name "r-qpdf")
     (version "1.1")
-	(source
-	 (origin
-	  (method url-fetch)
-	  (uri (cran-uri "qpdf" version))
-	  (sha256
-	   (base32
-		"03lnfncw8qd1fwfyqh1mjvnsjr3b63wxbah0wp5g7z7gba90dwbi"))
-	  (modules '((guix build utils)))
-	  (snippet
-	   '(begin
+    (source
+     (origin
+      (method url-fetch)
+      (uri (cran-uri "qpdf" version))
+      (sha256
+       (base32
+        "03lnfncw8qd1fwfyqh1mjvnsjr3b63wxbah0wp5g7z7gba90dwbi"))
+      (modules '((guix build utils)))
+      (snippet
+       '(begin
            ;; unvendor libqpdf
           (delete-file-recursively "src/libqpdf")
           (delete-file-recursively "src/include/qpdf")
@@ -763,7 +851,11 @@ odds ratio or log odds, or eta squared effect size.")
     (synopsis
       "Split, Combine and Compress PDF Files")
     (description
-      "Content-preserving transformations transformations of PDF files such as split, combine, and compress.  This package interfaces directly to the 'qpdf' C++ API and does not require any command line utilities.  Note that 'qpdf' does not read actual content from PDF files: to extract text and data you need the 'pdftools' package.")
+      "Content-preserving transformations transformations of PDF files such as
+split, combine, and compress.  This package interfaces directly to the
+@code{qpdf} C++ API and does not require any command line utilities.  Note that
+@code{qpdf} does not read actual content from PDF files: to extract text and
+data you need the @code{pdftools} package.")
     (license license:asl2.0)))
 
 (define-public r-pdftools
@@ -786,11 +878,14 @@ odds ratio or log odds, or eta squared effect size.")
       `(("r-qpdf" ,r-qpdf) ("r-rcpp" ,r-rcpp)))
     (native-inputs `(("pkg-config" ,pkg-config)))
     (home-page
-      "https://docs.ropensci.org/pdftoolshttps://github.com/ropensci/pdftools#readmehttps://poppler.freedesktop.org")
+      "https://docs.ropensci.org/pdftools/")
     (synopsis
       "Text Extraction, Rendering and Converting of PDF Documents")
     (description
-      "Utilities based on 'libpoppler' for extracting text, fonts, attachments and metadata from a PDF file.  Also supports high quality rendering of PDF documents into PNG, JPEG, TIFF format, or into raw bitmap vectors for further processing in R.")
+      "Utilities based on @code{libpoppler} for extracting text, fonts,
+attachments and metadata from a PDF file.  Also supports high quality rendering
+of PDF documents into PNG, JPEG, TIFF format, or into raw bitmap vectors for
+further processing in R.")
     (license license:expat)))
 
 (define-public r-antiword
@@ -803,16 +898,35 @@ odds ratio or log odds, or eta squared effect size.")
         (uri (cran-uri "antiword" version))
         (sha256
           (base32
-            "034znb0g9wwb8gi1r3z75v3sbb4mh83qrc4y8mbfx5lbgh8zhj6j"))))
+            "034znb0g9wwb8gi1r3z75v3sbb4mh83qrc4y8mbfx5lbgh8zhj6j"))
+      (modules '((guix build utils)))
+      (snippet
+       '(begin
+           ;; unvendor libantiword
+          (delete-file-recursively "src")
+          #t))))
     (properties `((upstream-name . "antiword")))
     (build-system r-build-system)
+    (arguments
+     '(#:phases
+       (modify-phases %standard-phases
+         (add-after 'unpack 'use-system-antiword
+           (lambda* (#:key inputs #:allow-other-keys)
+            (substitute* "R/antiword.R"
+             (("system.file\\(\"bin\", package = \"antiword\"\\)")
+              (string-append "\"" (assoc-ref inputs "antiword") "/bin\"")))
+             #t)))))
+    (inputs `(("antiword" ,antiword)))
     (propagated-inputs `(("r-sys" ,r-sys)))
     (home-page
-      "https://github.com/ropensci/antiword#readmehttp://www.winfield.demon.nl")
+      "https://github.com/ropensci/antiword#readme")
     (synopsis
       "Extract Text from Microsoft Word Documents")
     (description
-      "Wraps the 'AntiWord' utility to extract text from Microsoft Word documents.  The utility only supports the old 'doc' format, not the new xml based 'docx' format.  Use the 'xml2' package to read the latter.")
+      "Wraps the @code{AntiWord} utility to extract text from Microsoft Word
+documents.  The utility only supports the old @code{doc} format, not the new
+xml based @code{docx} format.  Use the @code{xml2} package to read the
+latter.")
     (license license:gpl2)))
 
 (define-public r-readtext
@@ -848,7 +962,10 @@ odds ratio or log odds, or eta squared effect size.")
     (synopsis
       "Import and Handling for Plain and Formatted Text Files")
     (description
-      "This package provides functions for importing and handling text files and formatted text files with additional meta-data, such including '.csv', '.tab', '.json', '.xml', '.html', '.pdf', '.doc', '.docx', '.rtf', '.xls', '.xlsx', and others.")
+      "This package provides functions for importing and handling text files
+and formatted text files with additional meta-data, such including @code{.csv},
+@code{.tab}, @code{.json}, @code{.xml}, @code{.html}, @code{.pdf}, @code{.doc},
+@code{.docx}, @code{.rtf}, @code{.xls}, @code{.xlsx}, and others.")
     (license license:gpl3)))
 
 (define-public r-packcircles
@@ -873,6 +990,7 @@ odds ratio or log odds, or eta squared effect size.")
       "Algorithms to find arrangements of non-overlapping circles.")
     (license license:expat)))
 
+;; Not upstreamable: Git version.
 (define-public r-quantqual
   (let ((commit
           "97b9e8de092205b38c7812a95d7ce92b1d35c0ce")
@@ -941,7 +1059,9 @@ odds ratio or log odds, or eta squared effect size.")
     (synopsis
       "Spatiotemporal Arrays, Raster and Vector Data Cubes")
     (description
-      "Reading, manipulating, writing and plotting spatiotemporal arrays (raster and vector data cubes) in 'R', using 'GDAL' bindings provided by 'sf', and 'NetCDF' bindings by 'ncmeta' and 'RNetCDF'.")
+      "Reading, manipulating, writing and plotting spatiotemporal arrays
+(raster and vector data cubes) in @code{R}, using @code{GDAL} bindings provided
+by @code{sf}, and @code{NetCDF} bindings by @code{ncmeta} and @code{RNetCDF}.")
     (license license:asl2.0)))
 
 (define-public r-lwgeom
@@ -968,7 +1088,9 @@ odds ratio or log odds, or eta squared effect size.")
     (synopsis
       "Bindings to Selected 'liblwgeom' Functions for Simple Features")
     (description
-      "Access to selected functions found in 'liblwgeom' <https://github.com/postgis/postgis/tree/master/liblwgeom>, the light-weight geometry library used by 'PostGIS' <http://postgis.net/>.")
+      "Access to selected functions found in
+@url{https://github.com/postgis/postgis/tree/master/liblwgeom,liblwgeom}, the
+light-weight geometry library used by @url{http://postgis.net/,PostGIS}.")
     (license license:gpl2)))
 
 (define-public r-tmaptools
@@ -998,7 +1120,9 @@ odds ratio or log odds, or eta squared effect size.")
       "https://github.com/mtennekes/tmaptools")
     (synopsis "Thematic Map Tools")
     (description
-      "Set of tools for reading and processing spatial data.  The aim is to supply the workflow to create thematic maps.  This package also facilitates 'tmap', the package for visualizing thematic maps.")
+      "Set of tools for reading and processing spatial data.  The aim is to
+supply the workflow to create thematic maps.  This package also facilitates
+@code{tmap}, the package for visualizing thematic maps.")
     (license license:gpl3)))
 
 (define-public r-rworldmap
