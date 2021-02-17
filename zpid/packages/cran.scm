@@ -13,6 +13,8 @@
   #:use-module (gnu packages statistics)
   #:use-module (gnu packages graph)
   #:use-module (gnu packages pdf)
+  #:use-module (gnu packages geo)
+  #:use-module (gnu packages sqlite)
   #:use-module (gnu packages cran))
 
 (define-public r-prereg
@@ -913,4 +915,113 @@ odds ratio or log odds, or eta squared effect size.")
       (description
         "Software package for analyzing quantitative and qualitative data.")
       (license license:gpl2))))
+
+(define-public r-stars
+  (package
+    (name "r-stars")
+    (version "0.5-1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "stars" version))
+        (sha256
+          (base32
+            "0ybk899rc0rpf2cv5kwk78fvis5xnr255hfcy5khdxsxdqgl0m9j"))))
+    (properties `((upstream-name . "stars")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-abind" ,r-abind)
+        ("r-classint" ,r-classint)
+        ("r-lwgeom" ,r-lwgeom)
+        ("r-rlang" ,r-rlang)
+        ("r-sf" ,r-sf)
+        ("r-units" ,r-units)))
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page "https://r-spatial.github.io/stars/")
+    (synopsis
+      "Spatiotemporal Arrays, Raster and Vector Data Cubes")
+    (description
+      "Reading, manipulating, writing and plotting spatiotemporal arrays (raster and vector data cubes) in 'R', using 'GDAL' bindings provided by 'sf', and 'NetCDF' bindings by 'ncmeta' and 'RNetCDF'.")
+    (license license:asl2.0)))
+
+(define-public r-lwgeom
+  (package
+    (name "r-lwgeom")
+    (version "0.2-5")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "lwgeom" version))
+        (sha256
+          (base32
+            "0byhjqa2acns8mznl1ngnfygxxxyszvnq66qfg0smhhhdkwr67aa"))))
+    (properties `((upstream-name . "lwgeom")))
+    (build-system r-build-system)
+    (inputs `(("geos" ,geos) ("proj" ,proj) ("sqlite" ,sqlite)))
+    (propagated-inputs
+      `(("r-rcpp" ,r-rcpp)
+        ("r-sf" ,r-sf)
+        ("r-units" ,r-units)))
+    (native-inputs `(("pkg-config" ,pkg-config)))
+    (home-page
+      "https://github.com/r-spatial/lwgeom/")
+    (synopsis
+      "Bindings to Selected 'liblwgeom' Functions for Simple Features")
+    (description
+      "Access to selected functions found in 'liblwgeom' <https://github.com/postgis/postgis/tree/master/liblwgeom>, the light-weight geometry library used by 'PostGIS' <http://postgis.net/>.")
+    (license license:gpl2)))
+
+(define-public r-tmaptools
+  (package
+    (name "r-tmaptools")
+    (version "3.1-1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "tmaptools" version))
+        (sha256
+          (base32
+            "0bal3czrdr93qig8s5cf5szld5vjbbks67rismfhlkmlgw6wp2gx"))))
+    (properties `((upstream-name . "tmaptools")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-dichromat" ,r-dichromat)
+        ("r-lwgeom" ,r-lwgeom)
+        ("r-magrittr" ,r-magrittr)
+        ("r-rcolorbrewer" ,r-rcolorbrewer)
+        ("r-sf" ,r-sf)
+        ("r-stars" ,r-stars)
+        ("r-units" ,r-units)
+        ("r-viridislite" ,r-viridislite)
+        ("r-xml" ,r-xml)))
+    (home-page
+      "https://github.com/mtennekes/tmaptools")
+    (synopsis "Thematic Map Tools")
+    (description
+      "Set of tools for reading and processing spatial data.  The aim is to supply the workflow to create thematic maps.  This package also facilitates 'tmap', the package for visualizing thematic maps.")
+    (license license:gpl3)))
+
+(define-public r-rworldmap
+  (package
+    (name "r-rworldmap")
+    (version "1.3-6")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "rworldmap" version))
+        (sha256
+          (base32
+            "1q1h0n9qr0m5pdx10swrh9ddsvdj8kv5nqngrf3lnx9rg9iwivjk"))))
+    (properties `((upstream-name . "rworldmap")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-fields" ,r-fields)
+        ("r-maptools" ,r-maptools)
+        ("r-sp" ,r-sp)))
+    (home-page
+      "https://github.com/AndySouth/rworldmap/")
+    (synopsis "Mapping Global Data")
+    (description
+      "Enables mapping of country level and gridded user datasets.")
+    (license license:gpl2+)))
 
