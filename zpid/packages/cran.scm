@@ -1226,7 +1226,105 @@ Application Program Interfaces (API)}.")
     (synopsis
       "Import ASC Files from EyeLink Eye Trackers")
     (description
-	  "Imports plain-text ASC data files from EyeLink eye trackers into
+      "Imports plain-text ASC data files from EyeLink eye trackers into
 (relatively) tidy data frames for analysis and visualization.")
     (license license:gpl3)))
+
+(define-public r-btm
+  (package
+    (name "r-btm")
+    (version "0.3.5")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "BTM" version))
+        (sha256
+          (base32
+            "1x6bncb7r97z8bdyxnn2frdi9kyawfy6c2041mv9f42zdrfzm6jb"))))
+    (properties `((upstream-name . "BTM")))
+    (build-system r-build-system)
+    (propagated-inputs `(("r-rcpp" ,r-rcpp)))
+    (home-page "https://github.com/bnosac/BTM")
+    (synopsis "Biterm Topic Models for Short Text")
+    (description
+      "Biterm Topic Models find topics in collections of short texts.  It is a
+word co-occurrence based topic model that learns topics by modeling word-word
+co-occurrences patterns which are called biterms.  This in contrast to
+traditional topic models like Latent Dirichlet Allocation and Probabilistic
+Latent Semantic Analysis which are word-document co-occurrence topic models.  A
+biterm consists of two words co-occurring in the same short text window.  This
+context window can for example be a twitter message, a short answer on a
+survey, a sentence of a text or a document identifier.  The techniques are
+explained in detail in the paper 'A Biterm Topic Model For Short Text' by
+Xiaohui Yan, Jiafeng Guo, Yanyan Lan, Xueqi Cheng (2013)
+@url{https://github.com/xiaohuiyan/xiaohuiyan.github.io/blob/master/paper/BTM-WWW13.pdf}.")
+    (license license:asl2.0)))
+
+;; Not upstreamable: Bundles udpipe, which is very hard to build, because it
+;; bundles many libraries itself.
+(define-public r-udpipe
+  (package
+    (name "r-udpipe")
+    (version "0.8.5")
+    (source
+     (origin
+      (method url-fetch)
+      (uri (cran-uri "udpipe" version))
+      (sha256
+       (base32 "021n28jncfiv7492dj1ik6ylkhb3s2hpgjpc0y2zv4cdnl362zcx"))))
+    (properties `((upstream-name . "udpipe")))
+    (build-system r-build-system)
+    ;(inputs `(("udpipe" ,udpipe)))
+    (propagated-inputs
+      `(("r-data-table" ,r-data-table)
+        ("r-matrix" ,r-matrix)
+        ("r-rcpp" ,r-rcpp)))
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page
+      "https://bnosac.github.io/udpipe/en/index.html")
+    (synopsis
+      "R bindings for UDPipe NLP toolkit")
+    (description
+      "This natural language processing toolkit provides language-agnostic
+'tokenization', 'parts of speech tagging', 'lemmatization' and 'dependency
+parsing' of raw text.  Next to text parsing, the package also allows you to
+train annotation models based on data of 'treebanks' in 'CoNLL-U' format as
+provided at @url{https://universaldependencies.org/format.html}.  The techniques
+are explained in detail in the paper: 'Tokenizing, POS Tagging, Lemmatizing and
+Parsing UD 2.0 with UDPipe', available at @url{doi:10.18653/v1/K17-3009}.  The
+toolkit also contains functionalities for commonly used data manipulations on
+texts which are enriched with the output of the parser.  Namely functionalities
+and algorithms for collocations, token co-occurrence, document term matrix
+handling, term frequency inverse document frequency calculations, information
+retrieval metrics (Okapi BM25), handling of multi-word expressions, keyword
+detection (Rapid Automatic Keyword Extraction, noun phrase extraction,
+syntactical patterns) sentiment scoring and semantic similarity analysis.")
+    (license license:mpl2.0)))
+
+(define-public r-textplot
+  (package
+    (name "r-textplot")
+    (version "0.1.4")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (cran-uri "textplot" version))
+        (sha256
+          (base32
+            "1sgkndy2cxk8c76h8hwajn6f78w5jj2n8vsmaxh9kj931crzn8cy"))))
+    (properties `((upstream-name . "textplot")))
+    (build-system r-build-system)
+    (propagated-inputs
+      `(("r-data-table" ,r-data-table)
+        ("r-lattice" ,r-lattice)
+        ("r-matrix" ,r-matrix)))
+    (native-inputs `(("r-knitr" ,r-knitr)))
+    (home-page "https://github.com/bnosac/textplot")
+    (synopsis "Text Plots")
+    (description
+      "Visualise complex relations in texts.  This is done by providing
+functionalities for displaying text co-occurrence networks, text correlation
+networks, dependency relationships as well as text clustering.  Feel free to
+join the effort of providing interesting text visualisations.")
+    (license license:gpl2)))
 
