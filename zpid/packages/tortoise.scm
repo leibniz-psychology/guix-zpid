@@ -10,36 +10,10 @@
   #:use-module ((gnu packages databases) #:prefix db:)
   #:use-module (gnu packages python-xyz))
 
+;; We used to package tortoise-orm here.
 (define-public python-pypika
-  (package
-    (inherit db:python-pypika)
-    (name "python-pypika")
-    (version "0.38.0")
-    (source
-     (origin (method git-fetch)
-             (uri (git-reference
-                   (url "https://github.com/kayak/pypika.git")
-                   (commit (string-append "v" version))))
-             (file-name (git-file-name name version))
-             (sha256
-              (base32
-               "01x654x70rqrcs0p3x297dhn1r3nnjgd2pi6qp3y6x87rz68kg2d"))))))
-
-(define python-tortoise-orm-rewritten
-  ((package-input-rewriting
-   `((,db:python-pypika . ,python-pypika)))
-    db:python-tortoise-orm))
+  (deprecated-package "python-pypika" db:python-pypika))
 
 (define-public python-tortoise-orm
-  (package
-    (inherit python-tortoise-orm-rewritten)
-    (name "python-tortoise-orm")
-    (version "0.16.14")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "tortoise-orm" version))
-       (sha256
-        (base32
-         "1vpbbwc516zv93lckxfmcl5n90gkd2bk19bcjkx6km26rpsd9zyn"))))))
+  (deprecated-package "python-tortoise-orm" db:python-tortoise-orm))
 
