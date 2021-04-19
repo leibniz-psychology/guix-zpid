@@ -1,0 +1,26 @@
+From 94cbff3eaa39053a7e36db0ce84d7d4289286737 Mon Sep 17 00:00:00 2001
+From: Lars-Dominik Braun <lars@6xq.net>
+Date: Mon, 15 Feb 2021 13:36:44 +0100
+Subject: [PATCH 2/4] Disable options overlay
+
+This allows enabling options like allow-package-installation.
+---
+ src/cpp/session/SessionOptionsOverlay.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/cpp/session/SessionOptionsOverlay.cpp b/src/cpp/session/SessionOptionsOverlay.cpp
+index 974bc83459..159d3349b4 100644
+--- a/src/cpp/session/SessionOptionsOverlay.cpp
++++ b/src/cpp/session/SessionOptionsOverlay.cpp
+@@ -36,7 +36,7 @@ void Options::resolveOverlayOptions()
+ 
+ bool Options::allowOverlay() const
+ {
+-   return true;
++   return false;
+ }
+ 
+ bool Options::supportsDriversLicensing() const
+-- 
+2.26.2
+

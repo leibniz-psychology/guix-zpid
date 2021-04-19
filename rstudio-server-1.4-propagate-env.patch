@@ -1,11 +1,18 @@
-Propagated environment from server process to session. This is useful with
-auth-none=1 and per-user instances.
+From 37a0ba7080e4d4599433037be0873a683be299e5 Mon Sep 17 00:00:00 2001
+From: Lars-Dominik Braun <lars@6xq.net>
+Date: Mon, 15 Feb 2021 14:03:29 +0100
+Subject: [PATCH 3/4] Propagated environment from server process to session
+
+This is useful with auth-none=1 and per-user instances.
+---
+ src/cpp/server/ServerSessionManager.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/src/cpp/server/ServerSessionManager.cpp b/src/cpp/server/ServerSessionManager.cpp
-index e7e6af38c9..3d991752a2 100644
+index 6e37578cab..e586f202a0 100644
 --- a/src/cpp/server/ServerSessionManager.cpp
 +++ b/src/cpp/server/ServerSessionManager.cpp
-@@ -121,6 +121,8 @@ core::system::ProcessConfig sessionProcessConfig(
+@@ -129,6 +129,8 @@ core::system::ProcessConfig sessionProcessConfig(
  
     // pass our uid to instruct rsession to limit rpc clients to us and itself
     core::system::Options environment;
@@ -14,3 +21,6 @@ index e7e6af38c9..3d991752a2 100644
     uid_t uid = core::system::user::currentUserIdentity().userId;
     environment.push_back(std::make_pair(
                             kRStudioLimitRpcClientUid,
+-- 
+2.26.2
+
