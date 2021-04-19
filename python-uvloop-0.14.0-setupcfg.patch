@@ -1,9 +1,0 @@
---- a/setup.cfg	2020-01-17 08:04:41.927976297 +0100
-+++ b/setup.cfg	2020-01-17 08:05:09.191974991 +0100
-@@ -1,4 +1,5 @@
- [egg_info]
- tag_build = 
- tag_date = 0
--
-+[build_ext]
-+use-system-libuv=1
