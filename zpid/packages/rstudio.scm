@@ -22,5 +22,6 @@
         (search-patches "rstudio-server-1.4-oneshot.patch"
                         "rstudio-server-1.4-rserver-socket.patch"
                         "rstudio-server-1.4-propagate-env.patch"
+                        "rstudio-server-1.4-respect-forwarded.patch"
                         "rstudio-server-1.4-disable-overlay.patch")))))))
 
