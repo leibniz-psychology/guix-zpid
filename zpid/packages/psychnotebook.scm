@@ -17,6 +17,7 @@
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages gnome)
   #:use-module (zpid packages rstudio)
+  #:use-module (zpid packages xpra)
   #:use-module (guix-science packages jupyter)
   #:use-module (guix-science packages jasp)
   #:use-module (srfi srfi-1)
@@ -162,8 +163,8 @@
     (license #f))))
 
 (define-public psychnotebook-app-jasp
-  (let ((commit "7f7502d2e89af2d8bf83d85ae416c5988087bc1f")
-        (revision "1"))
+  (let ((commit "bcfe070c6428bfd96692eaf186e76bc08de4ecfb")
+        (revision "2"))
   (package
     (name "psychnotebook-app-jasp")
     (version (git-version "0.1" revision commit))
@@ -181,6 +182,7 @@
     (inputs
      `(("jasp" ,jasp)
        ("xpra" ,xpra)
+       ("xpra-html5" ,xpra-html5)
 	   ;; Need this fallback icon theme.
        ("hicolor-icon-theme" ,hicolor-icon-theme)))
     (arguments
@@ -195,7 +197,8 @@
               "make" "install"
               (string-append "PREFIX=" (assoc-ref outputs "out"))
               (string-append "JASP_PREFIX=" (assoc-ref inputs "jasp"))
-              (string-append "XPRA_PREFIX=" (assoc-ref inputs "xpra"))))))))
+              (string-append "XPRA_PREFIX=" (assoc-ref inputs "xpra"))
+			  (string-append "XPRA_HTML5_PREFIX=" (assoc-ref inputs "xpra-html5"))))))))
     (home-page "https://github.com/leibniz-psychology/psychnotebook-app-jasp")
     (synopsis "JASP integration for PsychNotebook")
     (description #f)
