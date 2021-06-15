@@ -176,7 +176,7 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "0r8mwd8n3mcz6myv5nmyc44ww4djrp74gcfz97vrrzgrckk5knjl"))))
+                "1g7ys5hx0shkf2qxhvrrb0rjrwp1riygza45l4fj6z2b3cilfm20"))))
     (build-system gnu-build-system)
     (native-inputs `(("m4" ,m4)))
     (inputs
