@@ -24,8 +24,8 @@
   #:use-module (srfi srfi-26))
 
 (define-public psychnotebook-app-rstudio
-  (let ((commit "196b9dacc481166034988671852bd3eabfa63aff")
-        (revision "4"))
+  (let ((commit "c35696022ddb26f815acc34487ff3b9b756e241a")
+        (revision "5"))
   (package
     (name "psychnotebook-app-rstudio")
     (version (git-version "0.1" revision commit))
@@ -37,7 +37,7 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "1n4hvksqx47saympd7ylrrm02nxnybwpkxlxsswl9awy74sk0y4i"))))
+                "1zqzy40alpnk0m0bbpgwgchcx6nz305p0qaa3qyjckcwip4pr7vs"))))
     (build-system gnu-build-system)
     (native-inputs `(("m4" ,m4)))
     (inputs
