@@ -23,5 +23,6 @@
                         "rstudio-server-1.4-rserver-socket.patch"
                         "rstudio-server-1.4-propagate-env.patch"
                         "rstudio-server-1.4-respect-forwarded.patch"
-                        "rstudio-server-1.4-disable-overlay.patch")))))))
+                        "rstudio-server-1.4-disable-overlay.patch"
+                        "rstudio-server-v2021.09.2+382-autosave.patch")))))))
 
