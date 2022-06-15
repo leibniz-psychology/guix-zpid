@@ -557,3 +557,27 @@ types of statistical approaches and tests: parametric, nonparametric, robust,
 and Bayesian versions of t-test/ANOVA, correlation analyses, contingency table
 analysis, meta-analysis, and regression analyses.")
     (license license:gpl3)))
+
+(define-public r-paramtest
+  (package
+    (name "r-paramtest")
+    (version "0.1.0")
+    (source (origin
+              (method url-fetch)
+              (uri (cran-uri "paramtest" version))
+              (sha256
+               (base32
+                "0yn1s1qkgby8x0qn7cy1zhxzc0wyi7bm30pkvijhn5h5afjpylsy"))))
+    (properties `((upstream-name . "paramtest")))
+    (build-system r-build-system)
+    (propagated-inputs (list r-boot))
+    (native-inputs (list r-knitr))
+    (home-page "https://cran.r-project.org/package=paramtest")
+    (synopsis "Run a Function Iteratively While Varying Parameters")
+    (description
+     "Run simulations or other functions while easily varying parameters from one
+iteration to the next.  Some common use cases would be grid search for machine
+learning algorithms, running sets of simulations (e.g., estimating statistical
+power for complex models), or bootstrapping under various conditions.  See the
+'paramtest' documentation for more information and examples.")
+    (license license:gpl3)))
