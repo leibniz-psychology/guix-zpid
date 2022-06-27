@@ -278,3 +278,34 @@ and not test_mesa_red_light \
 and not test_mesa_green_light \
 and not test_mesa_blue_light"
 "pyActigraphy/tests"))))))))))
+
+(define-public python-pyactigraphy-next
+  ;; Latest commit from the develop branch as of 2022-06-27.
+  (let ((commit "08bf254bc72ac7faac797b4893fdbbde286b813d")
+        (revision "0"))
+  (package
+    (inherit python-pyactigraphy)
+    (name "python-pyactigraphy-next")
+    (version (git-version "1.0" revision commit))
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/ghammad/pyActigraphy.git")
+             (commit commit)))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "10zg3fanjakn0c4f797cgzrmgp2g878y3xavsbgmrykhxkca5zlr"))))
+   (arguments
+     `(#:phases
+        (modify-phases %standard-phases
+          (replace 'check
+            (lambda* (#:key tests? #:allow-other-keys)
+              (when tests?
+                (invoke "pytest" "-v" "-k" "not test_mesa_intervals \
+and not test_mesa_white_light \
+and not test_mesa_red_light \
+and not test_mesa_green_light \
+and not test_mesa_blue_light"
+"pyActigraphy/tests"))))))))))
