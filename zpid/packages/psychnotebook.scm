@@ -18,6 +18,7 @@
   #:use-module (gnu packages gnome)
   #:use-module (zpid packages rstudio)
   #:use-module (zpid packages xpra)
+  #:use-module (zpid packages jupyter)
   #:use-module (guix-science packages jupyter)
   #:use-module (guix-science packages jasp)
   #:use-module (srfi srfi-1)
@@ -131,7 +132,7 @@
     (inputs
      `(("python-jupyter-core" ,python-jupyter-core)))
     (propagated-inputs
-     `(("python-jupyterlab" ,python-jupyterlab)
+     `(("python-jupyterlab" ,python-jupyterlab-for-notebook)
        ;; Python support. Propagate, so `python` is usable on the command-line
        ("python" ,python)
        ("python-wrapper" ,python-wrapper) ; python -> python3

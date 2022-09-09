@@ -1,0 +1,13 @@
+--- a/nbformat/sign.py	1970-01-01 01:00:01.000000000 +0100
++++ a/nbformat/sign.py	2022-09-09 09:44:08.318337997 +0200
+@@ -432,10 +432,6 @@
+         self.log.info("Writing notebook-signing key to %s", self.secret_file)
+         with open(self.secret_file, "wb") as f:
+             f.write(secret)
+-        try:
+-            os.chmod(self.secret_file, 0o600)
+-        except OSError:
+-            self.log.warning("Could not set permissions on %s", self.secret_file)
+         return secret
+ 
+     def compute_signature(self, nb):
