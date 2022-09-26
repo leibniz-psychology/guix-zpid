@@ -581,3 +581,164 @@ learning algorithms, running sets of simulations (e.g., estimating statistical
 power for complex models), or bootstrapping under various conditions.  See the
 'paramtest' documentation for more information and examples.")
     (license license:gpl3)))
+
+(define-public r-effsize
+  (package
+    (name "r-effsize")
+    (version "0.8.1")
+    (source (origin
+              (method url-fetch)
+              (uri (cran-uri "effsize" version))
+              (sha256
+               (base32
+                "1m5ch2g77f4ldbxhzp2ls1pga8hq7ggkz1xs8a90h0s09rj0gd7w"))))
+    (properties `((upstream-name . "effsize")))
+    (build-system r-build-system)
+    (home-page "https://github.com/mtorchiano/effsize/")
+    (synopsis "Efficient Effect Size Computation")
+    (description
+     "This package provides a collection of functions to compute the standardized
+effect sizes for experiments (Cohen d, Hedges g, Cliff delta, Vargha-Delaney A).
+ The computation algorithms have been optimized to allow efficient computation
+even with very large data sets.")
+    (license license:gpl2)))
+
+(define-public r-apatables
+  (package
+    (name "r-apatables")
+    (version "2.0.8")
+    (source (origin
+              (method url-fetch)
+              (uri (cran-uri "apaTables" version))
+              (sha256
+               (base32
+                "0jy6x0z9ivqqkjihqhyg3fxyghqa9gs6q2bpxzjdnbcb3kq151vd"))))
+    (properties `((upstream-name . "apaTables")))
+    (build-system r-build-system)
+    (propagated-inputs (list r-boot
+                             r-broom
+                             r-car
+                             r-dplyr
+                             r-mbess
+                             r-tibble))
+    (home-page "https://github.com/dstanley4/apaTables")
+    (synopsis "Create American Psychological Association (APA) Style Tables")
+    (description
+     "This package provides a common task faced by researchers is the creation of APA
+style (i.e., American Psychological Association style) tables from statistical
+output.  In R a large number of function calls are often needed to obtain all of
+the desired information for a single APA style table.  As well, the process of
+manually creating APA style tables in a word processor is prone to transcription
+errors.  This package creates Word files (.doc files) containing APA style
+tables for several types of analyses.  Using this package minimizes
+transcription errors and reduces the number commands needed by the user.")
+    (license license:expat)))
+
+(define-public r-psychreport
+  (package
+    (name "r-psychreport")
+    (version "3.0.2")
+    (source (origin
+              (method url-fetch)
+              (uri (cran-uri "psychReport" version))
+              (sha256
+               (base32
+                "193y07hmx630wn83ss47i2rssl1pswgc87z2ygpkaw8y8vv46wk9"))))
+    (properties `((upstream-name . "psychReport")))
+    (build-system r-build-system)
+    (propagated-inputs (list r-broom r-cli r-dplyr r-ez r-xtable))
+    (home-page "https://cran.r-project.org/package=psychReport")
+    (synopsis "Reproducible Reports in Psychology")
+    (description
+     "Helper functions for producing reports in Psychology (Reproducible Research).
+Provides required formatted strings (APA style) for use in 'Knitr'/'Latex'
+integration within *.Rnw files.")
+    (license license:expat)))
+
+(define-public r-corx
+  (package
+    (name "r-corx")
+    (version "1.0.7.1")
+    (source (origin
+              (method url-fetch)
+              (uri (cran-uri "corx" version))
+              (sha256
+               (base32
+                "1jcvya0581f22xhjcsysnkhfv5bsbc0dkzvwaz8ys1dadj39v37d"))))
+    (properties `((upstream-name . "corx")))
+    (build-system r-build-system)
+    (propagated-inputs (list r-clipr
+                             r-crayon
+                             r-ggcorrplot
+                             r-ggplot2
+                             r-ggpubr
+                             r-glue
+                             r-moments
+                             r-ppcor
+                             r-tidyselect))
+    (home-page "https://github.com/conig/corx")
+    (synopsis "Create and Format Correlation Matrices")
+    (description
+     "Create correlation (or partial correlation) matrices.  Correlation matrices are
+formatted with significance stars based on user preferences.  Matrices of
+coefficients, p-values, and number of pairwise observations are returned.  Send
+resultant formatted matrices to the clipboard to be pasted into excel and other
+programs.  A plot method allows users to visualize correlation matrices created
+with 'corx'.")
+    (license license:expat)))
+
+(define-public r-jtools
+  (package
+    (name "r-jtools")
+    (version "2.2.0")
+    (source (origin
+              (method url-fetch)
+              (uri (cran-uri "jtools" version))
+              (sha256
+               (base32
+                "1aafnjmldg01c25psi47xnqrf5p7kjfcffjknghgw6dczjpn500f"))))
+    (properties `((upstream-name . "jtools")))
+    (build-system r-build-system)
+    (propagated-inputs (list r-crayon
+                             r-generics
+                             r-ggplot2
+                             r-magrittr
+                             r-pander
+                             r-pkgconfig
+                             r-rlang
+                             r-tibble))
+    (native-inputs (list r-knitr))
+    (home-page "https://jtools.jacob-long.com")
+    (synopsis "Analysis and Presentation of Social Scientific Data")
+    (description
+     "This is a collection of tools for more efficiently understanding and sharing the
+results of (primarily) regression analyses.  There are also a number of
+miscellaneous functions for statistical and programming purposes.  Support for
+models produced by the survey and lme4 packages are points of emphasis.")
+    (license license:gpl3+)))
+
+(define-public r-trackdown
+  (package
+    (name "r-trackdown")
+    (version "1.1.1")
+    (source (origin
+              (method url-fetch)
+              (uri (cran-uri "trackdown" version))
+              (sha256
+               (base32
+                "1l8mqdfpdf25vyibxqcqhyip6aqllb9riz2v6w4k1rfc8b9dl07f"))))
+    (properties `((upstream-name . "trackdown")))
+    (build-system r-build-system)
+    (propagated-inputs (list r-cli r-googledrive r-rmarkdown))
+    (native-inputs (list r-knitr))
+    (home-page "https://github.com/claudiozandonella/trackdown/")
+    (synopsis
+     "Collaborative Editing of Rmd (or Rnw) Documents in Google Drive")
+    (description
+     "Collaborative writing and editing of R Markdown (or Sweave) documents.  The
+local .Rmd (or .Rnw) is uploaded as a plain-text file to Google Drive.  By
+taking advantage of the easily readable Markdown (or LaTeX) syntax and the
+well-known online interface offered by Google Docs, collaborators can easily
+contribute to the writing and editing process.  After integrating all authors’
+contributions, the final document can be downloaded and rendered locally.")
+    (license license:gpl3)))
