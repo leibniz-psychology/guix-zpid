@@ -742,3 +742,24 @@ well-known online interface offered by Google Docs, collaborators can easily
 contribute to the writing and editing process.  After integrating all authors’
 contributions, the final document can be downloaded and rendered locally.")
     (license license:gpl3)))
+
+(define-public r-languager
+  (package
+    (name "r-languager")
+    (version "1.5.0")
+    (source (origin
+              (method url-fetch)
+              (uri (cran-uri "languageR" version))
+              (sha256
+               (base32
+                "1iipnr2b4hd2w718prbh075j56m5xnchlcb2vg26m16qpydp6afn"))))
+    (properties `((upstream-name . "languageR")))
+    (build-system r-build-system)
+    (home-page "https://cran.r-project.org/package=languageR")
+    (synopsis
+     "Analyzing Linguistic Data: A Practical Introduction to Statistics")
+    (description
+     "Data sets exemplifying statistical methods, and some facilitatory utility
+functions used in ``Analyzing Linguistic Data: A practical introduction to
+statistics using R'', Cambridge University Press, 2008.")
+    (license license:gpl2+)))
