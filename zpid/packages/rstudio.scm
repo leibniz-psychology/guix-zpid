@@ -13,16 +13,23 @@
 
 ;; special version with monkey-patched unix domain socket support
 (define-public rstudio-server-zpid
-  (package
-    (inherit rstudio-server)
-    (name "rstudio-server-zpid")
-    (source (origin
-      (inherit (package-source rstudio-server))
-      (patches (append (origin-patches (package-source rstudio-server))
-        (search-patches "rstudio-server-1.4-oneshot.patch"
-                        "rstudio-server-1.4-rserver-socket.patch"
-                        "rstudio-server-1.4-propagate-env.patch"
-                        "rstudio-server-1.4-respect-forwarded.patch"
-                        "rstudio-server-1.4-disable-overlay.patch"
-                        "rstudio-server-v2021.09.2+382-autosave.patch")))))))
+  (let ((version "2021.09.3+396")
+        (commit "297afa3a45715eb50d28316ea58c9e2968652cf3")
+        (revision "1"))
+    (package
+      (inherit rstudio-server)
+      (name "rstudio-server-zpid")
+      (version (git-version version revision commit))
+      (source (origin
+        ;; Keep snippets, but remove everything else.
+        (inherit (package-source rstudio-server))
+        (method git-fetch)
+        (uri (git-reference
+              (url "https://github.com/leibniz-psychology/rstudio.git")
+              (commit commit)))
+        (file-name (git-file-name name version))
+        (sha256
+         (base32
+          "1k0362lipmhzc8c53gp22xyiz2lp18wc1fa9bsgnw5p7qdy2air4"))
+        (patches '()))))))
 
